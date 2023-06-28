@@ -1,13 +1,10 @@
 name: CI
 
 on:
-
   push:
     branches: [ task_* ]
   pull_request:
     branches: [ task_* ]
-
-  workflow_dispatch:
 
 jobs:
   build:
@@ -20,5 +17,7 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
+      - name: Mark gradlew as executable
+        run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
