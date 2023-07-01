@@ -1,0 +1,14 @@
+name: Test workflow
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
