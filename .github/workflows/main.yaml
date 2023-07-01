@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ 'task_[0-9]+\/.*', 'master' ]
+    branches: [ 'task_*' ]
   pull_request:
-    branches: [ 'task_[0-9]+\/.*', 'master' ]
+    branches: [ 'task_*' ]
 
 
 jobs:
