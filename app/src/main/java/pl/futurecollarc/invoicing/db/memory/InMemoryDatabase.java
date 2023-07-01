@@ -15,9 +15,9 @@ public class InMemoryDatabase implements Database {
   private int count = 1;
 
   @Override
-  public int save(Invoice invoice) {
+  public void save(Invoice invoice) {
     this.memoryDatabase.put(count, invoice);
-    return count++;
+    count++;
   }
 
   @Override

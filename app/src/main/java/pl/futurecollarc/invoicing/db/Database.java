@@ -6,7 +6,7 @@ import pl.futurecollarc.invoicing.model.Invoice;
 
 public interface Database {
 
-  int save(Invoice invoice);
+  void save(Invoice invoice);
 
   Optional<Invoice> getByID(int id);
 
