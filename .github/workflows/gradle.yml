@@ -9,9 +9,9 @@ name: CI
 
 on:
   push:
-    branches: [ task_* ]
+    branches: [task_*]
   pull_request:
-    branches: [ task_* ]
+    branches: [task_*]
 
   workflow_dispatch:
 
