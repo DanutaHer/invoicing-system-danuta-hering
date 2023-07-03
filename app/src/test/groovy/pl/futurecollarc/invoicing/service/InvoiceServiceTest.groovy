@@ -7,7 +7,7 @@ import spock.lang.Specification
 class InvoiceServiceTest extends Specification {
 
     private Database database = Mock()
-    private InvoiceService service = new InvoiceService(database);
+    private InvoiceService service = new InvoiceService(database)
 
     def "shouldSave"() {
         given:

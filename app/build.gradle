@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.guava:guava:31.1-jre'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1'
 
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.28'

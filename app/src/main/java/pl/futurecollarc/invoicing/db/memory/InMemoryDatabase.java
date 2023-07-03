@@ -12,7 +12,7 @@ import pl.futurecollarc.invoicing.model.Invoice;
 public class InMemoryDatabase implements Database {
 
   private Map<Integer, Invoice> memoryDatabase = new LinkedHashMap<>();
-  private int count = 1;
+  private int count = 0;
 
   @Override
   public void save(Invoice invoice) {
@@ -49,7 +49,7 @@ public class InMemoryDatabase implements Database {
   }
 
   private void printIllegalArgumentException(int id) {
-    if (id <= 0) {
+    if (id < 0) {
       throw new IllegalArgumentException("Error: id cannot be negative");
     }
   }
