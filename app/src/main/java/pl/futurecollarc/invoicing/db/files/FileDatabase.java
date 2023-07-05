@@ -23,16 +23,15 @@ public class FileDatabase implements Database {
   public void save(Invoice invoice) {
     allInvoices.add(jsonService.objectToJson(invoice));
     filesService.writeInvoicesTo(Config.DATABASE_LOCATION, allInvoices);
-    filesService.writeTextTo(Config.ID_FILE_LOCATION, String.valueOf(allInvoices.size()));
   }
 
   @Override
   public Optional<Invoice> getByID(int id) {
     printIllegalArgumentException(id);
-    return filesService.readInvoicesFrom(Config.DATABASE_LOCATION).stream()
-        .filter(p -> p.equals(allInvoices.get(id)))
-        .map(p -> jsonService.jsonToObject(p))
-        .findAny();
+    printOutOfBoundsException(id);
+    List<String> listOfAllInvoices = filesService.readInvoicesFrom(Config.DATABASE_LOCATION);
+
+    return Optional.ofNullable(jsonService.jsonToObject(listOfAllInvoices.get(id)));
   }
 
   @Override
@@ -45,6 +44,7 @@ public class FileDatabase implements Database {
   @Override
   public void update(int id, Invoice updatedInvoice) {
     printIllegalArgumentException(id);
+    printOutOfBoundsException(id);
     List<String> invoicesToUpdate = filesService.readInvoicesFrom(Config.DATABASE_LOCATION);
 
     invoicesToUpdate.set(id, jsonService.objectToJson(updatedInvoice));
@@ -54,6 +54,7 @@ public class FileDatabase implements Database {
   @Override
   public void delete(int id) {
     printIllegalArgumentException(id);
+    printOutOfBoundsException(id);
     List<String> updatedInvoices = filesService.readInvoicesFrom(Config.DATABASE_LOCATION);
 
     updatedInvoices.remove(id);
@@ -63,6 +64,12 @@ public class FileDatabase implements Database {
   private void printIllegalArgumentException(int id) {
     if (id < 0) {
       throw new IllegalArgumentException("Error: id cannot be negative");
+    }
+  }
+
+  private void printOutOfBoundsException(int id) {
+    if (id > allInvoices.size()) {
+      throw new IndexOutOfBoundsException("Error: id doesn't exist");
     }
   }
 }

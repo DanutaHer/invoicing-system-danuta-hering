@@ -30,12 +30,4 @@ public class FilesService {
       exception.printStackTrace();
     }
   }
-
-//  public String readTextFrom(String pathToFile) {
-//    try {
-//      return Files.readString(Paths.get(pathToFile));
-//    } catch (IOException exception) {
-//      throw new RuntimeException(exception);
-//    }
-//  }
 }

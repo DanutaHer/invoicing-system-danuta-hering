@@ -47,7 +47,7 @@ abstract class AbstractDatabaseTest extends Specification {
         database.delete(0)
 
         then:
-        database.getByID(0) == Optional.empty()
+        database.getAll().size() == 2
     }
 
     def "shouldThrowIllegalArgumentExceptionFor_GetByIDMethod"() {
@@ -72,5 +72,21 @@ abstract class AbstractDatabaseTest extends Specification {
 
         then:
         thrown(IllegalArgumentException)
+    }
+
+    def "shouldThrowOutOfBoundsExceptionFor_UpdateMethod"() {
+        when:
+        database.delete(10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
+    }
+
+    def "shouldThrowOutOfBoundsExceptionFor_DeleteMethod"() {
+        when:
+        database.delete(10)
+
+        then:
+        thrown(IndexOutOfBoundsException)
     }
 }
