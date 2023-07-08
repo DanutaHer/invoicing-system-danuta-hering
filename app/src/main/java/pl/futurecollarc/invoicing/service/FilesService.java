@@ -3,31 +3,40 @@ package pl.futurecollarc.invoicing.service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class FilesService {
 
-  public void writeInvoicesTo(String pathToFile, List<String> text) {
+  public void appendLineToFile(String pathToFile, String line) {
     try {
-      Files.write(Paths.get(pathToFile), text);
+      Files.write(Paths.get(pathToFile), (line + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
     } catch (IOException exception) {
       exception.printStackTrace();
     }
   }
 
-  public List<String> readInvoicesFrom(String pathToFile) {
+  public void writeLinesToFile(String pathToFile, List<String> lines) {
     try {
-      return Files.readAllLines(Paths.get(pathToFile));
+      Files.write(Paths.get(pathToFile), lines, StandardOpenOption.TRUNCATE_EXISTING);
     } catch (IOException exception) {
       throw new RuntimeException(exception);
     }
   }
 
-  public void writeTextTo(String pathToFile, String text) {
+  public void writeTextTo(String pathToFile, String line) {
     try {
-      Files.writeString(Paths.get(pathToFile), text);
+      Files.write(Paths.get(pathToFile), line.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
     } catch (IOException exception) {
       exception.printStackTrace();
+    }
+  }
+
+  public List<String> readAllLines(String pathToFile) {
+    try {
+      return Files.readAllLines(Paths.get(pathToFile));
+    } catch (IOException exception) {
+      throw new RuntimeException(exception);
     }
   }
 }

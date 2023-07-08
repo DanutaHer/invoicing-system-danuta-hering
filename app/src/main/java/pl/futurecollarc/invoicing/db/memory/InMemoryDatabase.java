@@ -12,12 +12,12 @@ import pl.futurecollarc.invoicing.model.Invoice;
 public class InMemoryDatabase implements Database {
 
   private Map<Integer, Invoice> memoryDatabase = new HashMap<>();
-  private int count = 0;
+  private int count = 1;
 
   @Override
-  public void save(Invoice invoice) {
+  public int save(Invoice invoice) {
     this.memoryDatabase.put(count, invoice);
-    count++;
+    return count++;
   }
 
   @Override

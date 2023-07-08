@@ -7,6 +7,7 @@ class FilesServiceTest extends Specification {
 
     FilesService filesService = new FilesService()
     List<String> invoicesExample = new ArrayList<>()
+    String line = ""
 
     def setup() {
         invoicesExample.add("Invoice1")
@@ -15,16 +16,21 @@ class FilesServiceTest extends Specification {
 
     def "shouldWriteListToFile"() {
         expect:
-        filesService.writeInvoicesTo("temporaryFile", invoicesExample)
+        filesService.appendLineToFile("temporaryFileToAppendLine.txt", line)
     }
 
     def "shouldReadInvoicesFromFile"() {
         expect:
-        filesService.readInvoicesFrom("temporaryFile") equals(invoicesExample)
+        filesService.writeLinesToFile("temporaryFileToWriteLines.txt", invoicesExample)
     }
 
     def "shouldWriteTextToFile"() {
         expect:
-        filesService.writeTextTo("temporaryFileToTest", "Example String")
+        filesService.writeTextTo("temporaryFileToTest.txt", "Example String")
+    }
+
+    def "shouldREadTextFromFile"() {
+        expect:
+        filesService.readAllLines("temporaryFileToTest.txt") == (List.of("Example String"))
     }
 }

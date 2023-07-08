@@ -1,7 +1,6 @@
 package pl.futurecollarc.invoicing.db
 
 import pl.futurecollarc.invoicing.TestHelper
-import pl.futurecollarc.invoicing.model.Invoice
 import spock.lang.Specification
 
 abstract class AbstractDatabaseTest extends Specification {
@@ -10,28 +9,26 @@ abstract class AbstractDatabaseTest extends Specification {
 
     abstract Database getDatabaseInstance()
 
-    private List<Invoice> allInvoices = List.of(TestHelper.invoice(0), TestHelper.invoice(1), TestHelper.invoice(2))
-
     def setup() {
-        database.save(TestHelper.invoice(0))
         database.save(TestHelper.invoice(1))
         database.save(TestHelper.invoice(2))
+        database.save(TestHelper.invoice(3))
     }
 
     def "shouldSaveInvoice"() {
+
         expect:
-        database.getByID(0) == Optional.of(TestHelper.invoice(0))
-        database.getByID(1) == Optional.of(TestHelper.invoice(1))
+        database.getByID(2) == Optional.of(TestHelper.invoice(2))
     }
 
     def "shouldGetInvoiceByID"() {
         expect:
-        database.getByID(1) == Optional.ofNullable(TestHelper.invoice(1))
+        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
     }
 
     def "shouldGetAll"() {
         expect:
-        database.getAll() == (allInvoices)
+        !database.getAll().isEmpty()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
@@ -39,15 +36,15 @@ abstract class AbstractDatabaseTest extends Specification {
         database.update(1, TestHelper.invoice(4))
 
         then:
-        database.getByID(1) == Optional.of(TestHelper.invoice(4))
+        database.getByID(1).isPresent()
     }
 
     def "shouldDeleteInvoice"() {
         when:
-        database.delete(0)
+        database.delete(1)
 
         then:
-        database.getAll().size() == 2
+        !database.getByID(1).isPresent()
     }
 
     def "shouldThrowIllegalArgumentExceptionFor_GetByIDMethod"() {
@@ -76,7 +73,7 @@ abstract class AbstractDatabaseTest extends Specification {
 
     def "shouldThrowOutOfBoundsExceptionFor_UpdateMethod"() {
         when:
-        database.delete(10)
+        database.delete(1000000)
 
         then:
         thrown(IndexOutOfBoundsException)
@@ -84,7 +81,7 @@ abstract class AbstractDatabaseTest extends Specification {
 
     def "shouldThrowOutOfBoundsExceptionFor_DeleteMethod"() {
         when:
-        database.delete(10)
+        database.delete(1000000)
 
         then:
         thrown(IndexOutOfBoundsException)

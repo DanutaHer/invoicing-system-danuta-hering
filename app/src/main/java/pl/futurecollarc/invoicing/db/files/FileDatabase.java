@@ -1,11 +1,13 @@
 package pl.futurecollarc.invoicing.db.files;
 
+import static pl.futurecollarc.invoicing.config.Config.DATABASE_LOCATION;
+import static pl.futurecollarc.invoicing.config.Config.ID_FILE_LOCATION;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import pl.futurecollarc.invoicing.config.Config;
 import pl.futurecollarc.invoicing.db.Database;
 import pl.futurecollarc.invoicing.model.Invoice;
 import pl.futurecollarc.invoicing.service.FilesService;
@@ -15,29 +17,31 @@ import pl.futurecollarc.invoicing.service.JsonService;
 @AllArgsConstructor
 public class FileDatabase implements Database {
 
-  private final List<String> allInvoices = new ArrayList<>();
-  private FilesService filesService;
-  private JsonService jsonService;
+  private final FilesService filesService;
+  private final JsonService jsonService;
+  private final IdService idService;
 
   @Override
-  public void save(Invoice invoice) {
-    allInvoices.add(jsonService.objectToJson(invoice));
-    filesService.writeInvoicesTo(Config.DATABASE_LOCATION, allInvoices);
+  public int save(Invoice invoice) {
+    invoice.setId(idService.getNextIdAndIncreament(ID_FILE_LOCATION));
+    filesService.appendLineToFile(DATABASE_LOCATION, jsonService.objectToJson(invoice));
+    return invoice.getId();
   }
 
   @Override
   public Optional<Invoice> getByID(int id) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    List<String> listOfAllInvoices = filesService.readInvoicesFrom(Config.DATABASE_LOCATION);
-
-    return Optional.ofNullable(jsonService.jsonToObject(listOfAllInvoices.get(id)));
+    return filesService.readAllLines(DATABASE_LOCATION).stream()
+        .filter(line -> line.contains("\"id\":" + id + ","))
+        .map(jsonService::jsonToObject)
+        .findFirst();
   }
 
   @Override
   public List<Invoice> getAll() {
-    return filesService.readInvoicesFrom(Config.DATABASE_LOCATION).stream()
-        .map(p -> jsonService.jsonToObject(p))
+    return filesService.readAllLines(DATABASE_LOCATION).stream()
+        .map(jsonService::jsonToObject)
         .toList();
   }
 
@@ -45,20 +49,24 @@ public class FileDatabase implements Database {
   public void update(int id, Invoice updatedInvoice) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    List<String> invoicesToUpdate = filesService.readInvoicesFrom(Config.DATABASE_LOCATION);
+    List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(DATABASE_LOCATION).stream()
+        .filter(line -> !line.contains("\"id\":" + id + ","))
+        .toList());
 
-    invoicesToUpdate.set(id, jsonService.objectToJson(updatedInvoice));
-    filesService.writeInvoicesTo(Config.DATABASE_LOCATION, invoicesToUpdate);
+    updatedInvoice.setId(id);
+    invoicesToUpdate.add(jsonService.objectToJson(updatedInvoice));
+    filesService.writeLinesToFile(DATABASE_LOCATION, invoicesToUpdate);
   }
 
   @Override
   public void delete(int id) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    List<String> updatedInvoices = filesService.readInvoicesFrom(Config.DATABASE_LOCATION);
+    List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(DATABASE_LOCATION).stream()
+        .filter(line -> !line.contains("\"id\":" + id + ","))
+        .toList());
 
-    updatedInvoices.remove(id);
-    filesService.writeInvoicesTo(Config.DATABASE_LOCATION, updatedInvoices);
+    filesService.writeLinesToFile(DATABASE_LOCATION, invoicesToUpdate);
   }
 
   private void printIllegalArgumentException(int id) {
@@ -68,7 +76,7 @@ public class FileDatabase implements Database {
   }
 
   private void printOutOfBoundsException(int id) {
-    if (id > allInvoices.size()) {
+    if (id > filesService.readAllLines(DATABASE_LOCATION).size()) {
       throw new IndexOutOfBoundsException("Error: id doesn't exist");
     }
   }
