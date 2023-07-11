@@ -13,6 +13,7 @@ abstract class AbstractDatabaseTest extends Specification {
         database.save(TestHelper.invoice(1))
         database.save(TestHelper.invoice(2))
         database.save(TestHelper.invoice(3))
+        database.save(TestHelper.invoice(5))
     }
 
     def "shouldSaveInvoice"() {
