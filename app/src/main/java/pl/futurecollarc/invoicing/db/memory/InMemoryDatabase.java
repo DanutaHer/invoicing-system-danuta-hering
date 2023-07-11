@@ -1,6 +1,6 @@
 package pl.futurecollarc.invoicing.db.memory;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,13 +11,13 @@ import pl.futurecollarc.invoicing.model.Invoice;
 @Data
 public class InMemoryDatabase implements Database {
 
-  private Map<Integer, Invoice> memoryDatabase = new LinkedHashMap<>();
+  private Map<Integer, Invoice> memoryDatabase = new HashMap<>();
   private int count = 1;
 
   @Override
-  public void save(Invoice invoice) {
+  public int save(Invoice invoice) {
     this.memoryDatabase.put(count, invoice);
-    count++;
+    return count++;
   }
 
   @Override
@@ -39,18 +39,26 @@ public class InMemoryDatabase implements Database {
   @Override
   public void update(int id, Invoice updatedInvoice) {
     printIllegalArgumentException(id);
+    printOutOfBoundsException(id);
     memoryDatabase.replace(id, memoryDatabase.get(id), updatedInvoice);
   }
 
   @Override
   public void delete(int id) {
     printIllegalArgumentException(id);
+    printOutOfBoundsException(id);
     memoryDatabase.remove(id, memoryDatabase.get(id));
   }
 
   private void printIllegalArgumentException(int id) {
-    if (id <= 0) {
+    if (id < 0) {
       throw new IllegalArgumentException("Error: id cannot be negative");
+    }
+  }
+
+  private void printOutOfBoundsException(int id) {
+    if (id > memoryDatabase.size()) {
+      throw new IndexOutOfBoundsException("Error: id doesn't exist");
     }
   }
 }
