@@ -18,7 +18,7 @@ abstract class AbstractDatabaseTest extends Specification {
     def "shouldSaveInvoice"() {
 
         expect:
-        database.getByID(2) == Optional.of(TestHelper.invoice(2))
+        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
     }
 
     def "shouldGetInvoiceByID"() {
