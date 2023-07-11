@@ -17,12 +17,14 @@ public class InMemoryDatabase implements Database {
   @Override
   public int save(Invoice invoice) {
     this.memoryDatabase.put(count, invoice);
+    invoice.setId(count);
     return count++;
   }
 
   @Override
   public Optional<Invoice> getByID(int id) {
     printIllegalArgumentException(id);
+    printOutOfBoundsException(id);
     return memoryDatabase.values()
         .stream()
         .filter(p -> p == memoryDatabase.get(id))
@@ -37,27 +39,29 @@ public class InMemoryDatabase implements Database {
   }
 
   @Override
-  public void update(int id, Invoice updatedInvoice) {
+  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
     memoryDatabase.replace(id, memoryDatabase.get(id), updatedInvoice);
+    updatedInvoice.setId(id);
+    return Optional.of(updatedInvoice);
   }
 
   @Override
-  public void delete(int id) {
+  public Optional<Invoice> delete(int id) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    memoryDatabase.remove(id, memoryDatabase.get(id));
+    return Optional.ofNullable(memoryDatabase.remove(id));
   }
 
   private void printIllegalArgumentException(int id) {
-    if (id < 0) {
+    if (id <= 0) {
       throw new IllegalArgumentException("Error: id cannot be negative");
     }
   }
 
   private void printOutOfBoundsException(int id) {
-    if (id > memoryDatabase.size()) {
+    if (id > count) {
       throw new IndexOutOfBoundsException("Error: id doesn't exist");
     }
   }

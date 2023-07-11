@@ -9,15 +9,15 @@ import java.nio.file.Path
 class IdServiceTest extends Specification {
 
     FilesService filesService = new FilesService()
-    private Path path = File.createTempFile('TemporaryId', '.txt').toPath()
+    Path path = File.createTempFile('TemporaryId', '.txt').toPath()
 
     def "shouldGetNextIdAndIncreament"() {
         given:
         Files.writeString(path as Path, "3")
-        IdService idService = new IdService(filesService, path as String)
+        IdService idService = new IdService(path, filesService)
 
         expect:
-        idService.getNextIdAndIncreament(path as String)
+        idService.getNextIdAndIncreament()
         ['4'] == Files.readAllLines(path)
     }
 }

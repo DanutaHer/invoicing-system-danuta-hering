@@ -1,8 +1,6 @@
 package pl.futurecollarc.invoicing.db.files;
 
-import static pl.futurecollarc.invoicing.config.Config.DATABASE_LOCATION;
-import static pl.futurecollarc.invoicing.config.Config.ID_FILE_LOCATION;
-
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +18,12 @@ public class FileDatabase implements Database {
   private final FilesService filesService;
   private final JsonService jsonService;
   private final IdService idService;
+  private final Path path;
 
   @Override
   public int save(Invoice invoice) {
-    invoice.setId(idService.getNextIdAndIncreament(ID_FILE_LOCATION));
-    filesService.appendLineToFile(DATABASE_LOCATION, jsonService.objectToJson(invoice));
+    invoice.setId(idService.getNextIdAndIncreament());
+    filesService.appendLineToFile(path, jsonService.objectToJson(invoice));
     return invoice.getId();
   }
 
@@ -32,7 +31,7 @@ public class FileDatabase implements Database {
   public Optional<Invoice> getByID(int id) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    return filesService.readAllLines(DATABASE_LOCATION).stream()
+    return filesService.readAllLines(path).stream()
         .filter(line -> line.contains("\"id\":" + id + ","))
         .map(jsonService::jsonToObject)
         .findFirst();
@@ -40,33 +39,40 @@ public class FileDatabase implements Database {
 
   @Override
   public List<Invoice> getAll() {
-    return filesService.readAllLines(DATABASE_LOCATION).stream()
+    return filesService.readAllLines(path).stream()
         .map(jsonService::jsonToObject)
         .toList();
   }
 
   @Override
-  public void update(int id, Invoice updatedInvoice) {
+  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(DATABASE_LOCATION).stream()
+    List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(path).stream()
         .filter(line -> !line.contains("\"id\":" + id + ","))
         .toList());
 
     updatedInvoice.setId(id);
     invoicesToUpdate.add(jsonService.objectToJson(updatedInvoice));
-    filesService.writeLinesToFile(DATABASE_LOCATION, invoicesToUpdate);
+    filesService.writeLinesToFile(path, invoicesToUpdate);
+    return Optional.of(updatedInvoice);
   }
 
   @Override
-  public void delete(int id) {
+  public Optional<Invoice> delete(int id) {
     printIllegalArgumentException(id);
     printOutOfBoundsException(id);
-    List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(DATABASE_LOCATION).stream()
+    List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(path).stream()
         .filter(line -> !line.contains("\"id\":" + id + ","))
         .toList());
 
-    filesService.writeLinesToFile(DATABASE_LOCATION, invoicesToUpdate);
+    Optional<Invoice> deletedInvoice = filesService.readAllLines(path).stream()
+        .filter(line -> line.contains("\"id\":" + id + ","))
+        .map(jsonService::jsonToObject)
+        .findAny();
+
+    filesService.writeLinesToFile(path, invoicesToUpdate);
+    return deletedInvoice;
   }
 
   private void printIllegalArgumentException(int id) {
@@ -76,7 +82,7 @@ public class FileDatabase implements Database {
   }
 
   private void printOutOfBoundsException(int id) {
-    if (id > filesService.readAllLines(DATABASE_LOCATION).size()) {
+    if (id > filesService.readAllLines(path).size()) {
       throw new IndexOutOfBoundsException("Error: id doesn't exist");
     }
   }
