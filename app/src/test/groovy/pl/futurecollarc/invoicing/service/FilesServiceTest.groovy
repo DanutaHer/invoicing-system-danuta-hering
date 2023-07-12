@@ -3,10 +3,13 @@ package pl.futurecollarc.invoicing.service
 
 import spock.lang.Specification
 
+import java.nio.file.Path
+
 class FilesServiceTest extends Specification {
 
     FilesService filesService = new FilesService()
     List<String> invoicesExample = new ArrayList<>()
+    Path path = File.createTempFile('TemporaryFile', '.txt').toPath()
     String line = ""
 
     def setup() {
@@ -16,21 +19,24 @@ class FilesServiceTest extends Specification {
 
     def "shouldWriteListToFile"() {
         expect:
-        filesService.appendLineToFile("temporaryFileToAppendLine.txt", line)
+        filesService.appendLineToFile(path, line)
     }
 
     def "shouldReadInvoicesFromFile"() {
         expect:
-        filesService.writeLinesToFile("temporaryFileToWriteLines.txt", invoicesExample)
+        filesService.writeLinesToFile(path, invoicesExample)
     }
 
     def "shouldWriteTextToFile"() {
         expect:
-        filesService.writeTextTo("temporaryFileToTest.txt", "Example String")
+        filesService.writeTextTo(path, "Example String")
     }
 
     def "shouldREadTextFromFile"() {
+        given:
+        filesService.writeTextTo(path, "Example String")
+
         expect:
-        filesService.readAllLines("temporaryFileToTest.txt") == (List.of("Example String"))
+        filesService.readAllLines(path) == (List.of("Example String"))
     }
 }
