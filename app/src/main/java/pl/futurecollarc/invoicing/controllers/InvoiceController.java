@@ -2,6 +2,7 @@ package pl.futurecollarc.invoicing.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.futurecollarc.invoicing.db.memory.InMemoryDatabase;
 import pl.futurecollarc.invoicing.model.Invoice;
 import pl.futurecollarc.invoicing.service.InvoiceService;
 
@@ -20,7 +20,12 @@ import pl.futurecollarc.invoicing.service.InvoiceService;
 @RequestMapping("invoice")
 public class InvoiceController {
 
-  private final InvoiceService invoiceService = new InvoiceService(new InMemoryDatabase());
+  private final InvoiceService invoiceService;
+
+  @Autowired
+  public InvoiceController(InvoiceService invoiceService) {
+    this.invoiceService = invoiceService;
+  }
 
   @PostMapping
   public ResponseEntity<Integer> add(@RequestBody Invoice invoice) {
