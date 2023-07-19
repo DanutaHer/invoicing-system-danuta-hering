@@ -1,0 +1,9 @@
+logging:
+  level:
+    org:
+      springframework:
+        boot: INFO
+    pl:
+      futurecollars:
+        invoicing: INFO
+        invoicing.db: DEBUG
