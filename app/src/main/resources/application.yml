@@ -1,0 +1,21 @@
+server:
+  port: 7777
+
+invoicing-system:
+  database:
+    directory: db
+    type: file
+    id:
+      file: id.txt
+    invoices:
+      file: invoices.txt
+
+logging:
+  level:
+    org:
+      springframework:
+        boot: INFO
+    pl:
+      futurecollars:
+        invoicing: WARN
+        invoicing.db: DEBUG
