@@ -16,3 +16,9 @@ class AppTest extends Specification {
         invoiceService
     }
 }
+
+    def "invoice service id created 4"() {
+        expect:
+        invoiceService
+    }
+}
