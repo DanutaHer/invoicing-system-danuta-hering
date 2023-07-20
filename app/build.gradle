@@ -6,7 +6,6 @@ buildscript {
         spockVersion = "2.2-groovy-3.0"
         springBootVersion = "2.7.7"
         springDependencyManagmentVersion = '1.1.2'
-
     }
 }
 
@@ -34,7 +33,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1'
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
-    
+
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
