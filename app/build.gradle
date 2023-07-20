@@ -9,6 +9,8 @@
 buildscript {
     ext {
         lombokVersion = "1.18.20"
+        springFoxStarterVersion = "3.0.0"
+        springFoxUiVersion = "3.0.0"
     }
 }
 
@@ -45,6 +47,8 @@ dependencies {
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1'
+    implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
+    implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
 
     //Lombok
     compileOnly 'org.projectlombok:lombok:1.18.28'
