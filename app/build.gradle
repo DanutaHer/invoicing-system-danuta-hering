@@ -30,13 +30,15 @@ repositories {
 dependencies {
     implementation 'org.projectlombok:lombok:1.18.26'
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '3.1.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.7'
     // Use the latest Groovy version for Spock testing
     testImplementation 'org.codehaus.groovy:groovy:3.0.13'
 
     // Use the awesome Spock testing and specification framework even with Java
     testImplementation 'org.spockframework:spock-core:2.2-groovy-3.0'
+    testImplementation 'org.spockframework:spock-spring:2.2-groovy-3.0'
     testImplementation 'junit:junit:4.13.2'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.7.7'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:31.1-jre'
@@ -94,14 +96,14 @@ jacocoTestCoverageVerification {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
 
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
     }
