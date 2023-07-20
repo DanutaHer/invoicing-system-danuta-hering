@@ -33,6 +33,7 @@ public class DatabaseConfiguration {
     return new FileDatabase(filesService, jsonService, idService, databasePath);
   }
 
+  @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "memory")
   @Bean
   public Database inMemoryDatabase() {
     return new InMemoryDatabase();
