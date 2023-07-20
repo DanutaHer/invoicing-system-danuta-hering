@@ -9,8 +9,13 @@ import java.nio.file.Path
 
 class IdServiceTest extends Specification {
 
-    FilesService filesService = new FilesService()
-    Path path = File.createTempFile('TemporaryId', '.txt').toPath()
+    FilesService filesService
+    Path path
+
+    def setup(){
+        filesService = new FilesService()
+        path = File.createTempFile('TemporaryId', '.txt').toPath()
+    }
 
     def "shouldGetNextIdAndIncreament"() {
         given:

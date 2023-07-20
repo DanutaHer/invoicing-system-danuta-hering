@@ -30,24 +30,22 @@ public class FileDatabase implements Database {
   @Override
   public Optional<Invoice> getByID(int id) {
     printIllegalArgumentException(id);
-    printOutOfBoundsException(id);
     return filesService.readAllLines(path).stream()
         .filter(line -> line.contains("\"id\":" + id + ","))
-        .map(jsonService::jsonToObject)
+        .map(jsonInvoice -> jsonService.jsonToObject(jsonInvoice, Invoice.class))
         .findFirst();
   }
 
   @Override
   public List<Invoice> getAll() {
     return filesService.readAllLines(path).stream()
-        .map(jsonService::jsonToObject)
+        .map(jsonInvoice -> jsonService.jsonToObject(jsonInvoice, Invoice.class))
         .toList();
   }
 
   @Override
   public Optional<Invoice> update(int id, Invoice updatedInvoice) {
     printIllegalArgumentException(id);
-    printOutOfBoundsException(id);
     List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(path).stream()
         .filter(line -> !line.contains("\"id\":" + id + ","))
         .toList());
@@ -61,14 +59,13 @@ public class FileDatabase implements Database {
   @Override
   public Optional<Invoice> delete(int id) {
     printIllegalArgumentException(id);
-    printOutOfBoundsException(id);
     List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(path).stream()
         .filter(line -> !line.contains("\"id\":" + id + ","))
         .toList());
 
     Optional<Invoice> deletedInvoice = filesService.readAllLines(path).stream()
         .filter(line -> line.contains("\"id\":" + id + ","))
-        .map(jsonService::jsonToObject)
+        .map(jsonInvoice -> jsonService.jsonToObject(jsonInvoice, Invoice.class))
         .findAny();
 
     filesService.writeLinesToFile(path, invoicesToUpdate);
@@ -78,12 +75,6 @@ public class FileDatabase implements Database {
   private void printIllegalArgumentException(int id) {
     if (id < 0) {
       throw new IllegalArgumentException("Error: id cannot be negative");
-    }
-  }
-
-  private void printOutOfBoundsException(int id) {
-    if (id > filesService.readAllLines(path).size()) {
-      throw new IndexOutOfBoundsException("Error: id doesn't exist");
     }
   }
 }

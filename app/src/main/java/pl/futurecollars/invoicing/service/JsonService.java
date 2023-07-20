@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import org.springframework.stereotype.Service;
-import pl.futurecollars.invoicing.model.Invoice;
 
 @Service
 public class JsonService {
@@ -17,17 +16,17 @@ public class JsonService {
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
   }
 
-  public String objectToJson(Invoice invoice) {
+  public String objectToJson(Object object) {
     try {
-      return objectMapper.writeValueAsString(invoice);
+      return objectMapper.writeValueAsString(object);
     } catch (IOException exception) {
       throw new RuntimeException(exception);
     }
   }
 
-  public Invoice jsonToObject(String json) {
+  public <T> T jsonToObject(String json, Class<T> clazz) {
     try {
-      return objectMapper.readValue(json, Invoice.class);
+      return objectMapper.readValue(json, clazz);
     } catch (IOException exception) {
       throw new RuntimeException(exception);
 

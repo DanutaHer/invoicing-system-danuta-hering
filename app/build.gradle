@@ -36,6 +36,7 @@ dependencies {
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
 }
 
+// Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -79,6 +80,7 @@ jacocoTestCoverageVerification {
                 minimum = 0.7
             }
         }
+
         rule {
             limit {
                 counter = 'LINE'
@@ -87,3 +89,6 @@ jacocoTestCoverageVerification {
         }
     }
 }
+
+
+

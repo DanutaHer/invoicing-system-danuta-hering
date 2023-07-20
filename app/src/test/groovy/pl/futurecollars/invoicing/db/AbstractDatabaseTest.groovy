@@ -71,20 +71,4 @@ abstract class AbstractDatabaseTest extends Specification {
         then:
         thrown(IllegalArgumentException)
     }
-
-    def "shouldThrowOutOfBoundsExceptionFor_UpdateMethod"() {
-        when:
-        database.delete(1000000)
-
-        then:
-        thrown(IndexOutOfBoundsException)
-    }
-
-    def "shouldThrowOutOfBoundsExceptionFor_DeleteMethod"() {
-        when:
-        database.delete(1000000)
-
-        then:
-        thrown(IndexOutOfBoundsException)
-    }
 }
