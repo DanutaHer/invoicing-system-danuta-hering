@@ -33,24 +33,6 @@ public class DatabaseConfiguration {
     return new FileDatabase(filesService, jsonService, idService, databasePath);
   }
 
-  @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "memory")
-
-  private static final String DATABASE_LOCATION = "db";
-  private static final String INVOICES_FILE_NAME = "invoices.txt";
-  private static final String ID_FILE_NAME = "id.txt";
-
-  @Bean
-  public IdService idService(FilesService filesService) throws IOException {
-    Path idPath = Files.createTempFile(DATABASE_LOCATION, ID_FILE_NAME);
-    return new IdService(idPath, filesService);
-  }
-
-  @Bean
-  public Database fileDatabase(FilesService filesService, JsonService jsonService, IdService idService) throws IOException {
-    Path databasePath = Files.createTempFile(DATABASE_LOCATION, INVOICES_FILE_NAME);
-    return new FileDatabase(filesService, jsonService, idService, databasePath);
-  }
-
   @Bean
   public Database inMemoryDatabase() {
     return new InMemoryDatabase();

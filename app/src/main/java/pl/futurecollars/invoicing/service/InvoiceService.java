@@ -12,8 +12,6 @@ public class InvoiceService {
 
   private final Database database;
 
-  public InvoiceService(Database database) {
-
   public InvoiceService(@Qualifier("fileDatabase") Database database) {
 
     this.database = database;
