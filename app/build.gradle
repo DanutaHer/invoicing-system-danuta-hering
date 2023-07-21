@@ -3,18 +3,17 @@ buildscript {
         lombokVersion = "1.18.20"
         spockVersion = "2.2-groovy-3.0"
         springBootVersion = "3.1.1"
-        fasterVersion = "2.14.3"
-        groovyVersion = "3.0.13"
-        guavaVersion = "31.1-jre"
-        junitVersion = "4.13.2"
+        springDependencyManagmentVersion = '1.1.2'
     }
 }
 
 plugins {
-    id 'groovy'
     id 'application'
     id 'checkstyle'
+    id 'groovy'
+    id 'io.spring.dependency-management' version "${springDependencyManagmentVersion}"
     id 'jacoco'
+    id 'org.springframework.boot' version "${springBootVersion}"
 }
 
 repositories {
@@ -22,21 +21,19 @@ repositories {
 }
 
 dependencies {
-    implementation "org.projectlombok:lombok:${lombokVersion}"
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "${springBootVersion}"
-    implementation "com.google.guava:guava:${guavaVersion}"
-    implementation "com.fasterxml.jackson.core:jackson-databind:${fasterVersion}"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${fasterVersion}"
-
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: "${springBootVersion}"
-    testImplementation "org.codehaus.groovy:groovy:${groovyVersion}"
-    testImplementation "org.spockframework:spock-core:${spockVersion}"
-    testImplementation "junit:junit:${junitVersion}"
-
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation "org.spockframework:spock-core:${spockVersion}"
+    testImplementation "org.spockframework:spock-spring:${spockVersion}"
 }
 
 java {
@@ -46,7 +43,7 @@ java {
 }
 
 application {
-    mainClass = 'pl.futurecollarc.invoicing.App'
+    mainClass = 'pl.futurecollars.invoicing.App'
 }
 
 tasks.named('test') {
@@ -82,7 +79,6 @@ jacocoTestCoverageVerification {
                 minimum = 0.7
             }
         }
-
         rule {
             limit {
                 counter = 'LINE'
