@@ -35,7 +35,7 @@ public class DatabaseConfiguration {
 
   @Bean
   public Database inMemoryDatabase() {
-    log.info("Database inMemory");
+    log.info("Database: inMemory");
     return new InMemoryDatabase();
   }
 }
