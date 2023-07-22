@@ -22,6 +22,7 @@ public class DatabaseConfiguration {
 
   @Bean
   public IdService idService(FilesService filesService) throws IOException {
+    log.info("Database: " + INVOICES_FILE_NAME);
     Path idPath = Files.createTempFile(DATABASE_LOCATION, ID_FILE_NAME);
     return new IdService(idPath, filesService);
   }
@@ -34,7 +35,7 @@ public class DatabaseConfiguration {
 
   @Bean
   public Database inMemoryDatabase() {
-    log.info("inMemory: " + INVOICES_FILE_NAME);
+    log.info("Database inMemory");
     return new InMemoryDatabase();
   }
 }

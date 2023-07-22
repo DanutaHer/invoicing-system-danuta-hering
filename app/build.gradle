@@ -2,7 +2,7 @@ buildscript {
     ext {
         lombokVersion = "1.18.20"
         spockVersion = "2.2-groovy-3.0"
-        springBootVersion = "3.1.1"
+        springBootVersion = "2.7.7"
         springDependencyManagmentVersion = '1.1.2'
     }
 }
