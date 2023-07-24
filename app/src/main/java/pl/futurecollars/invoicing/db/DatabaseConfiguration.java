@@ -19,7 +19,7 @@ public class DatabaseConfiguration {
   @Bean
   public IdService idService(FilesService filesService,
                              @Value("${invoicing-system.database.directory}") String databaseLocation,
-                             @Value("${invoicing-system.database.id.file}") String idFile) throws IOException {
+                             @Value("${invoicing-system.database.type.file.id}") String idFile) throws IOException {
     Path idPath = Files.createTempFile(databaseLocation, idFile);
     return new IdService(idPath, filesService);
   }
@@ -28,7 +28,7 @@ public class DatabaseConfiguration {
   @Bean
   public Database fileDatabase(FilesService filesService, JsonService jsonService, IdService idService,
                                @Value("${invoicing-system.database.directory}") String databaseLocation,
-                               @Value("${invoicing-system.database.invoices.file}") String invoicesFile) throws IOException {
+                               @Value("${invoicing-system.database.type.file.invoices}") String invoicesFile) throws IOException {
     Path databasePath = Files.createTempFile(databaseLocation, invoicesFile);
     return new FileDatabase(filesService, jsonService, idService, databasePath);
   }

@@ -4,8 +4,6 @@ server:
 invoicing-system:
   database:
     directory: db
-    type: file
-    id:
-      file: id.txt
-    invoices:
-      file: invoices.txt
+    type:
+      file.id: id.txt
+      file.invoices: invoices.txt
