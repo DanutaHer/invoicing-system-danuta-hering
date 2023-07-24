@@ -16,17 +16,5 @@ logging:
         boot: INFO
     pl:
       futurecollars:
-        invoicing: INFO
+        invoicing: WARN
         invoicing.db: DEBUG
-
-spring:
-  datasource:
-    url: jdbc:h2:mem:demodb
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-  flyway:
-    enabled: false
