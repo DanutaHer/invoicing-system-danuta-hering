@@ -1,12 +1,9 @@
 package pl.futurecollars.invoicing
 
-
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.model.InvoiceEntry
-
 import java.time.LocalDate
-
 import static pl.futurecollars.invoicing.model.Vat.VAT_5
 
 class TestHelper {

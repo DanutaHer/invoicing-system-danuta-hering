@@ -19,7 +19,7 @@ import pl.futurecollars.invoicing.service.InvoiceService;
 
 @RestController
 @RequestMapping("invoice")
-@Slf4j
+
 public class InvoiceController {
 
   private final InvoiceService invoiceService;
