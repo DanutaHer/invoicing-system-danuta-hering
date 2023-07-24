@@ -18,7 +18,7 @@ import pl.futurecollars.invoicing.model.Invoice;
 import pl.futurecollars.invoicing.service.InvoiceService;
 
 @RestController
-@RequestMapping("invoice")
+@RequestMapping("invoices")
 
 public class InvoiceController {
 
@@ -31,8 +31,7 @@ public class InvoiceController {
 
   @PostMapping
   public ResponseEntity<Integer> add(@RequestBody Invoice invoice) {
-    invoiceService.save(invoice);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+     return ResponseEntity.ok(invoiceService.save(invoice));
   }
 
   @GetMapping
