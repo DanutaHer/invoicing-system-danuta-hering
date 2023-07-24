@@ -3,6 +3,7 @@ package pl.futurecollars.invoicing.db;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.futurecollars.invoicing.db.files.FileDatabase;
@@ -12,6 +13,7 @@ import pl.futurecollars.invoicing.service.FilesService;
 import pl.futurecollars.invoicing.service.JsonService;
 
 @Configuration
+@Slf4j
 public class DatabaseConfiguration {
 
   private static final String DATABASE_LOCATION = "db";
@@ -26,12 +28,14 @@ public class DatabaseConfiguration {
 
   @Bean
   public Database fileDatabase(FilesService filesService, JsonService jsonService, IdService idService) throws IOException {
+    log.info("Creating in-file database: " + INVOICES_FILE_NAME);
     Path databasePath = Files.createTempFile(DATABASE_LOCATION, INVOICES_FILE_NAME);
     return new FileDatabase(filesService, jsonService, idService, databasePath);
   }
 
   @Bean
   public Database inMemoryDatabase() {
+    log.info("Creating inMemory database");
     return new InMemoryDatabase();
   }
 }
