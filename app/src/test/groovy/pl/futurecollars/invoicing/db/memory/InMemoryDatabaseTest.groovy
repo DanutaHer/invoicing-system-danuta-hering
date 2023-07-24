@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package pl.futurecollars.invoicing.db.memory
 
 
