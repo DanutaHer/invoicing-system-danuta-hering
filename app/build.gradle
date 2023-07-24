@@ -21,10 +21,6 @@ repositories {
 }
 
 dependencies {
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
@@ -77,14 +73,14 @@ jacocoTestCoverageVerification {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
 
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
     }

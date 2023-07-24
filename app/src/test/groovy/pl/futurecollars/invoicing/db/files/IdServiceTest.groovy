@@ -1,6 +1,5 @@
 package pl.futurecollars.invoicing.db.files
 
-
 import pl.futurecollars.invoicing.service.FilesService
 import spock.lang.Specification
 
