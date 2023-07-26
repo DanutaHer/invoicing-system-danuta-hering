@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.Config;
+package pl.futurecollars.invoicing.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
