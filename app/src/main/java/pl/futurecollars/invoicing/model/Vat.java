@@ -9,6 +9,7 @@ import lombok.ToString;
 public enum Vat {
 
   VAT_21(21),
+  VAT_10(10),
   VAT_8(8),
   VAT_7(7),
   VAT_5(5),
