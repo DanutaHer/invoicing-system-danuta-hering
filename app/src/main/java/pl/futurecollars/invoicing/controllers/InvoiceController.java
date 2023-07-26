@@ -37,7 +37,7 @@ public class InvoiceController {
   @GetMapping
   public ResponseEntity<List<Invoice>> getAll() {
     List<Invoice> allInvoices = invoiceService.getAll();
-    log.info("Get allInvoices: " + allInvoices.size());
+    log.info("Get the count of all invoices: " + allInvoices.size());
     return ResponseEntity.ok(allInvoices);
 
   }
@@ -46,7 +46,7 @@ public class InvoiceController {
   public ResponseEntity<Optional<Invoice>> getExactInvoice(@PathVariable("id") int id) {
     Optional<Invoice> optionalInvoice = invoiceService.getByID(id);
     if (optionalInvoice.isPresent()) {
-      log.info("GetMapping: " + optionalInvoice);
+      log.info("Get invoice with id: " + id);
       return ResponseEntity.ok(optionalInvoice);
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -57,7 +57,7 @@ public class InvoiceController {
   public ResponseEntity<Optional<Invoice>> update(@PathVariable("id") int id, @RequestBody Invoice invoice) {
     Optional<Invoice> optionalInvoice = invoiceService.update(id, invoice);
     if (optionalInvoice.isPresent()) {
-      log.info("PutMapping: " + optionalInvoice);
+      log.info("Update invoice with id: " + id);
       return ResponseEntity.ok(optionalInvoice);
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -68,7 +68,7 @@ public class InvoiceController {
   public ResponseEntity<Optional<Invoice>> delete(@PathVariable("id") int id) {
     Optional<Invoice> optionalInvoice = invoiceService.delete(id);
     if (optionalInvoice.isPresent()) {
-      log.info("DeleteMapping: " + optionalInvoice);
+      log.info("Delete invoice with id: " + id);
       return ResponseEntity.ok(optionalInvoice);
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
