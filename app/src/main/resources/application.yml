@@ -18,3 +18,9 @@ logging:
       futurecollars:
         invoicing: WARN
         invoicing.db: DEBUG
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+

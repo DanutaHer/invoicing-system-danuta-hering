@@ -5,6 +5,7 @@ invoicing-system:
   database:
     directory: db
     type: file
+
     file:
       id: id.txt
       invoices: invoices.txt
