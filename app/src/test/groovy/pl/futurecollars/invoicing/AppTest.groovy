@@ -11,7 +11,7 @@ class AppTest extends Specification {
     @Autowired
     private InvoiceService invoiceService
 
-    def "invoice service id created 4"() {
+    def "invoice service id created"() {
         expect:
         invoiceService
     }
