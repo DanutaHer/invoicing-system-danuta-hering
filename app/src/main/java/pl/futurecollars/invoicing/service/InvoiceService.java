@@ -1,38 +1,36 @@
 package pl.futurecollars.invoicing.service;
 
-import java.util.List;
-import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
+@AllArgsConstructor
 public class InvoiceService {
 
-  private final Database database;
+    private final Database database;
 
-  public InvoiceService(Database database) {
+    public int save(Invoice invoice) {
+        return database.save(invoice);
+    }
 
-    this.database = database;
-  }
+    public Optional<Invoice> getByID(int id) {
+        return database.getByID(id);
+    }
 
-  public int save(Invoice invoice) {
-    return database.save(invoice);
-  }
+    public List<Invoice> getAll() {
+        return database.getAll();
+    }
 
-  public Optional<Invoice> getByID(int id) {
-    return database.getByID(id);
-  }
+    public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+        return database.update(id, updatedInvoice);
+    }
 
-  public List<Invoice> getAll() {
-    return database.getAll();
-  }
-
-  public Optional<Invoice> update(int id, Invoice updatedInvoice) {
-    return database.update(id, updatedInvoice);
-  }
-
-  public Optional<Invoice> delete(int id) {
-    return database.delete(id);
-  }
+    public Optional<Invoice> delete(int id) {
+        return database.delete(id);
+    }
 }
