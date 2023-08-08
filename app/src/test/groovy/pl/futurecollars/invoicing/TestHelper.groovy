@@ -6,6 +6,7 @@ import pl.futurecollars.invoicing.model.InvoiceEntry
 
 import java.time.LocalDate
 
+import static pl.futurecollars.invoicing.model.Vat.VAT_21
 import static pl.futurecollars.invoicing.model.Vat.VAT_5
 
 class TestHelper {
@@ -23,7 +24,7 @@ class TestHelper {
                 .description("Descr $id")
                 .price(BigDecimal.ONE)
                 .vatValue(BigDecimal.ONE)
-                .vatRate(VAT_5)
+                .vatRate(VAT_21)
                 .build();
     }
 
