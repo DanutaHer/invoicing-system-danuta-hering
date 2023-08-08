@@ -10,10 +10,10 @@ import lombok.Data;
 @Builder
 public class TaxValues {
 
-  private final BigDecimal incomingVat;
-  private final BigDecimal outgoingVat;
-  private final BigDecimal income;
-  private final BigDecimal costs;
-  private final BigDecimal earnings;
-  private final BigDecimal vatToPay;
+    private final BigDecimal incomingVat;
+    private final BigDecimal outgoingVat;
+    private final BigDecimal income;
+    private final BigDecimal costs;
+    private final BigDecimal earnings;
+    private final BigDecimal vatToPay;
 }

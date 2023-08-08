@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Invoice {
 
-  @ApiModelProperty(value = "Invoice id", required = true, example = "1")
-  private int id;
-  @ApiModelProperty(value = "Invoice creation date", required = true, example = "2023-06-15")
-  private LocalDate date;
-  @ApiModelProperty(value = "Buyer company", required = true)
-  private Company buyer;
-  @ApiModelProperty(value = "Seller company", required = true)
-  private Company seller;
-  @ApiModelProperty(value = "List of invoice entries", required = true)
-  private List<InvoiceEntry> entries;
+    @ApiModelProperty(value = "Invoice id", required = true, example = "1")
+    private int id;
+    @ApiModelProperty(value = "Invoice creation date", required = true, example = "2023-06-15")
+    private LocalDate date;
+    @ApiModelProperty(value = "Buyer company", required = true)
+    private Company buyer;
+    @ApiModelProperty(value = "Seller company", required = true)
+    private Company seller;
+    @ApiModelProperty(value = "List of invoice entries", required = true)
+    private List<InvoiceEntry> entries;
 }
