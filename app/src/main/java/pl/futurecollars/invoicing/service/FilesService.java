@@ -10,19 +10,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class FilesService {
 
-    public void appendLineToFile(Path path, String line) throws IOException {
-        Files.write(path, (line + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
-    }
+  public void appendLineToFile(Path path, String line) throws IOException {
+    Files.write(path, (line + System.lineSeparator()).getBytes(), StandardOpenOption.APPEND);
+  }
 
-    public void writeLinesToFile(Path path, List<String> lines) throws IOException {
-        Files.write(path, lines, StandardOpenOption.TRUNCATE_EXISTING);
-    }
+  public void writeLinesToFile(Path path, List<String> lines) throws IOException {
+    Files.write(path, lines, StandardOpenOption.TRUNCATE_EXISTING);
+  }
 
-    public void writeTextTo(Path path, String line) throws IOException {
-        Files.write(path, line.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
-    }
+  public void writeTextTo(Path path, String line) throws IOException {
+    Files.write(path, line.getBytes(), StandardOpenOption.TRUNCATE_EXISTING);
+  }
 
-    public List<String> readAllLines(Path path) throws IOException {
-        return Files.readAllLines(path);
-    }
+  public List<String> readAllLines(Path path) throws IOException {
+    return Files.readAllLines(path);
+  }
 }

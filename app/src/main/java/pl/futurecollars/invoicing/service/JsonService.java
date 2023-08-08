@@ -9,27 +9,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class JsonService {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+  private final ObjectMapper objectMapper = new ObjectMapper();
 
-    {
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  {
+    objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  }
+
+  public String objectToJson(Object object) {
+    try {
+      return objectMapper.writeValueAsString(object);
+    } catch (IOException exception) {
+      throw new RuntimeException(exception);
     }
+  }
 
-    public String objectToJson(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
+  public <T> T jsonToObject(String json, Class<T> clazz) {
+    try {
+      return objectMapper.readValue(json, clazz);
+    } catch (IOException exception) {
+      throw new RuntimeException(exception);
+
     }
-
-    public <T> T jsonToObject(String json, Class<T> clazz) {
-        try {
-            return objectMapper.readValue(json, clazz);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-
-        }
-    }
+  }
 }
