@@ -15,6 +15,7 @@ public class IdService {
         this.idFilePath = idFilePath;
         this.filesService = filesService;
 
+<<<<<<< HEAD
         try {
             List<String> lines = filesService.readAllLines(idFilePath);
             if (lines.isEmpty()) {
@@ -25,8 +26,20 @@ public class IdService {
         } catch (IOException exception) {
             throw new RuntimeException("Failed to initialize id database", exception);
         }
+=======
+    try {
+      List<String> lines = filesService.readAllLines(idFilePath);
+      if (lines.isEmpty()) {
+        filesService.writeTextTo(idFilePath, "1");
+      } else {
+        nextId = Integer.parseInt(lines.get(0));
+      }
+    } catch (IOException exception) {
+      throw new RuntimeException("Failed to initialize id database", exception);
+>>>>>>> master
     }
 
+<<<<<<< HEAD
     public int getNextIdAndIncreament() {
         try {
             filesService.writeTextTo(idFilePath, String.valueOf(nextId + 1));
@@ -35,4 +48,14 @@ public class IdService {
             throw new RuntimeException("Failed to initialize id database", exception);
         }
     }
+=======
+  public int getNextIdAndIncreament() {
+    try {
+      filesService.writeTextTo(idFilePath, String.valueOf(nextId + 1));
+      return nextId++;
+    } catch (IOException exception) {
+      throw new RuntimeException("Failed to initialize id database", exception);
+    }
+  }
+>>>>>>> master
 }
