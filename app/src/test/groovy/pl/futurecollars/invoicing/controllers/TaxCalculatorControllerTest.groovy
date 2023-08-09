@@ -12,7 +12,7 @@ import spock.lang.Specification
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class TaxCalculatorControllerTest extends Specification{
+class TaxCalculatorControllerTest extends Specification {
 
     @Autowired
     private MockMvc mockMvc
@@ -26,6 +26,6 @@ class TaxCalculatorControllerTest extends Specification{
     def "should get response 404 - not found when get nonexistent taxIdentificationNumber from id 1"() {
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError() )
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
     }
 }
