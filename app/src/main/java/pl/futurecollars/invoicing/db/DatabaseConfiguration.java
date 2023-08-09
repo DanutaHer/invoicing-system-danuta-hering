@@ -26,7 +26,6 @@ public class DatabaseConfiguration {
         return new IdService(idPath, filesService);
     }
 
-<<<<<<< HEAD
     @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "file")
     @Bean
     public Database fileDatabase(FilesService filesService, JsonService jsonService, IdService idService,
@@ -44,31 +43,4 @@ public class DatabaseConfiguration {
         log.info("Creating inMemory database");
         return new InMemoryDatabase();
     }
-=======
-  @Bean
-  public IdService idService(FilesService filesService,
-                             @Value("${invoicing-system.database.directory}") String databaseLocation,
-                             @Value("${invoicing-system.database.file.id}") String idFile) throws IOException {
-    Path idPath = Files.createTempFile(databaseLocation, idFile);
-    return new IdService(idPath, filesService);
-  }
-
-  @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "file")
-  @Bean
-  public Database fileDatabase(FilesService filesService, JsonService jsonService, IdService idService,
-                               @Value("${invoicing-system.database.directory}") String databaseLocation,
-                               @Value("${invoicing-system.database.file.invoices}") String invoicesFile) throws IOException {
-
-    log.info("Creating in-file database: " + invoicesFile);
-    Path databasePath = Files.createTempFile(databaseLocation, invoicesFile);
-    return new FileDatabase(filesService, jsonService, idService, databasePath);
-  }
-
-  @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "memory")
-  @Bean
-  public Database inMemoryDatabase() {
-    log.info("Creating inMemory database");
-    return new InMemoryDatabase();
-  }
->>>>>>> master
 }

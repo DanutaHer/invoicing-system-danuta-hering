@@ -18,7 +18,7 @@ public class TaxCalculatorController implements TaxCalculatorApi {
     private final TaxCalculatorService taxCalculatorService;
 
     @Override
-    public ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(@PathVariable("taxIdentificationNumber")String taxIdentificationNumber) {
+    public ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(@PathVariable("taxIdentificationNumber") String taxIdentificationNumber) {
         Optional<TaxCalculator> optionalTaxCalculator = taxCalculatorService.calculateTaxes(taxIdentificationNumber);
         if (optionalTaxCalculator.isPresent()) {
             log.info("Get invoice with id: " + taxIdentificationNumber);

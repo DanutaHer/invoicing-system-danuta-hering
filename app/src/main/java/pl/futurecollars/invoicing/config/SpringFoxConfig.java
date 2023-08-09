@@ -14,7 +14,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SpringFoxConfig {
 
-<<<<<<< HEAD
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -42,31 +41,4 @@ public class SpringFoxConfig {
             )
             .build();
     }
-=======
-  @Bean
-  public Docket docket() {
-    return new Docket(DocumentationType.SWAGGER_2)
-        .select()
-        .apis(RequestHandlerSelectors.basePackage("pl.futurecollars"))
-        .paths(PathSelectors.any())
-        .build()
-        .tags(new Tag("Invoice controller", "Controller used to perform operations on invoices"))
-        .apiInfo(apiInfo());
-  }
-
-  private ApiInfo apiInfo() {
-    return new ApiInfoBuilder()
-        .description("Application to manage set of invoices")
-        .license("No licence")
-        .title("Invoice management application")
-        .contact(
-            new Contact(
-                "Danuta Hering & Szymon Jedynak",
-                "invoicingsystem.com.pl",
-                "invoicingsystem_info@gmail.com"
-            )
-        )
-        .build();
-  }
->>>>>>> master
 }

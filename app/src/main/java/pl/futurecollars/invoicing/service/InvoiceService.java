@@ -11,14 +11,7 @@ public class InvoiceService {
 
     private final Database database;
 
-<<<<<<< HEAD
     public InvoiceService(Database database) {
-=======
-  public InvoiceService(Database database) {
-
-    this.database = database;
-  }
->>>>>>> master
 
         this.database = database;
     }
