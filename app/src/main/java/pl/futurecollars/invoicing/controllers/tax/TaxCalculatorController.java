@@ -21,7 +21,7 @@ public class TaxCalculatorController implements TaxCalculatorApi {
     public ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(@PathVariable("taxIdentificationNumber") String taxIdentificationNumber) {
         Optional<TaxCalculator> optionalTaxCalculator = taxCalculatorService.calculateTaxes(taxIdentificationNumber);
         if (optionalTaxCalculator.isPresent()) {
-            log.info("Get invoice with id: " + taxIdentificationNumber);
+            log.info("Get calculate tax with id: " + taxIdentificationNumber);
             return ResponseEntity.ok(optionalTaxCalculator);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
