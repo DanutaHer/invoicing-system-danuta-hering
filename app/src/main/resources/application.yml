@@ -16,7 +16,7 @@ logging:
         boot: INFO
     pl:
       futurecollars:
-        invoicing: WARN
+        invoicing: INFO
         invoicing.db: DEBUG
 
 spring:
