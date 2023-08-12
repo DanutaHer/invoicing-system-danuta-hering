@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import pl.futurecollars.invoicing.model.TaxCalculator;
 import pl.futurecollars.invoicing.service.TaxCalculatorService;
@@ -18,8 +17,8 @@ public class TaxCalculatorController implements TaxCalculatorApi {
     private final TaxCalculatorService taxCalculatorService;
 
     @Override
-    public ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(@PathVariable("taxIdentificationNumber") String taxIdentificationNumber) {
-        Optional<TaxCalculator> optionalTaxCalculator = taxCalculatorService.calculateTaxes(taxIdentificationNumber);
+    public ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(String taxIdentificationNumber) {
+        Optional<TaxCalculator> optionalTaxCalculator = Optional.ofNullable(taxCalculatorService.calculateTaxes(taxIdentificationNumber));
         if (optionalTaxCalculator.isPresent()) {
             log.info("Get calculate tax with id: " + taxIdentificationNumber);
             return ResponseEntity.ok(optionalTaxCalculator);

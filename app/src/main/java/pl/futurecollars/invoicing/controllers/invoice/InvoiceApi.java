@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.futurecollars.invoicing.model.Invoice;
 
@@ -16,23 +18,23 @@ import pl.futurecollars.invoicing.model.Invoice;
 @RequestMapping("invoices")
 public interface InvoiceApi {
 
-    @ApiOperation(value = "Method used to add invoice")
-    @PostMapping
-    ResponseEntity<Integer> add(Invoice invoice);
-
     @ApiOperation(value = "Method used to list all invoices")
     @GetMapping
     ResponseEntity<List<Invoice>> getAll();
 
-    @ApiOperation(value = "Method used to get exact invoice")
+    @ApiOperation(value = "Method used to add invoice")
+    @PostMapping
+    ResponseEntity<Integer> add(@RequestBody Invoice invoice);
+
+    @ApiOperation(value = "Method used to get invoice by Id")
     @GetMapping("/{id}")
-    ResponseEntity<Optional<Invoice>> getExactInvoice(int id);
+    ResponseEntity<Optional<Invoice>> getById(@PathVariable int id);
 
-    @ApiOperation(value = "Method used to update invoice")
+    @ApiOperation(value = "Method used to update invoice by Id ")
     @PutMapping("/{id}")
-    ResponseEntity<Optional<Invoice>> update(int id, Invoice invoice);
+    ResponseEntity<Optional<Invoice>> updateById(@PathVariable int id, @RequestBody Invoice invoice);
 
-    @ApiOperation(value = "Method used to delete invoice")
+    @ApiOperation(value = "Method used to delete invoice by Id")
     @DeleteMapping("/{id}")
-    ResponseEntity<Optional<Invoice>> delete(int id);
+    ResponseEntity<Optional<Invoice>> deleteById(@PathVariable int id);
 }
