@@ -3,6 +3,7 @@ package pl.futurecollars.invoicing
 import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.model.InvoiceEntry
+import pl.futurecollars.invoicing.model.TaxCalculator
 
 import java.time.LocalDate
 
@@ -34,6 +35,17 @@ class TestHelper {
                 .buyer(company(id))
                 .seller(company(id))
                 .entries(List.of(product(id)))
+                .build();
+    }
+
+    static taxCalculator(String taxIdentificationNumber){
+        TaxCalculator.builder()
+                .incomingVat(1.23)
+                .outgoingVat(1.23)
+                .income(10.0)
+                .costs(5.0)
+                .earnings(2.0)
+                .vatToPay(1.0)
                 .build();
     }
 }
