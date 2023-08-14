@@ -9,7 +9,6 @@ import pl.futurecollars.invoicing.model.Invoice;
 import pl.futurecollars.invoicing.model.InvoiceEntry;
 import pl.futurecollars.invoicing.model.TaxCalculator;
 
-@SuppressWarnings("checkstyle:Indentation")
 @AllArgsConstructor
 @Service
 public class TaxCalculatorService {
