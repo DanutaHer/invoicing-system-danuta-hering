@@ -5,6 +5,7 @@ import pl.futurecollars.invoicing.db.Database
 import spock.lang.Specification
 
 class TaxCalculatorServiceTest extends Specification {
+
     private Database database = Mock()
     private TaxCalculatorService taxService = new TaxCalculatorService(database)
 
