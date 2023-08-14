@@ -1,12 +1,15 @@
 buildscript {
     ext {
-        lombokVersion = "1.18.20"
-        springFoxStarterVersion = "3.0.0"
-        springFoxUiVersion = "3.0.0"
+        flywaydbVersion = "7.6.0"
+        jacksonCoreVersion = "2.12.7.1"
+        jacksonDatatypeVersion = "2.12.1"
+        lombokVersion = "1.18.26"
+        postgresqlVersion = "42.2.27"
         spockVersion = "2.2-groovy-3.0"
         springBootVersion = "2.7.7"
-        springDependencyManagmentVersion = '1.1.2'
-
+        springDependencyManagmentVersion = "1.1.2"
+        springFoxStarterVersion = "3.0.0"
+        springFoxUiVersion = "3.0.0"
     }
 }
 
@@ -29,11 +32,14 @@ dependencies {
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.1'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonCoreVersion}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatatypeVersion}"
     implementation "io.springfox:springfox-boot-starter:${springFoxStarterVersion}"
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
+
+    runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
     
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
@@ -42,6 +48,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.spockframework:spock-core:${spockVersion}"
     testImplementation "org.spockframework:spock-spring:${spockVersion}"
+    testImplementation 'com.h2database:h2:2.2.220'
 }
 
 java {
@@ -55,7 +62,6 @@ application {
 }
 
 tasks.named('test') {
-    // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
 
