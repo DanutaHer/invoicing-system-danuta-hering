@@ -8,8 +8,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import pl.futurecollars.invoicing.TestHelper
-import pl.futurecollars.invoicing.model.Invoice
-import pl.futurecollars.invoicing.model.TaxCalculator
 import pl.futurecollars.invoicing.service.InvoiceService
 import pl.futurecollars.invoicing.service.JsonService
 import pl.futurecollars.invoicing.service.TaxCalculatorService
