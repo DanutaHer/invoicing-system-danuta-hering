@@ -17,13 +17,10 @@ public class TaxCalculatorController implements TaxCalculatorApi {
     private final TaxCalculatorService taxCalculatorService;
 
     @Override
-    public ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(String taxIdentificationNumber) {
-        Optional<TaxCalculator> optionalTaxCalculator = Optional.ofNullable(taxCalculatorService.calculateTaxes(taxIdentificationNumber));
-        if (optionalTaxCalculator.isPresent()) {
+    public ResponseEntity<TaxCalculator> getCalculateTaxes(String taxIdentificationNumber) {
+        TaxCalculator taxCalculator = taxCalculatorService.calculateTaxes(taxIdentificationNumber);
             log.info("Get calculate tax with id: " + taxIdentificationNumber);
-            return ResponseEntity.ok(optionalTaxCalculator);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.ok(taxCalculator);
         }
     }
-}
+

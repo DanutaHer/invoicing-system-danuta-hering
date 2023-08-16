@@ -16,5 +16,5 @@ public interface TaxCalculatorApi {
 
     @ApiOperation(value = "Method calculate tax: incomes, costs, vat and taxes to pay")
     @GetMapping("/{taxIdentificationNumber}")
-    ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(@PathVariable @ApiParam(example = "552-168-66-00") String taxIdentificationNumber);
+    ResponseEntity<TaxCalculator> getCalculateTaxes(@PathVariable @ApiParam(example = "552-168-66-00") String taxIdentificationNumber);
 }
