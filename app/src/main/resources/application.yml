@@ -21,12 +21,13 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:demodb
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/invoicing
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
   flyway:
-    enabled: false
+    baseline-on-migrate: true
+    enabled: true
