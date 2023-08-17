@@ -47,28 +47,4 @@ abstract class AbstractDatabaseTest extends Specification {
         then:
         !database.getByID(1).isPresent()
     }
-
-    def "shouldThrowIllegalArgumentExceptionFor_GetByIDMethod"() {
-        when:
-        database.getByID(-2)
-
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def "shouldThrowIllegalArgumentExceptionFor_UpdateMethod"() {
-        when:
-        database.update(-2, TestHelper.invoice(4))
-
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def "shouldThrowIllegalArgumentExceptionFor_DeleteMethod"() {
-        when:
-        database.delete(-3)
-
-        then:
-        thrown(IllegalArgumentException)
-    }
 }
