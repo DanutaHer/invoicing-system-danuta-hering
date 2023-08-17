@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 import pl.futurecollars.invoicing.db.Database;
+import pl.futurecollars.invoicing.model.Car;
 import pl.futurecollars.invoicing.model.Company;
 import pl.futurecollars.invoicing.model.Invoice;
 import pl.futurecollars.invoicing.model.InvoiceEntry;
@@ -75,12 +76,57 @@ public class SqlDatabase implements Database {
 
     @Override
     public Optional<Invoice> update(int id, Invoice updatedInvoice) {
-        return Optional.empty();
+        Integer buyerId = jdbcTemplate.queryForObject("select buyer from invoices i where i.id = " + id, Integer.class);
+        Integer sellerId = jdbcTemplate.queryForObject("select seller from invoices i where i.id = " + id, Integer.class);
+
+        updateCompany(updatedInvoice.getBuyer(), buyerId);
+        updateCompany(updatedInvoice.getSeller(), sellerId);
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps =
+                connection.prepareStatement(
+                    "update invoices set number=?, date=? where id=?"
+                );
+            ps.setString(1, updatedInvoice.getNumber());
+            ps.setDate(2, Date.valueOf(updatedInvoice.getDate()));
+            ps.setInt(3, id);
+            return ps;
+        });
+
+        jdbcTemplate.execute("delete from invoice_invoice_entry where invoice_id = " + id);
+        insertInvoiceEntry(id, updatedInvoice);
+
+        List<Invoice> invoiceList = jdbcTemplate.query("select * from invoices i where i.id = " + id, invoiceRowMapper());
+
+        return invoiceList.isEmpty() ? Optional.empty() : Optional.of(invoiceList.get(0));
     }
 
     @Override
     public Optional<Invoice> delete(int id) {
-        return Optional.empty();
+        Optional<Invoice> invoiceToDelete = getByID(id);
+        jdbcTemplate.execute("delete from invoices where id = " + id);
+        return invoiceToDelete;
+    }
+
+    private void updateCompany(Company companyToUpdate, Integer originalCompanyId) {
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                "update companies "
+                    + "set name=?, "
+                    + "address=?, "
+                    + "tax_identification_number=?, "
+                    + "health_insurance=?, "
+                    + "pension_insurance=? "
+                    + "where id=?"
+            );
+            ps.setString(1, companyToUpdate.getName());
+            ps.setString(2, companyToUpdate.getAddress());
+            ps.setString(3, companyToUpdate.getTaxIdentificationNumber());
+            ps.setBigDecimal(4, companyToUpdate.getHealthInsurance());
+            ps.setBigDecimal(5, companyToUpdate.getPensionInsurance());
+            ps.setInt(6, originalCompanyId);
+            return ps;
+        });
     }
 
     private int insertCompany(Company company) {
@@ -123,6 +169,20 @@ public class SqlDatabase implements Database {
             ps.setInt(2, invoiceEntryId);
             return ps;
         });
+    }
+
+    private int insertCar(Car car) {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                "insert into car (registration_number, personal_user) values (?, ?);",
+                new String[] {"id"});
+            ps.setString(1, car.getRegistrationNumber());
+            ps.setBoolean(2, car.isPersonalUser());
+            return ps;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).intValue();
     }
 
     private RowMapper<Invoice> invoiceRowMapper() {
