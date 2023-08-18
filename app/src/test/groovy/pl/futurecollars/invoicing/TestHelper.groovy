@@ -31,6 +31,7 @@ class TestHelper {
     static invoice(int id) {
         Invoice.builder()
                 .id(id)
+                .number("1512")
                 .date(LocalDate.now())
                 .buyer(company(id))
                 .seller(company(id))

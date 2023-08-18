@@ -211,6 +211,7 @@ public class SqlDatabase implements Database {
                 .price(response.getBigDecimal("price"))
                 .vatValue(response.getBigDecimal("vat_value"))
                 .vatRate(idToVat.get(response.getInt("vat_rate")))
+                .expenseRelatedToCar(response.getBigDecimal("expense_related_to_car"))
                 .build()
         );
     }
