@@ -1,5 +1,7 @@
 package pl.futurecollars.invoicing.controllers.invoice
 
+import org.flywaydb.core.Flyway
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,6 +17,7 @@ import spock.lang.Specification
 
 import java.time.LocalDate
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class InvoiceControllerTest extends Specification {
@@ -27,6 +30,10 @@ class InvoiceControllerTest extends Specification {
 
     @Autowired
     private InvoiceService invoiceService
+
+
+    @Autowired Flyway flyway
+    def setup() { flyway.clean(); flyway.migrate(); }
 
     def "should return empty array when no invoices were created"() {
         when:

@@ -16,21 +16,25 @@ class TestHelper {
                 .name("Name $id")
                 .address("ul. Zielona 17, 01-240 Warszawa")
                 .taxIdentificationNumber("123-45-67-89")
+                .pensionInsurance(new BigDecimal("1.00"))
+                .healthInsurance(new BigDecimal("1.00"))
                 .build()
     }
 
     static product(int id) {
         InvoiceEntry.builder()
                 .description("Descr $id")
-                .price(BigDecimal.ONE)
-                .vatValue(BigDecimal.ONE)
+                .price(new BigDecimal("1.00"))
+                .vatValue(new BigDecimal("1.00"))
                 .vatRate(VAT_5)
+                .expenseRelatedToCar(new BigDecimal("1.00"))
                 .build();
     }
 
     static invoice(int id) {
         Invoice.builder()
                 .id(id)
+                .number("1512")
                 .date(LocalDate.now())
                 .buyer(company(id))
                 .seller(company(id))
@@ -38,7 +42,7 @@ class TestHelper {
                 .build();
     }
 
-    static taxCalculator(String taxIdentificationNumber){
+    static taxCalculator(String taxIdentificationNumber) {
         TaxCalculator.builder()
                 .incomingVat(1.23)
                 .outgoingVat(1.23)
