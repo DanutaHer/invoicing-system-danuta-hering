@@ -11,7 +11,7 @@ class IdServiceTest extends Specification {
     FilesService filesService
     Path path
 
-    def setup(){
+    def setup() {
         filesService = new FilesService()
         path = File.createTempFile('TemporaryId', '.txt').toPath()
     }

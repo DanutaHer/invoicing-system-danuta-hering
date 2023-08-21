@@ -14,29 +14,31 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SpringFoxConfig {
 
-  @Bean
-  public Docket docket() {
-    return new Docket(DocumentationType.SWAGGER_2)
-        .select()
-        .apis(RequestHandlerSelectors.basePackage("pl.futurecollars"))
-        .paths(PathSelectors.any())
-        .build()
-        .tags(new Tag("Invoice controller", "Controller used to perform operations on invoices"))
-        .apiInfo(apiInfo());
-  }
+    @Bean
+    public Docket docket() {
+        return new Docket(DocumentationType.SWAGGER_2)
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("pl.futurecollars"))
+            .paths(PathSelectors.any())
+            .build()
+            .tags(
+                new Tag("Invoice controller", "Controller used to list / add / update / delete invoices"),
+                new Tag("Tax calculator controller", "Controller used to calculate tax: income, costs, incoming Vat, outgoing Vat"))
+            .apiInfo(apiInfo());
+    }
 
-  private ApiInfo apiInfo() {
-    return new ApiInfoBuilder()
-        .description("Application to manage set of invoices")
-        .license("No licence")
-        .title("Invoice management application")
-        .contact(
-            new Contact(
-                "Danuta Hering & Szymon Jedynak",
-                "invoicingsystem.com.pl",
-                "invoicingsystem_info@gmail.com"
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+            .description("Application to manage set of invoices")
+            .license("No licence")
+            .title("Invoice management application")
+            .contact(
+                new Contact(
+                    "Danuta Hering & Szymon Jedynak",
+                    "invoicingsystem.com.pl",
+                    "invoicingsystem_info@gmail.com"
+                )
             )
-        )
-        .build();
-  }
+            .build();
+    }
 }
