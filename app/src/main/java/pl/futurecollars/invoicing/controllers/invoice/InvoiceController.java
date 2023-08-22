@@ -33,33 +33,33 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
-    public ResponseEntity<Optional<Invoice>> getById(@PathVariable int id) {
+    public ResponseEntity<Invoice> getById(@PathVariable int id) {
         Optional<Invoice> optionalInvoice = invoiceService.getByID(id);
         if (optionalInvoice.isPresent()) {
             log.info("Get invoice with id: " + id);
-            return ResponseEntity.ok(optionalInvoice);
+            return ResponseEntity.ok(optionalInvoice.get());
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @Override
-    public ResponseEntity<Optional<Invoice>> updateById(@PathVariable int id, @RequestBody Invoice invoice) {
+    public ResponseEntity<Invoice> updateById(@PathVariable int id, @RequestBody Invoice invoice) {
         Optional<Invoice> optionalInvoice = invoiceService.update(id, invoice);
         if (optionalInvoice.isPresent()) {
             log.info("Update invoice with id: " + id);
-            return ResponseEntity.ok(optionalInvoice);
+            return ResponseEntity.ok(optionalInvoice.get());
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
     @Override
-    public ResponseEntity<Optional<Invoice>> deleteById(@PathVariable int id) {
+    public ResponseEntity<Invoice> deleteById(@PathVariable int id) {
         Optional<Invoice> optionalInvoice = invoiceService.delete(id);
         if (optionalInvoice.isPresent()) {
             log.info("Delete invoice with id: " + id);
-            return ResponseEntity.ok(optionalInvoice);
+            return ResponseEntity.ok(optionalInvoice.get());
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

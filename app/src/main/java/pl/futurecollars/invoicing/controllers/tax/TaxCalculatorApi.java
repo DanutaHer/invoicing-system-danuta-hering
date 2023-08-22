@@ -7,14 +7,17 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.futurecollars.invoicing.model.Company;
 import pl.futurecollars.invoicing.model.TaxCalculator;
 
 @Api(tags = "Tax calculator controller")
-@RequestMapping("invoices/taxCalculator")
+@RequestMapping("taxCalculator")
 public interface TaxCalculatorApi {
 
     @ApiOperation(value = "Method calculate tax: incomes, costs, vat and taxes to pay")
-    @GetMapping("/{taxIdentificationNumber}")
-    ResponseEntity<Optional<TaxCalculator>> getCalculateTaxes(@PathVariable @ApiParam(example = "552-168-66-00") String taxIdentificationNumber);
+    @PostMapping
+    ResponseEntity<TaxCalculator> getCalculateTaxes(@RequestBody Company company);
 }
