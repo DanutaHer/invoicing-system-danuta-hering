@@ -1,5 +1,6 @@
 package pl.futurecollars.invoicing.db.files
 
+import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
@@ -8,6 +9,7 @@ import pl.futurecollars.invoicing.service.JsonService
 
 import java.nio.file.Path
 
+@IfProfileValue(name = "spring.profiles.active", value = "file")
 class FileDatabaseTest extends AbstractDatabaseTest {
 
     @Override

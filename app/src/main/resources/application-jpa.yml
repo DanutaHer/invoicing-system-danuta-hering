@@ -1,0 +1,19 @@
+invoicing-system:
+  database:
+    type: jpa
+
+profiles:
+  active: jpa
+spring:
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: validate
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/invoices-pg
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true

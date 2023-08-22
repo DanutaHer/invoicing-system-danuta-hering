@@ -5,6 +5,8 @@ invoicing-system:
   database:
     type: memory
 
+profiles:
+  active: memory
 spring:
   flyway:
     enabled: false

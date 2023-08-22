@@ -9,30 +9,42 @@ abstract class AbstractDatabaseTest extends Specification {
 
     abstract Database getDatabaseInstance()
 
-    def setup() {
-        database.save(TestHelper.invoice(1))
-        database.save(TestHelper.invoice(2))
-        database.save(TestHelper.invoice(3))
-        database.save(TestHelper.invoice(5))
-    }
+//    def setup() {
+//        database = getDatabaseInstance()
+////        database.reset()
+//
+//        assert database.getAll().isEmpty()
+//    }
 
     def "shouldSaveInvoice"() {
-
-        expect:
-        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
+        when:
+        database.save(TestHelper.invoice(1))
+        then:
+        database.getByID(1) == Optional.ofNullable(TestHelper.invoice(1))
     }
 
     def "shouldGetInvoiceByID"() {
-        expect:
+        when:
+        database.save(TestHelper.invoice(1))
+        database.save(TestHelper.invoice(2))
+
+        then:
         database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
     }
 
     def "shouldGetAll"() {
-        expect:
+        when:
+        database.save(TestHelper.invoice(1))
+        database.save(TestHelper.invoice(2))
+
+        then:
         !database.getAll().isEmpty()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
+        given:
+        database.save(TestHelper.invoice(1))
+
         when:
         database.update(1, TestHelper.invoice(4))
 

@@ -1,9 +1,6 @@
 package pl.futurecollars.invoicing
 
-import pl.futurecollars.invoicing.model.Company
-import pl.futurecollars.invoicing.model.Invoice
-import pl.futurecollars.invoicing.model.InvoiceEntry
-import pl.futurecollars.invoicing.model.TaxCalculator
+import pl.futurecollars.invoicing.model.*
 
 import java.time.LocalDate
 
@@ -11,7 +8,7 @@ import static pl.futurecollars.invoicing.model.Vat.VAT_5
 
 class TestHelper {
 
-    static company(int id) {
+    static company(long id) {
         Company.builder()
                 .name("Name $id")
                 .address("ul. Zielona 17, 01-240 Warszawa")
@@ -21,17 +18,20 @@ class TestHelper {
                 .build()
     }
 
-    static product(int id) {
+    static product(long id) {
         InvoiceEntry.builder()
                 .description("Descr $id")
                 .price(new BigDecimal("1.00"))
                 .vatValue(new BigDecimal("1.00"))
                 .vatRate(VAT_5)
-                .expenseRelatedToCar(new BigDecimal("1.00"))
+                .expenseRelatedToCar(Car.builder()
+                        .registrationNumber("MND 1235")
+                        .personalUse(false)
+                        .build())
                 .build();
     }
 
-    static invoice(int id) {
+    static invoice(long id) {
         Invoice.builder()
                 .id(id)
                 .number("1512")

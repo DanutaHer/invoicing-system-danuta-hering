@@ -6,7 +6,7 @@ buildscript {
         jacksonDatatypeVersion = "2.12.1"
         lombokVersion = "1.18.26"
         postgresqlVersion = "42.2.27"
-        spockVersion = "2.2-groovy-3.0"
+        spockVersion = "2.3-groovy-4.0"
         springBootVersion = "2.7.7"
         springDependencyManagmentVersion = "1.1.2"
         springFoxStarterVersion = "3.0.0"
@@ -30,6 +30,8 @@ repositories {
 dependencies {
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    implementation 'org.projectlombok:lombok:1.18.26'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -107,18 +109,23 @@ jacocoTestCoverageVerification {
     }
 }
 
-task testWithFileDatabase(type: Test) {
+tasks.register('testWithFileDatabase', Test) {
     systemProperty 'spring.profiles.active', 'file'
 }
 
-task testWithMemoryDatabase(type: Test) {
+tasks.register('testWithMemoryDatabase', Test) {
     systemProperty 'spring.profiles.active', 'memory'
 }
 
-task testWithSQLDatabase(type: Test) {
+tasks.register('testWithSQLDatabase', Test) {
     systemProperty 'spring.profiles.active', 'sql'
+}
+
+tasks.register('testWithJpaDatabase', Test) {
+    systemProperty 'spring.profiles.active', 'jpa'
 }
 
 check.dependsOn testWithFileDatabase
 check.dependsOn testWithFileDatabase
-//checkdependsOn testWithSqlDatabase
+//check.dependsOn testWithSqlDatabase
+//check.dependsOn testWithJpaDtatabase

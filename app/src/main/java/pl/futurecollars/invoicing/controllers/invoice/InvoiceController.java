@@ -27,13 +27,13 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
-    public ResponseEntity<Integer> add(@RequestBody Invoice invoice) {
+    public ResponseEntity<Long> add(@RequestBody Invoice invoice) {
         log.info("Post new invoice: " + invoice);
         return ResponseEntity.ok(invoiceService.save(invoice));
     }
 
     @Override
-    public ResponseEntity<Invoice> getById(@PathVariable int id) {
+    public ResponseEntity<Invoice> getById(@PathVariable long id) {
         Optional<Invoice> optionalInvoice = invoiceService.getByID(id);
         if (optionalInvoice.isPresent()) {
             log.info("Get invoice with id: " + id);
@@ -44,7 +44,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
-    public ResponseEntity<Invoice> updateById(@PathVariable int id, @RequestBody Invoice invoice) {
+    public ResponseEntity<Invoice> updateById(@PathVariable long id, @RequestBody Invoice invoice) {
         Optional<Invoice> optionalInvoice = invoiceService.update(id, invoice);
         if (optionalInvoice.isPresent()) {
             log.info("Update invoice with id: " + id);
@@ -55,7 +55,7 @@ public class InvoiceController implements InvoiceApi {
     }
 
     @Override
-    public ResponseEntity<Invoice> deleteById(@PathVariable int id) {
+    public ResponseEntity<Invoice> deleteById(@PathVariable long id) {
         Optional<Invoice> optionalInvoice = invoiceService.delete(id);
         if (optionalInvoice.isPresent()) {
             log.info("Delete invoice with id: " + id);

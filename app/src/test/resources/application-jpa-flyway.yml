@@ -1,0 +1,19 @@
+invoicing-system:
+  database:
+    type: jpa
+
+spring:
+profiles:
+  active: jpa
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: validate
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    url: jdbc:h2:mem:db-jpa-flyway;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  flyway:
+    enabled: true
