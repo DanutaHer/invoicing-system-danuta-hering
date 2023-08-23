@@ -22,7 +22,7 @@ class IdServiceTest extends Specification {
         IdService idService = new IdService(path, filesService)
 
         expect:
-        idService.getNextIdAndIncreament()
+        idService.getNextIdAndIncrement()
         ['4'] == Files.readAllLines(path)
     }
 }

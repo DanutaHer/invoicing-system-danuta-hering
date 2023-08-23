@@ -4,13 +4,11 @@ import org.flywaydb.core.Flyway
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
-import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
 
 import javax.sql.DataSource
 
-@IfProfileValue(name = "spring.profiles.active", value = "sql")
 class SqlDatabaseTest extends AbstractDatabaseTest {
 
     @Override
@@ -20,14 +18,13 @@ class SqlDatabaseTest extends AbstractDatabaseTest {
 
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations( "db/migration")
+                .locations("db/migration")
                 .load()
 
         flyway.clean()
         flyway.migrate()
 
         def database = new SqlDatabase(jdbcTemplate)
-        database.initVatRatesMap()
 
         return database
     }

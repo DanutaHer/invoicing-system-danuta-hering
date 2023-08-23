@@ -11,12 +11,12 @@ import pl.futurecollars.invoicing.model.Invoice;
 @Data
 public class InMemoryDatabase implements Database {
 
-    private Map<Integer, Invoice> memoryDatabase = new HashMap<>();
+    private Map<Long, Invoice> memoryDatabase = new HashMap<>();
     private long count = 1;
 
     @Override
     public long save(Invoice invoice) {
-        this.memoryDatabase.put((int) count, invoice);
+        this.memoryDatabase.put(count, invoice);
         invoice.setId(count);
         return count++;
     }
@@ -40,7 +40,7 @@ public class InMemoryDatabase implements Database {
     @Override
     public Optional<Invoice> update(long id, Invoice updatedInvoice) {
         printIllegalArgumentException(id);
-        memoryDatabase.replace((int) id, memoryDatabase.get(id), updatedInvoice);
+        memoryDatabase.replace(id, memoryDatabase.get(id), updatedInvoice);
         updatedInvoice.setId(id);
         return Optional.of(updatedInvoice);
     }

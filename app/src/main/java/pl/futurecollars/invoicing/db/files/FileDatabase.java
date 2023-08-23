@@ -24,7 +24,7 @@ public class FileDatabase implements Database {
     @Override
     public long save(Invoice invoice) {
         try {
-            invoice.setId(idService.getNextIdAndIncreament());
+            invoice.setId(idService.getNextIdAndIncrement());
             filesService.appendLineToFile(path, jsonService.objectToJson(invoice));
             return invoice.getId();
         } catch (IOException exception) {

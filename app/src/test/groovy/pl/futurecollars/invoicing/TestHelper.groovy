@@ -37,27 +37,27 @@ class TestHelper {
                 .number("2023/06/15/0001")
                 .date(LocalDate.now())
                 .buyer(company(id))
-                .seller(company(id))
+                .seller(company(id + 1))
                 .entries(List.of(product(id)))
                 .build();
     }
 
     static taxCalculator() {
         TaxCalculator.builder()
-                .incomingVat(BigDecimal.valueOf(0))
-                .outgoingVat(BigDecimal.valueOf(0))
-                .income(BigDecimal.valueOf(0))
-                .costs(BigDecimal.valueOf(0))
-                .incomeMinusCosts(BigDecimal.valueOf(0))
-                .pensionInsurance(1.00)
-                .incomeMinusCostsMinusPensionInsurance(-1.00)
-                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(-1))
-                .incomeTax(-0.19)
-                .healthInsurancePaid(1.00)
-                .healthInsuranceToSubtract(0.86)
-                .incomeTaxMinusHealthInsurance(-1.05)
-                .finalIncomeTax(BigDecimal.valueOf(-1))
-                .vatToPay(BigDecimal.valueOf(0))
+                .incomingVat(new BigDecimal("0"))
+                .outgoingVat(new BigDecimal("0"))
+                .income(new BigDecimal("0"))
+                .costs(new BigDecimal("0"))
+                .incomeMinusCosts(new BigDecimal("0"))
+                .pensionInsurance(new BigDecimal("1.00"))
+                .incomeMinusCostsMinusPensionInsurance(new BigDecimal("-1.00"))
+                .incomeMinusCostsMinusPensionInsuranceRounded(new BigDecimal("-1"))
+                .incomeTax(new BigDecimal("-0.19"))
+                .healthInsurancePaid(new BigDecimal("1.00"))
+                .healthInsuranceToSubtract(new BigDecimal("0.86"))
+                .incomeTaxMinusHealthInsurance(new BigDecimal("-1.05"))
+                .finalIncomeTax(new BigDecimal("-1"))
+                .vatToPay(new BigDecimal("0"))
                 .build();
     }
 }

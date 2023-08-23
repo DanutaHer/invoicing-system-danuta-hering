@@ -21,7 +21,7 @@ public class Car {
     @Id
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "Car id", example = "NCV 3456")
+    @ApiModelProperty(value = "Car id", example = "1")
     private long id;
     @ApiModelProperty(value = "Registration number", example = "NCV 3456")
     private String registrationNumber;

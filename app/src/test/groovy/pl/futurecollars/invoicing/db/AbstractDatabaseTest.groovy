@@ -1,26 +1,27 @@
 package pl.futurecollars.invoicing.db
 
 import pl.futurecollars.invoicing.TestHelper
+import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
 
 abstract class AbstractDatabaseTest extends Specification {
 
-    Database database = getDatabaseInstance()
+    Database database
 
     abstract Database getDatabaseInstance()
 
-//    def setup() {
-//        database = getDatabaseInstance()
-////        database.reset()
-//
-//        assert database.getAll().isEmpty()
-//    }
+    def setup() {
+        database = getDatabaseInstance()
+        database.getAll().each {invoice -> database.delete(invoice.id)}
+
+        assert database.getAll().isEmpty()
+    }
 
     def "shouldSaveInvoice"() {
         when:
         database.save(TestHelper.invoice(1))
         then:
-        database.getByID(1) == Optional.ofNullable(TestHelper.invoice(1))
+        database.getByID(1).get() == TestHelper.invoice(1)
     }
 
     def "shouldGetInvoiceByID"() {
@@ -29,27 +30,32 @@ abstract class AbstractDatabaseTest extends Specification {
         database.save(TestHelper.invoice(2))
 
         then:
-        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
+        database.getByID(2).get() == TestHelper.invoice(2)
     }
 
     def "shouldGetAll"() {
         when:
         database.save(TestHelper.invoice(1))
         database.save(TestHelper.invoice(2))
+        List<Invoice> expectedInvoiceList = database.getAll()
 
         then:
-        !database.getAll().isEmpty()
+        expectedInvoiceList.size() == 2
+        database.getByID(1).get() == TestHelper.invoice(1)
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
         given:
-        database.save(TestHelper.invoice(1))
+        def invoiceToUpdate = TestHelper.invoice(1)
+        invoiceToUpdate.setNumber("123/458/00004444")
 
         when:
-        database.update(1, TestHelper.invoice(4))
+        database.save(TestHelper.invoice(1))
+        database.update(1, invoiceToUpdate)
+        def expectedInvoice = database.getByID(1).get()
 
         then:
-        database.getByID(1).isPresent()
+        expectedInvoice == invoiceToUpdate
     }
 
     def "shouldDeleteInvoice"() {

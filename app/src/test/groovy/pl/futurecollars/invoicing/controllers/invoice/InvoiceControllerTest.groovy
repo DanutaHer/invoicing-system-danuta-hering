@@ -1,6 +1,6 @@
 package pl.futurecollars.invoicing.controllers.invoice
 
-import org.flywaydb.core.Flyway
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,7 +15,6 @@ import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Specification
 
 import java.time.LocalDate
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -124,7 +123,8 @@ class InvoiceControllerTest extends Specification {
         result.getDate() == actualDate
     }
 
-    def "should get response 404 - not found when update nonexistent invoice from id 100"() { //return 400?????????????????
+    def "should get response 404 - not found when update nonexistent invoice from id 100"() {
+        //return 400?????????????????
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())

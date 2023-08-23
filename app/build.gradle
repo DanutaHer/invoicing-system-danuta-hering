@@ -6,7 +6,7 @@ buildscript {
         jacksonDatatypeVersion = "2.12.1"
         lombokVersion = "1.18.26"
         postgresqlVersion = "42.2.27"
-        spockVersion = "2.3-groovy-4.0"
+        spockVersion = "2.3-groovy-3.0"
         springBootVersion = "2.7.7"
         springDependencyManagmentVersion = "1.1.2"
         springFoxStarterVersion = "3.0.0"
@@ -117,7 +117,7 @@ tasks.register('testWithMemoryDatabase', Test) {
     systemProperty 'spring.profiles.active', 'memory'
 }
 
-tasks.register('testWithSQLDatabase', Test) {
+tasks.register('testWithSqlDatabase', Test) {
     systemProperty 'spring.profiles.active', 'sql'
 }
 
@@ -126,6 +126,6 @@ tasks.register('testWithJpaDatabase', Test) {
 }
 
 check.dependsOn testWithFileDatabase
-check.dependsOn testWithFileDatabase
-//check.dependsOn testWithSqlDatabase
-//check.dependsOn testWithJpaDtatabase
+check.dependsOn testWithMemoryDatabase
+check.dependsOn testWithSqlDatabase
+check.dependsOn testWithJpaDatabase

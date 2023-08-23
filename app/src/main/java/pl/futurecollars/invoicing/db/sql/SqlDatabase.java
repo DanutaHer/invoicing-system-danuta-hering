@@ -2,12 +2,9 @@ package pl.futurecollars.invoicing.db.sql;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,20 +21,6 @@ import pl.futurecollars.invoicing.model.Vat;
 public class SqlDatabase implements Database {
 
     private JdbcTemplate jdbcTemplate;
-
-    private final Map<Vat, Long> vatToId = new HashMap<>();
-    private final Map<Long, Vat> idToVat = new HashMap<>();
-
-    @PostConstruct
-    void initVatRatesMap() {
-        jdbcTemplate.query("select * from vat",
-            rs -> {
-                Vat vat = Vat.valueOf("VAT_" + rs.getString("name"));
-                long id = rs.getInt("id");
-                vatToId.put(vat, id);
-                idToVat.put(id, vat);
-            });
-    }
 
     @Override
     @Transactional
@@ -56,7 +39,7 @@ public class SqlDatabase implements Database {
             return ps;
         }, keyHolder);
 
-        int invoiceId = keyHolder.getKey().intValue();
+        long invoiceId = Objects.requireNonNull(keyHolder.getKey()).longValue();
         insertInvoiceEntry(invoiceId, invoice);
 
         return invoiceId;
@@ -129,7 +112,7 @@ public class SqlDatabase implements Database {
         });
     }
 
-    private int insertCompany(Company company) {
+    private long insertCompany(Company company) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
@@ -143,7 +126,7 @@ public class SqlDatabase implements Database {
             return ps;
         }, keyHolder);
 
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     private void insertInvoiceEntry(long invoiceId, Invoice invoice) {
@@ -156,12 +139,12 @@ public class SqlDatabase implements Database {
                 ps.setString(1, entry.getDescription());
                 ps.setBigDecimal(2, entry.getPrice());
                 ps.setBigDecimal(3, entry.getVatValue());
-                ps.setLong(4, vatToId.get(entry.getVatRate()));
-                ps.setLong(5, insertCar(entry.getExpenseRelatedToCar()));
+                ps.setString(4, entry.getVatRate().name());
+                ps.setObject(5, insertCar(entry.getExpenseRelatedToCar()));
                 return ps;
             }, keyHolder));
 
-        int invoiceEntryId = keyHolder.getKey().intValue();
+        long invoiceEntryId = Objects.requireNonNull(keyHolder.getKey()).longValue();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
                 "insert into invoice_invoice_entry (invoice_id, invoice_entry_id) values (?, ?);");
@@ -171,7 +154,7 @@ public class SqlDatabase implements Database {
         });
     }
 
-    private int insertCar(Car car) {
+    private long insertCar(Car car) {
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
@@ -182,7 +165,7 @@ public class SqlDatabase implements Database {
             return ps;
         }, keyHolder);
 
-        return Objects.requireNonNull(keyHolder.getKey()).intValue();
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     private RowMapper<Invoice> invoiceRowMapper() {
@@ -192,7 +175,7 @@ public class SqlDatabase implements Database {
             long sellerId = rs.getInt("seller");
 
             return Invoice.builder()
-                .id(rs.getInt("id"))
+                .id(rs.getLong("id"))
                 .number(rs.getString("number"))
                 .date(rs.getDate("date").toLocalDate())
                 .buyer(getBuyer(buyerId))
@@ -211,7 +194,7 @@ public class SqlDatabase implements Database {
                 .description(response.getString("description"))
                 .price(response.getBigDecimal("price"))
                 .vatValue(response.getBigDecimal("vat_value"))
-                .vatRate(idToVat.get(response.getLong("vat_rate")))
+                .vatRate(Vat.valueOf(response.getString("vat_rate")))
                 .expenseRelatedToCar(response.getObject("registration_number") != null ? Car.builder()
                     .registrationNumber(response.getString("registration_number"))
                     .personalUse(response.getBoolean("personal_use"))

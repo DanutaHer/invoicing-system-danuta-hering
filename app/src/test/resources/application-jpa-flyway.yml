@@ -1,10 +1,10 @@
 invoicing-system:
   database:
-    type: jpa
+    type: jpa-flyway
 
 spring:
 profiles:
-  active: jpa
+  active: jpa-flyway
   jpa:
     properties:
       hibernate:
