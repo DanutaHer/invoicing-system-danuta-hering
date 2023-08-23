@@ -3,7 +3,9 @@ package pl.futurecollars.invoicing.controllers.tax;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.futurecollars.invoicing.model.Company;
 import pl.futurecollars.invoicing.model.TaxCalculator;
 import pl.futurecollars.invoicing.service.TaxCalculatorService;
 
@@ -15,10 +17,8 @@ public class TaxCalculatorController implements TaxCalculatorApi {
     private final TaxCalculatorService taxCalculatorService;
 
     @Override
-    public ResponseEntity<TaxCalculator> getCalculateTaxes(String taxIdentificationNumber) {
-        TaxCalculator taxCalculator = taxCalculatorService.calculateTaxes(taxIdentificationNumber);
-        log.info("Get calculate tax with id: " + taxIdentificationNumber);
-        return ResponseEntity.ok(taxCalculator);
+    public ResponseEntity<TaxCalculator> getCalculateTaxes(@RequestBody Company company) {
+        log.info("Get calculate tax with id: " + company);
+        return ResponseEntity.ok(taxCalculatorService.calculateTaxes(company));
     }
 }
-

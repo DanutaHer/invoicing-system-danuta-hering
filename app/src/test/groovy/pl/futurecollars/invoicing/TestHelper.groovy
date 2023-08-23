@@ -34,7 +34,7 @@ class TestHelper {
     static invoice(long id) {
         Invoice.builder()
                 .id(id)
-                .number("1512")
+                .number("2023/06/15/0001")
                 .date(LocalDate.now())
                 .buyer(company(id))
                 .seller(company(id))
@@ -42,14 +42,22 @@ class TestHelper {
                 .build();
     }
 
-    static taxCalculator(String taxIdentificationNumber) {
+    static taxCalculator() {
         TaxCalculator.builder()
-                .incomingVat(1.23)
-                .outgoingVat(1.23)
-                .income(10.0)
-                .costs(5.0)
-                .earnings(2.0)
-                .vatToPay(1.0)
+                .incomingVat(BigDecimal.valueOf(0))
+                .outgoingVat(BigDecimal.valueOf(0))
+                .income(BigDecimal.valueOf(0))
+                .costs(BigDecimal.valueOf(0))
+                .incomeMinusCosts(BigDecimal.valueOf(0))
+                .pensionInsurance(1.00)
+                .incomeMinusCostsMinusPensionInsurance(-1.00)
+                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(-1))
+                .incomeTax(-0.19)
+                .healthInsurancePaid(1.00)
+                .healthInsuranceToSubtract(0.86)
+                .incomeTaxMinusHealthInsurance(-1.05)
+                .finalIncomeTax(BigDecimal.valueOf(-1))
+                .vatToPay(BigDecimal.valueOf(0))
                 .build();
     }
 }

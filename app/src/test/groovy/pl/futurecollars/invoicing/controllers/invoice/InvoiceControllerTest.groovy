@@ -30,10 +30,6 @@ class InvoiceControllerTest extends Specification {
     @Autowired
     private InvoiceService invoiceService
 
-
-    @Autowired Flyway flyway
-    def setup() { flyway.clean(); flyway.migrate(); }
-
     def "should return empty array when no invoices were created"() {
         when:
         def result = mockMvc.perform(MockMvcRequestBuilders.get("/invoices"))
@@ -128,7 +124,7 @@ class InvoiceControllerTest extends Specification {
         result.getDate() == actualDate
     }
 
-    def "should get response 404 - not found when update nonexistent invoice from id 100"() {
+    def "should get response 404 - not found when update nonexistent invoice from id 100"() { //return 400?????????????????
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())

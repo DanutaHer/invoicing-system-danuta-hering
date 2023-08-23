@@ -19,7 +19,6 @@ class SqlDatabaseTest extends AbstractDatabaseTest {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource)
 
         Flyway flyway = Flyway.configure()
-                .cleanDisabled(false)
                 .dataSource(dataSource)
                 .locations( "db/migration")
                 .load()
