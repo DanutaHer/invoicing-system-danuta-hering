@@ -21,6 +21,6 @@ public class InvoiceEntry {
     private BigDecimal vatValue;
     @ApiModelProperty(value = "Vat rate for the service", required = true, example = "VAT_21")
     private Vat vatRate;
-    @ApiModelProperty(value = "Expense related to car", required = true, example = "100.00")
-    private BigDecimal expenseRelatedToCar;
+    @ApiModelProperty(value = "Car this expense is related to, empty if expense is not related to car")
+    private Car expenseRelatedToCar;
 }

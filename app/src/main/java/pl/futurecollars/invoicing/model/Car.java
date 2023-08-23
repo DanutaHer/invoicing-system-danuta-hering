@@ -7,13 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Car {
 
-    @ApiModelProperty(value = "Registration number", example = "NCV 3456")
+    @ApiModelProperty(value = "Car registration number", required = true, example = "KWI 601587")
     private String registrationNumber;
-    @ApiModelProperty(value = "Personal user", example = "True")
-    private boolean personalUser;
+
+    @ApiModelProperty(value = "Specifies if car is used also for personal reasons", required = true, example = "true")
+    private boolean personalUse;
 }

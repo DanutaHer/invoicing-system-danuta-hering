@@ -15,4 +15,9 @@ class AppTest extends Specification {
         expect:
         invoiceService
     }
+
+    def "main"() {
+        expect:
+        App.main(new String[]{});
+    }
 }

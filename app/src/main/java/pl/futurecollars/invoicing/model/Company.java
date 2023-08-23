@@ -19,8 +19,8 @@ public class Company {
     private String address;
     @ApiModelProperty(value = "Company tax identification number", required = true, example = "123-456-789")
     private String taxIdentificationNumber;
-    @ApiModelProperty(value = "Pension Insurance", required = true, example = "120.00")
+    @ApiModelProperty(value = "Pension insurance amount", required = true, example = "1328.75")
     private BigDecimal pensionInsurance;
-    @ApiModelProperty(value = "Health Insurance", required = true, example = "200.00")
+    @ApiModelProperty(value = "Health insurance amount", required = true, example = "458.34")
     private BigDecimal healthInsurance;
 }

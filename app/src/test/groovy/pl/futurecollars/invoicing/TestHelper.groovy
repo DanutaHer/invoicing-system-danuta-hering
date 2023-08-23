@@ -1,9 +1,6 @@
 package pl.futurecollars.invoicing
 
-import pl.futurecollars.invoicing.model.Company
-import pl.futurecollars.invoicing.model.Invoice
-import pl.futurecollars.invoicing.model.InvoiceEntry
-import pl.futurecollars.invoicing.model.TaxCalculator
+import pl.futurecollars.invoicing.model.*
 
 import java.time.LocalDate
 
@@ -27,14 +24,13 @@ class TestHelper {
                 .price(new BigDecimal("1.00"))
                 .vatValue(new BigDecimal("1.00"))
                 .vatRate(VAT_5)
-                .expenseRelatedToCar(new BigDecimal("1.00"))
+                .expenseRelatedToCar(car())
                 .build();
     }
 
     static invoice(int id) {
         Invoice.builder()
                 .id(id)
-                .number("1512")
                 .date(LocalDate.now())
                 .buyer(company(id))
                 .seller(company(id))
@@ -42,14 +38,29 @@ class TestHelper {
                 .build();
     }
 
-    static taxCalculator(String taxIdentificationNumber) {
+    static taxCalculator() {
         TaxCalculator.builder()
-                .incomingVat(1.23)
-                .outgoingVat(1.23)
-                .income(10.0)
-                .costs(5.0)
-                .earnings(2.0)
-                .vatToPay(1.0)
+                .incomingVat(BigDecimal.valueOf(0))
+                .outgoingVat(BigDecimal.valueOf(0))
+                .income(BigDecimal.valueOf(0))
+                .costs(BigDecimal.valueOf(0))
+                .incomeMinusCosts(BigDecimal.valueOf(0))
+                .pensionInsurance(1.00)
+                .incomeMinusCostsMinusPensionInsurance(-1.00)
+                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(-1))
+                .incomeTax(-0.19)
+                .healthInsurancePaid(1.00)
+                .healthInsuranceToSubtract(0.86)
+                .incomeTaxMinusHealthInsurance(-1.05)
+                .finalIncomeTax(BigDecimal.valueOf(-1))
+                .vatToPay(BigDecimal.valueOf(0))
                 .build();
+    }
+
+    static car() {
+        Car.builder()
+                .registrationNumber("MBD 1245")
+                .personalUse(false)
+                .build()
     }
 }
