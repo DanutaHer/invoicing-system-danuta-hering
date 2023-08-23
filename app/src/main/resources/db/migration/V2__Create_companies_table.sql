@@ -1,4 +1,4 @@
-CREATE TABLE public.companies
+CREATE TABLE public.company
 (
     id bigserial NOT NULL,
     name character varying(100) NOT NULL,
