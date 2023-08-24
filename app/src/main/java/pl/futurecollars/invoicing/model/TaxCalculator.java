@@ -1,6 +1,5 @@
 package pl.futurecollars.invoicing.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -14,9 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TaxCalculator {
 
-    @JsonIgnore
-    @ApiModelProperty(value = "TaxCalculator id", required = true, example = "1")
-    private long id;
     @ApiModelProperty(value = "Incoming Vat", required = true, example = "1.23")
     private BigDecimal incomingVat;
     @ApiModelProperty(value = "Outgoing Vat", required = true, example = "1.23")

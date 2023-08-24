@@ -7,11 +7,11 @@ import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
 
 @DataJpaTest
-@IfProfileValue(name = "spring.profiles.active", value = "jpa-flyway")
+@IfProfileValue(name = "spring.profiles.active", value = "jpa")
 class JpaDatabaseTest extends AbstractDatabaseTest {
 
     @Autowired
-    private InvoiceRepository invoiceRepository;
+    private InvoiceRepository invoiceRepository
 
     @Override
     Database getDatabaseInstance() {

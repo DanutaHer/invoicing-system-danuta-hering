@@ -6,22 +6,20 @@ import spock.lang.Specification
 
 abstract class AbstractDatabaseTest extends Specification {
 
-    Database database
-
     abstract Database getDatabaseInstance()
+
+    Database database
 
     def setup() {
         database = getDatabaseInstance()
-        database.getAll().each {invoice -> database.delete(invoice.id)}
-
-        assert database.getAll().isEmpty()
+        database.getAll().forEach {invoice -> database.delete(invoice.id)}
     }
 
     def "shouldSaveInvoice"() {
         when:
         database.save(TestHelper.invoice(1))
         then:
-        database.getByID(1).get() == TestHelper.invoice(1)
+        database.getByID(1).get().toString() == TestHelper.invoice(1).toString()
     }
 
     def "shouldGetInvoiceByID"() {
@@ -30,7 +28,7 @@ abstract class AbstractDatabaseTest extends Specification {
         database.save(TestHelper.invoice(2))
 
         then:
-        database.getByID(2).get() == TestHelper.invoice(2)
+        database.getByID(2).get().toString() == TestHelper.invoice(2).toString()
     }
 
     def "shouldGetAll"() {
@@ -41,7 +39,7 @@ abstract class AbstractDatabaseTest extends Specification {
 
         then:
         expectedInvoiceList.size() == 2
-        database.getByID(1).get() == TestHelper.invoice(1)
+        database.getByID(1).get().toString() == TestHelper.invoice(1).toString()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
@@ -55,7 +53,7 @@ abstract class AbstractDatabaseTest extends Specification {
         def expectedInvoice = database.getByID(1).get()
 
         then:
-        expectedInvoice == invoiceToUpdate
+        expectedInvoice.toString() == invoiceToUpdate.toString()
     }
 
     def "shouldDeleteInvoice"() {

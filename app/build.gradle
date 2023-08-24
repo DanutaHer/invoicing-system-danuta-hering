@@ -125,7 +125,12 @@ tasks.register('testWithJpaDatabase', Test) {
     systemProperty 'spring.profiles.active', 'jpa'
 }
 
+tasks.register('testWithJpaFlywayDatabase', Test) {
+    systemProperty 'spring.profiles.active', 'jpa-flyway'
+}
+
 check.dependsOn testWithFileDatabase
 check.dependsOn testWithMemoryDatabase
 check.dependsOn testWithSqlDatabase
 check.dependsOn testWithJpaDatabase
+check.dependsOn testWithJpaFlywayDatabase
