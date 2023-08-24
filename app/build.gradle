@@ -5,6 +5,7 @@ buildscript {
         jacksonCoreVersion = "2.12.7.1"
         jacksonDatatypeVersion = "2.12.1"
         lombokVersion = "1.18.26"
+        mongoVersion = "3.12.10"
         postgresqlVersion = "42.2.27"
         spockVersion = "2.3-groovy-3.0"
         springBootVersion = "2.7.7"
@@ -40,6 +41,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
+    implementation "org.mongodb:mongo-java-driver:${mongoVersion}"
     implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonCoreVersion}"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jacksonDatatypeVersion}"
     implementation "com.h2database:h2:${h2databaseVersnion}"
@@ -129,8 +131,13 @@ tasks.register('testWithJpaFlywayDatabase', Test) {
     systemProperty 'spring.profiles.active', 'jpa-flyway'
 }
 
+tasks.register('testWithMongoDatabase', Test) {
+    systemProperty 'spring.profiles.active', 'mongo'
+}
+
 check.dependsOn testWithFileDatabase
 check.dependsOn testWithMemoryDatabase
 check.dependsOn testWithSqlDatabase
 check.dependsOn testWithJpaDatabase
 check.dependsOn testWithJpaFlywayDatabase
+check.dependsOn testWithMongoDatabase

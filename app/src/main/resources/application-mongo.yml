@@ -1,0 +1,13 @@
+invoicing-system:
+  database:
+    type: mongo
+    name: invoices
+    collection: invoices
+    counter:
+      collection: counter
+
+spring:
+profiles:
+  active: mongo
+  flyway:
+    enabled: false
