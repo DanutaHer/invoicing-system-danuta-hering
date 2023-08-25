@@ -8,6 +8,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -16,13 +17,15 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.futurecollars.invoicing.db.Database;
+import pl.futurecollars.invoicing.model.Company;
 import pl.futurecollars.invoicing.model.Invoice;
 
 @Configuration
+@Slf4j
+@ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
 public class MongoDatabaseConfiguration {
 
     @Bean
-    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
     public MongoDatabase mongoDb(@Value("${invoicing-system.database.name}") String databaseName) {
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
             fromProviders(PojoCodecProvider.builder().automatic(true).build()));
@@ -36,7 +39,6 @@ public class MongoDatabaseConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
     public MongoIdProvider mongoIdProvider(
         @Value("${invoicing-system.database.counter.collection}") String collectionName,
         MongoDatabase mongoDb) {
@@ -45,12 +47,22 @@ public class MongoDatabaseConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
-    public Database mongoBasedDatabase(
+    public Database<Invoice> invoiceMongoDatabase(
         @Value("${invoicing-system.database.collection}") String collectionName,
         MongoDatabase mongoDb,
         MongoIdProvider mongoIdProvider) {
         MongoCollection<Invoice> mongoCollection = mongoDb.getCollection(collectionName, Invoice.class);
-        return new MongoBasedDatabase(mongoCollection, mongoIdProvider);
+        log.info("Creating mongo database for invoices");
+        return new MongoBasedDatabase<>(mongoIdProvider, mongoCollection);
+    }
+
+    @Bean
+    public Database<Company> companyMongoDatabase(
+        @Value("${invoicing-system.database.collection}") String collectionName,
+        MongoDatabase mongoDb,
+        MongoIdProvider mongoIdProvider) {
+        MongoCollection<Company> mongoCollection = mongoDb.getCollection(collectionName, Company.class);
+        log.info("Creating mongo database for companies");
+        return new MongoBasedDatabase<>(mongoIdProvider, mongoCollection);
     }
 }

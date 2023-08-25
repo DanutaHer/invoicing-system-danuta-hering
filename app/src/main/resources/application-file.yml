@@ -1,5 +1,9 @@
 invoicing-system:
-  database.type: file
-  database.directory: db
-  database.file.id: id.txt
-  database.file.invoices: invoices.txt
+  database:
+    directory: db
+    type: file
+    file:
+      companyId: companyId.txt
+      invoiceId: invoiceId.txt
+      invoices: invoices.txt
+      companies: companies.txt
