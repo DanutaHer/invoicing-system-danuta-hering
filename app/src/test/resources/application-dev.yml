@@ -6,5 +6,7 @@ invoicing-system:
     type: memory
 
 spring:
+  profiles:
+    active: memory
   flyway:
     enabled: false

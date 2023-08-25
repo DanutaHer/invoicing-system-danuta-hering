@@ -10,5 +10,7 @@ invoicing-system:
       invoices: invoices.txt
 
 spring:
+  profiles:
+    active: file
   flyway:
     enabled: false

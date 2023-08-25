@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: sql
   datasource:
     url: jdbc:postgresql://localhost:5432/invoicing
     username: postgres
