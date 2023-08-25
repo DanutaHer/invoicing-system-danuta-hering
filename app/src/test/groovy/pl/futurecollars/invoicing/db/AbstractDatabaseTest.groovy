@@ -9,9 +9,9 @@ import spock.lang.Specification
 
 abstract class AbstractDatabaseTest extends Specification {
 
-    abstract Database getDatabaseInstance()
+    abstract Database<Invoice> getDatabaseInstance()
 
-    Database database
+    Database<Invoice> database
 
     @Autowired
     private ApplicationContext context

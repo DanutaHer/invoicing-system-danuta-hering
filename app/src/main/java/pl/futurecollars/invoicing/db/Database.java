@@ -14,6 +14,4 @@ public interface Database<T> {
     Optional<T> update(long id, T updatedItem);
 
     Optional<T> delete(long id);
-
-
 }
