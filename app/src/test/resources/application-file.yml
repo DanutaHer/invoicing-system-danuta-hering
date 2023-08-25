@@ -11,7 +11,7 @@ invoicing-system:
 
 
 spring:
-profiles:
-  active: file
+  profiles:
+    active: file
   flyway:
     enabled: false
