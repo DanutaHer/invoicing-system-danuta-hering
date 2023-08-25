@@ -17,10 +17,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Company {
+public class Company implements WithId {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(value = "Company id", required = true, example = "1")
     private long id;

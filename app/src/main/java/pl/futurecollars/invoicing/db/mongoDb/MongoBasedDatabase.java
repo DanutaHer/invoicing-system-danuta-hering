@@ -8,41 +8,42 @@ import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
 import org.bson.Document;
 import pl.futurecollars.invoicing.db.Database;
-import pl.futurecollars.invoicing.model.Invoice;
+import pl.futurecollars.invoicing.model.WithId;
 
 @AllArgsConstructor
-public class MongoBasedDatabase implements Database {
+public class MongoBasedDatabase<T extends WithId> implements Database<T> {
 
-    private MongoCollection<Invoice> mongoCollection;
     private final MongoIdProvider idProvider;
+    private MongoCollection<T> mongoCollection;
 
     @Override
-    public long save(Invoice invoice) {
-        invoice.setId(idProvider.getNextIdAndIncrement());
-        mongoCollection.insertOne(invoice);
-        return invoice.getId();
+    public long save(T item) {
+        item.setId(idProvider.getNextIdAndIncrement());
+        mongoCollection.insertOne(item);
+        return item.getId();
     }
 
     @Override
-    public Optional<Invoice> getByID(long id) {
+    public Optional<T> getByID(long id) {
         return Optional.ofNullable(mongoCollection.find(idFilter(id)).first());
     }
 
     @Override
-    public List<Invoice> getAll() {
+    public List<T> getAll() {
         return StreamSupport
             .stream(mongoCollection.find().spliterator(), false)
             .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Invoice> update(long id, Invoice updatedInvoice) {
-        updatedInvoice.setId(id);
-        return Optional.ofNullable(mongoCollection.findOneAndReplace(idFilter(id), updatedInvoice));
+    public Optional<T> update(long id, T updatedItem) {
+        updatedItem.setId(id);
+        T item = mongoCollection.findOneAndReplace(idFilter(id), updatedItem);
+        return getByID(id);
     }
 
     @Override
-    public Optional<Invoice> delete(long id) {
+    public Optional<T> delete(long id) {
         return Optional.ofNullable(mongoCollection.findOneAndDelete(idFilter(id)));
     }
 

@@ -4,10 +4,12 @@ server:
 invoicing-system:
   database:
     directory: db
-    type: sql
+    type: file
     file:
-      id: id.txt
+      companyId: companyId.txt
+      invoiceId: invoiceId.txt
       invoices: invoices.txt
+      companies: companies.txt
 
 logging:
   level:

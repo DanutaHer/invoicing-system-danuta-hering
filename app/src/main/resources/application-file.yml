@@ -6,8 +6,10 @@ invoicing-system:
     directory: db
     type: file
     file:
-      id: id.txt
+      companyId: companyId.txt
+      invoiceId: invoiceId.txt
       invoices: invoices.txt
+      companies: companies.txt
 
 profiles:
 spring:
