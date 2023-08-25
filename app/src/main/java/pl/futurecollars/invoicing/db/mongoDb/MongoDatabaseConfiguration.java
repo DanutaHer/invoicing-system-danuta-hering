@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.db;
+package pl.futurecollars.invoicing.db.mongoDb;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
@@ -15,8 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.futurecollars.invoicing.db.mongoDb.MongoBasedDatabase;
-import pl.futurecollars.invoicing.db.mongoDb.MongoIdProvider;
+import pl.futurecollars.invoicing.db.Database;
 import pl.futurecollars.invoicing.model.Invoice;
 
 @Configuration
