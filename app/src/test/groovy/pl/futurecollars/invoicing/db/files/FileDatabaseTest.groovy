@@ -4,6 +4,7 @@ import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.FilesService
 import pl.futurecollars.invoicing.service.JsonService
 
@@ -21,7 +22,7 @@ class FileDatabaseTest extends AbstractDatabaseTest {
         Path pathToInvoices = File.createTempFile('invoices', '.txt').toPath()
         IdService idService = new IdService(pathToId, filesService)
 
-        return new FileDatabase(filesService, jsonService, idService, pathToInvoices)
+        return new FileDatabase<>(filesService, jsonService, idService, pathToInvoices, Invoice)
     }
 
     def "shouldThrowIllegalArgumentExceptionFor_GetByIDMethod"() {

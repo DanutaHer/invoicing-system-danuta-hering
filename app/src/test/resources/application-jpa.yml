@@ -1,4 +1,6 @@
 spring:
+  profile:
+    active: jpa
   jpa:
     hibernate:
       ddl-auto: create
@@ -13,4 +15,4 @@ spring:
 
 invoicing-system:
   database:
-  type: jpa
+    type: jpa

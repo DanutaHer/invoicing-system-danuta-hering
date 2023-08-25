@@ -10,6 +10,7 @@ class TestHelper {
 
     static company(long id) {
         Company.builder()
+                .id(id)
                 .name("Name $id")
                 .address("ul. Zielona 17, 01-240 Warszawa")
                 .taxIdentificationNumber("123-45-67-89")

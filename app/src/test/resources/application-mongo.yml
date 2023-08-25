@@ -2,7 +2,9 @@ invoicing-system:
   database:
     type: mongo
     name: invoices
-    collection: invoices
+    collection:
+      invoices: invoices
+      companies: companies
     counter:
       collection: counter
 

@@ -48,7 +48,7 @@ public class MongoDatabaseConfiguration {
 
     @Bean
     public Database<Invoice> invoiceMongoDatabase(
-        @Value("${invoicing-system.database.collection}") String collectionName,
+        @Value("${invoicing-system.database.collection.invoices}") String collectionName,
         MongoDatabase mongoDb,
         MongoIdProvider mongoIdProvider) {
         MongoCollection<Invoice> mongoCollection = mongoDb.getCollection(collectionName, Invoice.class);
@@ -58,7 +58,7 @@ public class MongoDatabaseConfiguration {
 
     @Bean
     public Database<Company> companyMongoDatabase(
-        @Value("${invoicing-system.database.collection}") String collectionName,
+        @Value("${invoicing-system.database.collection.companies}") String collectionName,
         MongoDatabase mongoDb,
         MongoIdProvider mongoIdProvider) {
         MongoCollection<Company> mongoCollection = mongoDb.getCollection(collectionName, Company.class);

@@ -6,9 +6,9 @@ import spock.lang.Specification
 
 abstract class AbstractDatabaseTest extends Specification {
 
-    abstract Database getDatabaseInstance()
+    abstract Database<Invoice> getDatabaseInstance()
 
-    Database database
+    Database<Invoice> database
 
     def setup() {
         database = getDatabaseInstance()
@@ -21,6 +21,13 @@ abstract class AbstractDatabaseTest extends Specification {
         then:
         database.getByID(1).get().toString() == TestHelper.invoice(1).toString()
     }
+
+//    def "shouldSaveCompany"() {
+//        when:
+//        database.save(TestHelper.company(1))
+//        then:
+//        database.getByID(1).get().toString() == TestHelper.company(1).toString()
+//    }
 
     def "shouldGetInvoiceByID"() {
         when:
