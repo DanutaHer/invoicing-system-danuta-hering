@@ -13,9 +13,6 @@ abstract class AbstractDatabaseTest extends Specification {
 
     Database<Invoice> database
 
-    @Autowired
-    private ApplicationContext context
-
     def setup() {
         database = getDatabaseInstance()
         database.getAll().forEach(invoice -> database.delete(invoice.getId()))
