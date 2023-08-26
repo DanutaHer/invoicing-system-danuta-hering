@@ -1,23 +1,24 @@
 package pl.futurecollars.invoicing.service
 
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.model.Company
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
 
-class InvoiceServiceTest extends Specification {
+class CompanyServiceTest extends Specification {
 
-    private Database<Invoice> database = Mock()
-    private InvoiceService service = new InvoiceService(database)
+    private Database<Company> database = Mock()
+    private CompanyService service = new CompanyService(database)
 
     def "shouldSave"() {
         given:
-        def invoice = new Invoice()
+        def company = new Company()
 
         when:
-        service.save(invoice)
+        service.save(company)
 
         then:
-        1 * database.save(invoice)
+        1 * database.save(company)
     }
 
     def "shouldGetByID"() {
@@ -38,13 +39,13 @@ class InvoiceServiceTest extends Specification {
 
     def "shouldUpdate"() {
         given:
-        def invoice = new Invoice()
+        def company = new Company()
 
         when:
-        service.update(2, invoice)
+        service.update(2, company)
 
         then:
-        1 * database.update(2, invoice)
+        1 * database.update(2, company)
     }
 
     def "shouldDelete"() {

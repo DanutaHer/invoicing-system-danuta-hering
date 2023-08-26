@@ -9,10 +9,11 @@ abstract class AbstractDatabaseTest extends Specification {
     abstract Database<Invoice> getDatabaseInstance()
 
     Database<Invoice> database
+//    Database<Company> companyDatabase
 
     def setup() {
         database = getDatabaseInstance()
-        database.getAll().forEach {invoice -> database.delete(invoice.id)}
+        database.getAll().forEach { invoice -> database.delete(invoice.id)}
     }
 
     def "shouldSaveInvoice"() {
@@ -24,9 +25,9 @@ abstract class AbstractDatabaseTest extends Specification {
 
 //    def "shouldSaveCompany"() {
 //        when:
-//        database.save(TestHelper.company(1))
+//        companyDatabase.save(TestHelper.company(1))
 //        then:
-//        database.getByID(1).get().toString() == TestHelper.company(1).toString()
+//        companyDatabase.getByID(1).get().toString() == TestHelper.company(1).toString()
 //    }
 
     def "shouldGetInvoiceByID"() {
