@@ -37,7 +37,7 @@ class TestHelper {
                 .number("2023/06/15/0001")
                 .date(LocalDate.now())
                 .buyer(company(id))
-                .seller(company(id + 1))
+                .seller(company(id))
                 .entries(List.of(product(id)))
                 .build();
     }

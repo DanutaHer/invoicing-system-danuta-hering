@@ -1,27 +1,9 @@
 server:
   port: 7777
 
-invoicing-system:
-  database:
-    directory: db
-    type: sql
-    file:
-      id: id.txt
-      invoices: invoices.txt
-
-logging:
-  level:
-    org:
-      springframework:
-        boot: INFO
-    pl:
-      futurecollars:
-        invoicing: INFO
-        invoicing.db: DEBUG
-
-profiles:
-  active: sql
 spring:
+  profiles:
+    active: sql
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
     username: sa
@@ -33,3 +15,14 @@ spring:
   flyway:
     baseline-on-migrate: true
     enabled: true
+
+
+logging:
+  level:
+    org:
+      springframework:
+        boot: INFO
+    pl:
+      futurecollars:
+        invoicing: INFO
+        invoicing.db: DEBUG

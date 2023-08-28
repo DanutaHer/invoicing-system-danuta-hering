@@ -5,7 +5,6 @@ import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
 
-@IfProfileValue(name = "spring.profiles.active", value = "memory")
 class InMemoryDatabaseTest extends AbstractDatabaseTest {
 
     @Override

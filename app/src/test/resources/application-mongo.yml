@@ -6,8 +6,6 @@ invoicing-system:
     counter:
       collection: counter
 
-spring:
-  profiles:
-    active: mongo
-  flyway:
-    enabled: false
+#spring:
+#  profiles:
+#    active: mongo

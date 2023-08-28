@@ -11,7 +11,7 @@ import pl.futurecollars.invoicing.db.Database
 import javax.sql.DataSource
 
 
-@IfProfileValue(name = "spring.profiles.active", value = "mongo")
+@IfProfileValue(name = "spring.profiles.active", value = "sql")
 class SqlDatabaseTest extends AbstractDatabaseTest {
 
     @Override
