@@ -15,4 +15,4 @@ spring:
 
 invoicing-system:
   database:
-  type: jpa
+    type: jpa

@@ -2,12 +2,12 @@ package pl.futurecollars.invoicing.db.jpa
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.test.annotation.IfProfileValue
+import org.springframework.test.annotation.DirtiesContext
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
 
 @DataJpaTest
-//@IfProfileValue(name = "spring.profiles.active", value = "jpa")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class JpaDatabaseTest extends AbstractDatabaseTest {
 
     @Autowired
