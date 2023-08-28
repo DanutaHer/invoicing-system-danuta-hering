@@ -4,14 +4,11 @@ import org.flywaydb.core.Flyway
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
-import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
 
 import javax.sql.DataSource
 
-
-//@IfProfileValue(name = "spring.profiles.active", value = "sql")
 class SqlDatabaseTest extends AbstractDatabaseTest {
 
     @Override
