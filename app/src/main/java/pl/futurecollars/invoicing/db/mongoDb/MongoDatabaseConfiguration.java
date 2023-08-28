@@ -46,7 +46,7 @@ public class MongoDatabaseConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "mongo")
-    public Database mongoDatabase(
+    public Database mongoBasedDatabase(
         @Value("${invoicing-system.database.collection}") String collectionName,
         MongoDatabase mongoDb,
         MongoIdProvider mongoIdProvider) {

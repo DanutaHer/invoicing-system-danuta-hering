@@ -10,7 +10,7 @@ class TestHelper {
 
     static company(long id) {
         Company.builder()
-                .name("Name $id")
+                .name("Name xyz")
                 .address("ul. Zielona 17, 01-240 Warszawa")
                 .taxIdentificationNumber("123-45-67-89")
                 .pensionInsurance(new BigDecimal("1.00"))
@@ -20,7 +20,7 @@ class TestHelper {
 
     static product(long id) {
         InvoiceEntry.builder()
-                .description("Descr $id")
+                .description("Descr xyz")
                 .price(new BigDecimal("1.00"))
                 .vatValue(new BigDecimal("1.00"))
                 .vatRate(VAT_5)
@@ -37,7 +37,7 @@ class TestHelper {
                 .number("2023/06/15/0001")
                 .date(LocalDate.now())
                 .buyer(company(id))
-                .seller(company(id))
+                .seller(company(id+1))
                 .entries(List.of(product(id)))
                 .build();
     }
