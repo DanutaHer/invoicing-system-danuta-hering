@@ -1,6 +1,6 @@
 package pl.futurecollars.invoicing.db
 
-import org.springframework.transaction.annotation.Transactional
+
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
@@ -13,7 +13,7 @@ abstract class AbstractDatabaseTest extends Specification {
 
     def setup() {
         database = getDatabaseInstance()
-        database.getAll().forEach {invoice -> database.delete(invoice.id)}
+        database.getAll().forEach(invoice -> database.delete(invoice.getId()))
         assert database.getAll().isEmpty()
     }
 
@@ -29,6 +29,21 @@ abstract class AbstractDatabaseTest extends Specification {
         actualInvoice.toString() == expectedInvoice.toString()
     }
 
+    def "shouldGetAll"() {
+        when:
+        database.save(TestHelper.invoice(1))
+        database.save(TestHelper.invoice(2))
+        database.save(TestHelper.invoice(3))
+        List<Invoice> expectedInvoiceList = database.getAll()
+
+        def actualInvoice = database.getByID(2).get()
+        resetIds(actualInvoice)
+
+        then:
+        expectedInvoiceList.size() == 3
+        actualInvoice.toString() == resetIds(expectedInvoiceList.get(1)).toString()
+    }
+
     def "shouldGetInvoiceByID"() {
         when:
         database.save(TestHelper.invoice(1))
@@ -41,21 +56,6 @@ abstract class AbstractDatabaseTest extends Specification {
         actualInvoice.toString() == TestHelper.invoice(2).toString()
     }
 
-    def "shouldGetAll"() {
-        given:
-        database.save(TestHelper.invoice(1))
-        database.save(TestHelper.invoice(2))
-        database.save(TestHelper.invoice(3))
-        List<Invoice> expectedInvoiceList = database.getAll()
-
-        when:
-        def actualInvoice = resetIds(database.getByID(2).get())
-
-        then:
-        expectedInvoiceList.size() == 3
-        actualInvoice.toString() == resetIds(expectedInvoiceList.get(1)).toString()
-    }
-
     def "shouldUpdateInvoiceInDataBase"() {
         given:
         database.save(TestHelper.invoice(1))
@@ -66,13 +66,13 @@ abstract class AbstractDatabaseTest extends Specification {
         when:
         database.update(2, invoiceToUpdate)
 
-//        def expectedInvoice = database.getByID(2).get()
-//        resetIds(expectedInvoice)
-//        resetIds(invoiceToUpdate)
-//        invoiceToUpdate.setId(2)
+        def expectedInvoice = database.getByID(2).get()
+        resetIds(expectedInvoice)
+        resetIds(invoiceToUpdate)
+        invoiceToUpdate.setId(2)
 
         then:
-//        expectedInvoice.toString() == invoiceToUpdate.toString()
+        expectedInvoice.toString() == invoiceToUpdate.toString()
         database.getByID(2).get().getNumber() == "123/4581/00004444"
     }
 
@@ -85,11 +85,11 @@ abstract class AbstractDatabaseTest extends Specification {
     }
 
     private static Invoice resetIds(Invoice invoice) {
-        invoice.getBuyer().setId(0)
-        invoice.getSeller().setId(0)
+        invoice.getBuyer().id = 0
+        invoice.getSeller().id = 0
         invoice.entries.forEach {
-            it.setId(0)
-            it.getExpenseRelatedToCar().setId(0)
+            it.id = 0
+            it.getExpenseRelatedToCar().id = 0
         }
         invoice
     }
