@@ -73,7 +73,7 @@ abstract class AbstractDatabaseTest extends Specification {
         given:
         database.save(TestHelper.invoice(1))
         database.save(TestHelper.invoice(2))
-        def invoiceToUpdate = TestHelper.invoice(3)
+        def invoiceToUpdate = TestHelper.invoice(2)
         invoiceToUpdate.setNumber("123/4581/00004444")
 
         when:
@@ -82,7 +82,6 @@ abstract class AbstractDatabaseTest extends Specification {
         def expectedInvoice = database.getByID(2).get()
         resetIds(expectedInvoice)
         resetIds(invoiceToUpdate)
-        invoiceToUpdate.setId(2)
 
         then:
         expectedInvoice.toString() == invoiceToUpdate.toString()
