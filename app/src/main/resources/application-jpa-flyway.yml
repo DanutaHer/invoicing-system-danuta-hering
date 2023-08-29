@@ -5,12 +5,14 @@ invoicing-system:
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL94Dialect
   datasource:
-    url: jdbc:postgresql://localhost:5432/invoices-jpa
+    url: jdbc:postgresql://localhost:5432/invoicing
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true

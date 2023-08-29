@@ -2,17 +2,19 @@ package pl.futurecollars.invoicing.db.mongoDb
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.annotation.IfProfileValue
+import org.springframework.test.annotation.Rollback
+import org.springframework.test.context.TestPropertySource
+import org.springframework.transaction.annotation.Transactional
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
-import pl.futurecollars.invoicing.model.Invoice
 
-
-@IfProfileValue(name = "spring.profiles.active", value = "mongo")
+@SpringBootTest
 class MongoBasedDatabaseTest extends AbstractDatabaseTest {
 
     @Autowired
-    private Database<Invoice> mongoBasedDatabase
+    private Database mongoBasedDatabase
 
     @Override
     Database getDatabaseInstance() {

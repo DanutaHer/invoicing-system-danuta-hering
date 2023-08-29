@@ -57,6 +57,7 @@ public class InvoiceSqlDatabase extends AbstractSqlDatabase implements Database<
     }
 
     @Override
+    @Transactional
     public Optional<Invoice> update(long id, Invoice updatedInvoice) {
         Long buyerId = jdbcTemplate.queryForObject("select buyer from invoice i where i.id = " + id, Long.class);
         Long sellerId = jdbcTemplate.queryForObject("select seller from invoice i where i.id = " + id, Long.class);
@@ -84,6 +85,7 @@ public class InvoiceSqlDatabase extends AbstractSqlDatabase implements Database<
     }
 
     @Override
+    @Transactional
     public Optional<Invoice> delete(long id) {
         Optional<Invoice> invoiceToDelete = getByID(id);
         jdbcTemplate.execute("delete from invoice where id = " + id);

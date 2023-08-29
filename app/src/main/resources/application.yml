@@ -3,13 +3,7 @@ server:
 
 invoicing-system:
   database:
-    directory: db
-    type: file
-    file:
-      companyId: companyId.txt
-      invoiceId: invoiceId.txt
-      invoices: invoices.txt
-      companies: companies.txt
+    type: memory
 
 logging:
   level:
@@ -21,8 +15,7 @@ logging:
         invoicing: INFO
         invoicing.db: DEBUG
 
-profiles:
-  active: sql
+
 spring:
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1

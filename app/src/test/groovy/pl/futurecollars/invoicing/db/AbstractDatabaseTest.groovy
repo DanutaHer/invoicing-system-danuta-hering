@@ -1,5 +1,8 @@
 package pl.futurecollars.invoicing.db
 
+import com.mongodb.client.MongoDatabase
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
@@ -13,14 +16,35 @@ abstract class AbstractDatabaseTest extends Specification {
 
     def setup() {
         database = getDatabaseInstance()
-        database.getAll().forEach { invoice -> database.delete(invoice.id)}
+        database.getAll().forEach(invoice -> database.delete(invoice.getId()))
+        assert database.getAll().isEmpty()
     }
 
     def "shouldSaveInvoice"() {
         when:
         database.save(TestHelper.invoice(1))
+
+        def expectedInvoice = TestHelper.invoice(1)
+        def actualInvoice = database.getByID(1).get()
+        resetIds(actualInvoice)
+
         then:
-        database.getByID(1).get().toString() == TestHelper.invoice(1).toString()
+        actualInvoice.toString() == expectedInvoice.toString()
+    }
+
+    def "shouldGetAll"() {
+        when:
+        database.save(TestHelper.invoice(1))
+        database.save(TestHelper.invoice(2))
+        database.save(TestHelper.invoice(3))
+        List<Invoice> expectedInvoiceList = ArrayList.of(TestHelper.invoice(1), TestHelper.invoice(2), TestHelper.invoice(3))
+
+        def actualInvoice = database.getByID(2).get()
+        resetIds(actualInvoice)
+
+        then:
+        expectedInvoiceList.size() == 3
+        actualInvoice.toString() == resetIds(expectedInvoiceList.get(1)).toString()
     }
 
 //    def "shouldSaveCompany"() {
@@ -34,34 +58,35 @@ abstract class AbstractDatabaseTest extends Specification {
         when:
         database.save(TestHelper.invoice(1))
         database.save(TestHelper.invoice(2))
+        database.save(TestHelper.invoice(3))
+        List<Invoice> expectedInvoiceList = ArrayList.of(TestHelper.invoice(1), TestHelper.invoice(2), TestHelper.invoice(3))
+
+        def actualInvoice = database.getByID(2).get()
+        resetIds(actualInvoice)
 
         then:
-        database.getByID(2).get().toString() == TestHelper.invoice(2).toString()
-    }
-
-    def "shouldGetAll"() {
-        when:
-        database.save(TestHelper.invoice(1))
-        database.save(TestHelper.invoice(2))
-        List<Invoice> expectedInvoiceList = database.getAll()
-
-        then:
-        expectedInvoiceList.size() == 2
-        database.getByID(1).get().toString() == TestHelper.invoice(1).toString()
+        expectedInvoiceList.size() == 3
+        actualInvoice.toString() == resetIds(expectedInvoiceList.get(1)).toString()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
         given:
-        def invoiceToUpdate = TestHelper.invoice(1)
-        invoiceToUpdate.setNumber("123/458/00004444")
+        database.save(TestHelper.invoice(1))
+        database.save(TestHelper.invoice(2))
+        def invoiceToUpdate = TestHelper.invoice(3)
+        invoiceToUpdate.setNumber("123/4581/00004444")
 
         when:
-        database.save(TestHelper.invoice(1))
-        database.update(1, invoiceToUpdate)
-        def expectedInvoice = database.getByID(1).get()
+        database.update(2, invoiceToUpdate)
+
+        def expectedInvoice = database.getByID(2).get()
+        resetIds(expectedInvoice)
+        resetIds(invoiceToUpdate)
+        invoiceToUpdate.setId(2)
 
         then:
         expectedInvoice.toString() == invoiceToUpdate.toString()
+        database.getByID(2).get().getNumber() == "123/4581/00004444"
     }
 
     def "shouldDeleteInvoice"() {
@@ -70,5 +95,15 @@ abstract class AbstractDatabaseTest extends Specification {
 
         then:
         !database.getByID(1).isPresent()
+    }
+
+    private static Invoice resetIds(Invoice invoice) {
+        invoice.getBuyer().id = 0
+        invoice.getSeller().id = 0
+        invoice.entries.forEach {
+            it.id = 0
+            it.getExpenseRelatedToCar().id = 0
+        }
+        invoice
     }
 }

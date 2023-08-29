@@ -7,7 +7,6 @@ invoicing-system:
       companies: companies
     counter:
       collection: counter
-
 spring:
 profiles:
   active: mongo
