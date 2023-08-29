@@ -5,5 +5,5 @@ invoicing-system:
   database.counter.collection: counter
 
 spring:
-  profiles:
-    active: mongo
+#  profiles:
+#    active: mongo

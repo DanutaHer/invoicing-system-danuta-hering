@@ -1,6 +1,8 @@
 package pl.futurecollars.invoicing.db
 
-
+import com.mongodb.client.MongoDatabase
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
@@ -10,6 +12,9 @@ abstract class AbstractDatabaseTest extends Specification {
     abstract Database getDatabaseInstance()
 
     Database database
+
+    @Autowired
+    private ApplicationContext context
 
     def setup() {
         database = getDatabaseInstance()
@@ -34,7 +39,7 @@ abstract class AbstractDatabaseTest extends Specification {
         database.save(TestHelper.invoice(1))
         database.save(TestHelper.invoice(2))
         database.save(TestHelper.invoice(3))
-        List<Invoice> expectedInvoiceList = database.getAll()
+        List<Invoice> expectedInvoiceList = ArrayList.of(TestHelper.invoice(1), TestHelper.invoice(2), TestHelper.invoice(3))
 
         def actualInvoice = database.getByID(2).get()
         resetIds(actualInvoice)
@@ -53,7 +58,7 @@ abstract class AbstractDatabaseTest extends Specification {
         resetIds(actualInvoice)
 
         then:
-        actualInvoice.toString() == TestHelper.invoice(2).toString()
+        actualInvoice.toString() == resetIds(TestHelper.invoice(2)).toString()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
