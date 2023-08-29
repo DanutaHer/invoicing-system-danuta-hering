@@ -1,20 +1,9 @@
 package pl.futurecollars.invoicing.db;
 
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -25,10 +14,7 @@ import pl.futurecollars.invoicing.db.files.IdService;
 import pl.futurecollars.invoicing.db.jpa.InvoiceRepository;
 import pl.futurecollars.invoicing.db.jpa.JpaDatabase;
 import pl.futurecollars.invoicing.db.memory.InMemoryDatabase;
-import pl.futurecollars.invoicing.db.mongoDb.MongoBasedDatabase;
-import pl.futurecollars.invoicing.db.mongoDb.MongoIdProvider;
 import pl.futurecollars.invoicing.db.sql.SqlDatabase;
-import pl.futurecollars.invoicing.model.Invoice;
 import pl.futurecollars.invoicing.service.FilesService;
 import pl.futurecollars.invoicing.service.JsonService;
 
