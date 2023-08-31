@@ -38,24 +38,24 @@ class TestHelper {
                 .build();
     }
 
-    static taxCalculator() {
-        TaxCalculator.builder()
-                .incomingVat(BigDecimal.valueOf(0))
-                .outgoingVat(BigDecimal.valueOf(0))
-                .income(BigDecimal.valueOf(0))
-                .costs(BigDecimal.valueOf(0))
-                .incomeMinusCosts(BigDecimal.valueOf(0))
-                .pensionInsurance(1.00)
-                .incomeMinusCostsMinusPensionInsurance(-1.00)
-                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(-1))
-                .incomeTax(-0.19)
-                .healthInsurancePaid(1.00)
-                .healthInsuranceToSubtract(0.86)
-                .incomeTaxMinusHealthInsurance(-1.05)
-                .finalIncomeTax(BigDecimal.valueOf(-1))
-                .vatToPay(BigDecimal.valueOf(0))
-                .build();
-    }
+//    static taxCalculator() {
+//        TaxCalculator.builder()
+//                .incomingVat(BigDecimal.valueOf(0))
+//                .outgoingVat(BigDecimal.valueOf(0))
+//                .income(BigDecimal.valueOf(0))
+//                .costs(BigDecimal.valueOf(0))
+//                .incomeMinusCosts(BigDecimal.valueOf(0))
+//                .pensionInsurance(1.00)
+//                .incomeMinusCostsMinusPensionInsurance(-1.00)
+//                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(-1))
+//                .incomeTax(-0.19)
+//                .healthInsurancePaid(1.00)
+//                .healthInsuranceToSubtract(0.86)
+//                .incomeTaxMinusHealthInsurance(-1.05)
+//                .finalIncomeTax(BigDecimal.valueOf(-1))
+//                .vatToPay(BigDecimal.valueOf(0))
+//                .build();
+//    }
 
     static car() {
         Car.builder()
