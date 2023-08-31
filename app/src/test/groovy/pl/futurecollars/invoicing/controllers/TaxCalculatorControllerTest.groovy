@@ -35,8 +35,6 @@ class TaxCalculatorControllerTest extends Specification {
     }
 
     def "should get zeros returned when there are no this company in the system"() {
-        given:
-
         when:
         def taxCalculatorResponse = taxCalculatorService.calculateTaxes(company(0))
 
