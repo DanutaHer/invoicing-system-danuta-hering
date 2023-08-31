@@ -29,7 +29,7 @@ class TaxCalculatorControllerTest extends Specification {
         invoiceService.getAll().each { invoice -> invoiceService.delete(invoice.id) }
     }
 
-    def "should get tax calculator"() {
+    def "should get tax calculator"() { // nazwy
         given:
         def company = TestHelper.invoice(1).getBuyer()
         def companyJson = jsonService.objectToJson(company)

@@ -81,7 +81,7 @@ checkstyle {
     maxErrors = 0
 }
 
-test {
+check {
     finalizedBy jacocoTestReport
     finalizedBy jacocoTestCoverageVerification
 }
@@ -91,10 +91,11 @@ jacoco {
 }
 
 jacocoTestReport {
-    dependsOn test
+    dependsOn check
 }
 
 jacocoTestCoverageVerification {
+    executionData tasks.withType(Test)
     violationRules {
         rule {
             limit {
@@ -109,30 +110,42 @@ jacocoTestCoverageVerification {
             }
         }
     }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['pl/futurecollars/invoicing/App.class', 'pl/futurecollars/invoicing/db/DatabaseConfiguration.class'])
+        }))
+    }
 }
 
-tasks.register('testWithFileDatabase', Test) {
+task testWithFileDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'file'
+    useJUnitPlatform()
 }
 
-tasks.register('testWithMemoryDatabase', Test) {
+task testWithMemoryDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'memory'
+    useJUnitPlatform()
 }
 
-tasks.register('testWithSqlDatabase', Test) {
+task testWithSqlDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'sql'
+    useJUnitPlatform()
 }
 
-tasks.register('testWithJpaDatabase', Test) {
+task testWithJpaDatabase (type: Test) {
     systemProperty 'spring.profiles.active', 'jpa'
+    useJUnitPlatform()
 }
 
-tasks.register('testWithJpaFlywayDatabase', Test) {
+task testWithJpaFlywayDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'jpa-flyway'
+    useJUnitPlatform()
 }
 
-tasks.register('testWithMongoDatabase', Test) {
+task testWithMongoDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'mongo'
+    useJUnitPlatform()
 }
 
 check.dependsOn testWithFileDatabase

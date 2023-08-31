@@ -1,4 +1,4 @@
-package pl.futurecollars.invoicing.db.mongoDb;
+package pl.futurecollars.invoicing.db.mongo;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
@@ -22,7 +22,7 @@ import pl.futurecollars.invoicing.model.Invoice;
 public class MongoDatabaseConfiguration {
 
     @Bean
-    @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "mongo")
+    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
     public MongoDatabase mongoDb(@Value("${invoicing-system.database.name}") String databaseName) {
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
             fromProviders(PojoCodecProvider.builder().automatic(true).build()));
@@ -36,7 +36,7 @@ public class MongoDatabaseConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "mongo")
+    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
     public MongoIdProvider mongoIdProvider(
         @Value("${invoicing-system.database.counter.collection}") String collectionName,
         MongoDatabase mongoDb) {
@@ -45,7 +45,7 @@ public class MongoDatabaseConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "invoicing-system.database", havingValue = "mongo")
+    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "mongo")
     public Database mongoBasedDatabase(
         @Value("${invoicing-system.database.collection}") String collectionName,
         MongoDatabase mongoDb,

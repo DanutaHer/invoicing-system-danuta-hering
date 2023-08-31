@@ -1,6 +1,6 @@
 package pl.futurecollars.invoicing.db
 
-import com.mongodb.client.MongoDatabase
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import pl.futurecollars.invoicing.TestHelper
@@ -23,11 +23,12 @@ abstract class AbstractDatabaseTest extends Specification {
     }
 
     def "shouldSaveInvoice"() {
-        when:
-        database.save(TestHelper.invoice(1))
+        given:
+        def savedInvoiceId = database.save(TestHelper.invoice(1))
 
-        def expectedInvoice = TestHelper.invoice(1)
-        def actualInvoice = database.getByID(1).get()
+        when:
+        def expectedInvoice = TestHelper.invoice(savedInvoiceId)
+        def actualInvoice = database.getByID(savedInvoiceId).get()
         resetIds(actualInvoice)
 
         then:
@@ -35,58 +36,63 @@ abstract class AbstractDatabaseTest extends Specification {
     }
 
     def "shouldGetAll"() {
-        when:
-        database.save(TestHelper.invoice(1))
-        database.save(TestHelper.invoice(2))
-        database.save(TestHelper.invoice(3))
-        List<Invoice> expectedInvoiceList = ArrayList.of(TestHelper.invoice(1), TestHelper.invoice(2), TestHelper.invoice(3))
+        given:
+        def savedInvoice1Id = database.save(TestHelper.invoice(1))
+        def savedInvoice2Id = database.save(TestHelper.invoice(2))
 
-        def actualInvoice = database.getByID(2).get()
+        when:
+        def actualInvoice = database.getByID(savedInvoice2Id).get()
         resetIds(actualInvoice)
 
+        def allInvoices = database.getAll()
+
         then:
-        expectedInvoiceList.size() == 3
-        actualInvoice.toString() == resetIds(expectedInvoiceList.get(1)).toString()
+        allInvoices.size() == 2
+        actualInvoice.getNumber() == TestHelper.invoice(1).getNumber()
     }
 
     def "shouldGetInvoiceByID"() {
-        when:
+        given:
         database.save(TestHelper.invoice(1))
-        database.save(TestHelper.invoice(2))
+        def savedInvoiceId = database.save(TestHelper.invoice(2))
 
-        def actualInvoice = database.getByID(2).get()
+        when:
+        def actualInvoice = database.getByID(savedInvoiceId).get()
         resetIds(actualInvoice)
 
         then:
-        actualInvoice.toString() == resetIds(TestHelper.invoice(2)).toString()
+        actualInvoice.toString() == resetIds(TestHelper.invoice(savedInvoiceId)).toString()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
         given:
         database.save(TestHelper.invoice(1))
-        database.save(TestHelper.invoice(2))
+        def savedInvoiceId = database.save(TestHelper.invoice(2))
         def invoiceToUpdate = TestHelper.invoice(3)
         invoiceToUpdate.setNumber("123/4581/00004444")
 
         when:
-        database.update(2, invoiceToUpdate)
+        database.update(savedInvoiceId, invoiceToUpdate)
 
-        def expectedInvoice = database.getByID(2).get()
+        def expectedInvoice = database.getByID(savedInvoiceId).get()
         resetIds(expectedInvoice)
         resetIds(invoiceToUpdate)
-        invoiceToUpdate.setId(2)
+        invoiceToUpdate.setId(savedInvoiceId)
 
         then:
         expectedInvoice.toString() == invoiceToUpdate.toString()
-        database.getByID(2).get().getNumber() == "123/4581/00004444"
+        database.getByID(savedInvoiceId).get().getNumber() == "123/4581/00004444"
     }
 
     def "shouldDeleteInvoice"() {
+        given:
+        def savedInvoiceId = database.save(TestHelper.invoice(2))
+
         when:
-        database.delete(1)
+        database.delete(savedInvoiceId)
 
         then:
-        !database.getByID(1).isPresent()
+        database.getByID(savedInvoiceId).isEmpty()
     }
 
     private static Invoice resetIds(Invoice invoice) {
