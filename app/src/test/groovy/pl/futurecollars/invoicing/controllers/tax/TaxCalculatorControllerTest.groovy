@@ -34,7 +34,7 @@ class TaxCalculatorControllerTest extends Specification {
         invoiceService.getAll().each { invoice -> invoiceService.delete(invoice.id) }
     }
 
-    def "should get response 404 - not found when get nonexistent taxIdentificationNumber from id 1"() {
+    def "should get response 404 - not found when no value is given"() {
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
