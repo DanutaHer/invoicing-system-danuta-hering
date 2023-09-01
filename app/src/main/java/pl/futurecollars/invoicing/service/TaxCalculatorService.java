@@ -13,7 +13,6 @@ import pl.futurecollars.invoicing.model.Invoice;
 import pl.futurecollars.invoicing.model.InvoiceEntry;
 import pl.futurecollars.invoicing.model.TaxCalculator;
 
-@SuppressWarnings("checkstyle:Indentation")
 @AllArgsConstructor
 @Service
 public class TaxCalculatorService {
@@ -21,7 +20,7 @@ public class TaxCalculatorService {
     private final Database database;
 
     BigDecimal income(String taxIdentificationNumber) {
-        return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getPrice);
+        return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getNetPrice);
     }
 
     BigDecimal costs(String taxIdentificationNumber) {
@@ -75,7 +74,7 @@ public class TaxCalculatorService {
     }
 
     private BigDecimal getIncomeValueTakingIntoConsiderationPersonalCarUsage(InvoiceEntry invoiceEntry) {
-        return invoiceEntry.getPrice()
+        return invoiceEntry.getNetPrice()
             .add(invoiceEntry.getVatValue())
             .subtract(getVatValueTakingIntoConsiderationPersonalCarUsage(invoiceEntry));
     }
