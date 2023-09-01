@@ -28,6 +28,7 @@ abstract class AbstractDatabaseTest extends Specification {
 
         when:
         def expectedInvoice = TestHelper.invoice(savedInvoiceId)
+        expectedInvoice.setId(savedInvoiceId)
         def actualInvoice = database.getByID(savedInvoiceId).get()
         resetIds(actualInvoice)
 
@@ -59,9 +60,11 @@ abstract class AbstractDatabaseTest extends Specification {
         when:
         def actualInvoice = database.getByID(savedInvoiceId).get()
         resetIds(actualInvoice)
+        def expectedInvoice = TestHelper.invoice(savedInvoiceId)
+        expectedInvoice.setId(savedInvoiceId)
 
         then:
-        actualInvoice.toString() == resetIds(TestHelper.invoice(savedInvoiceId)).toString()
+        actualInvoice.toString() == resetIds(expectedInvoice).toString()
     }
 
     def "shouldUpdateInvoiceInDataBase"() {
