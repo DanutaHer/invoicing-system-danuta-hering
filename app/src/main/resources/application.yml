@@ -15,7 +15,6 @@ logging:
         invoicing: INFO
         invoicing.db: DEBUG
 
-
 spring:
   mvc:
     pathmatch:

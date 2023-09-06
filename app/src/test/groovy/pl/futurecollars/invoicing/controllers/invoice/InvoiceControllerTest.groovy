@@ -144,9 +144,15 @@ class InvoiceControllerTest extends Specification {
     }
 
     def "should get response 404 - not found when update nonexistent invoice from id 100"() {
+        given:
+        def invoice3 = TestHelper.invoice(3)
+        def invoice3Json = jsonService.objectToJson(invoice3)
+
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100")
+                .content(invoice3Json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
     def "should delete exact invoice "() {

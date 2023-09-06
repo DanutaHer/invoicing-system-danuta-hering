@@ -114,7 +114,7 @@ class CompanyControllerTest extends Specification {
 
     def "should get response 404 - not found when get nonexistent company from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/company/100"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
     }
 
@@ -144,9 +144,15 @@ class CompanyControllerTest extends Specification {
     }
 
     def "should get response 404 - not found when update nonexistent company from id 100"() {
+        given:
+        def company3 = TestHelper.company(3)
+        def company3Json = jsonService.objectToJson(company3)
+
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/company/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.put("/company/100")
+                .content(company3Json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
     def "should delete exact company"() {

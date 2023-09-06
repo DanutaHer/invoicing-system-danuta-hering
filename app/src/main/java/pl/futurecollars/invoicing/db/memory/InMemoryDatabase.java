@@ -40,8 +40,12 @@ public class InMemoryDatabase<T extends WithId> implements Database<T> {
     @Override
     public Optional<T> update(long id, T updatedItem) {
         printIllegalArgumentException(id);
-        memoryDatabase.replace(id, memoryDatabase.get(id), updatedItem);
-        updatedItem.setId(id);
+        if (memoryDatabase.containsKey(id)) {
+            memoryDatabase.put(id, updatedItem);
+            updatedItem.setId(id);
+        } else {
+            return Optional.empty();
+        }
         return Optional.of(updatedItem);
     }
 

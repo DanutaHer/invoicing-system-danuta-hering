@@ -33,6 +33,11 @@ public class CompanySqlDatabase extends AbstractSqlDatabase implements Database<
 
     @Override
     public Optional<Company> update(long id, Company updatedCompany) {
+        Optional<Company> foundCompany = getByID(id);
+        if (foundCompany.isEmpty()) {
+            return Optional.empty();
+        }
+
         updateCompany(updatedCompany, id);
         return getByID(id);
     }

@@ -67,7 +67,7 @@ public class FileDatabase<T extends WithId> implements Database<T> {
                 .toList());
 
             if (allItems.size() == itemsToUpdate.size()) {
-                throw new IllegalArgumentException("Id " + id + " does not exist");
+                return Optional.empty();
             }
 
             item.setId(id);
