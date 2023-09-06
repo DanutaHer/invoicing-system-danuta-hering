@@ -21,7 +21,7 @@ public class TaxCalculatorService {
     private final Database<Invoice> database;
 
     BigDecimal income(String taxIdentificationNumber) {
-        return visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getPrice);
+        return visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getNetPrice);
     }
 
     BigDecimal costs(String taxIdentificationNumber) {
@@ -75,7 +75,7 @@ public class TaxCalculatorService {
     }
 
     private BigDecimal getIncomeValueTakingIntoConsiderationPersonalCarUsage(InvoiceEntry invoiceEntry) {
-        return invoiceEntry.getPrice()
+        return invoiceEntry.getNetPrice()
             .add(invoiceEntry.getVatValue())
             .subtract(getVatValueTakingIntoConsiderationPersonalCarUsage(invoiceEntry));
     }

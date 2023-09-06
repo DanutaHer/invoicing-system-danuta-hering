@@ -33,7 +33,7 @@ public class InvoiceEntry {
     @ApiModelProperty(value = "Service description", required = true, example = "Execution for the service")
     private String description;
     @ApiModelProperty(value = "Service price", required = true, example = "1500.00")
-    private BigDecimal price;
+    private BigDecimal netPrice;
     @ApiModelProperty(value = "Service value", required = true, example = "315.00")
     private BigDecimal vatValue;
     @Enumerated(EnumType.STRING)

@@ -14,10 +14,7 @@ import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.InvoiceService
 import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Requires
-import spock.lang.Shared
 import spock.lang.Specification
-
-import java.time.LocalDate
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -147,7 +144,6 @@ class InvoiceControllerTest extends Specification {
     }
 
     def "should get response 404 - not found when update nonexistent invoice from id 100"() {
-        //return 400?????????????????
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
@@ -178,7 +174,7 @@ class InvoiceControllerTest extends Specification {
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
     }
 
-    def cleanup(){
-        invoiceService.getAll().each (i -> invoiceService.delete(i.id))
+    def cleanup() {
+        invoiceService.getAll().each(i -> invoiceService.delete(i.id))
     }
 }

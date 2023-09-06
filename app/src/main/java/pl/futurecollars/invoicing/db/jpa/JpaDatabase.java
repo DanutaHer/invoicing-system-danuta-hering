@@ -15,8 +15,8 @@ public class JpaDatabase<T extends WithId> implements Database<T> {
     private final CrudRepository<T, Long> itemRepository;
 
     @Override
-    public long save(Invoice invoice) {
-        Invoice savedInvoice = invoiceRepository.save(invoice);
+    public long save(T item) {
+        T savedInvoice = itemRepository.save(item);
         return savedInvoice.getId();
     }
 
@@ -37,6 +37,7 @@ public class JpaDatabase<T extends WithId> implements Database<T> {
 
         if (itemOptional.isPresent()) {
             T item = itemOptional.get();
+            updatedItem.setId(id);
             itemRepository.save(updatedItem);
         }
         return itemOptional;

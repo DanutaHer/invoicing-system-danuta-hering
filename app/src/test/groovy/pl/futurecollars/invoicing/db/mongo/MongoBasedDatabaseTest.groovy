@@ -15,7 +15,7 @@ class MongoBasedDatabaseTest extends AbstractDatabaseTest {
     private Database<Invoice> mongoBasedDatabase
 
     @Override
-    Database getDatabaseInstance() {
+    Database<Invoice> getDatabaseInstance() {
         assert mongoBasedDatabase != null
         mongoBasedDatabase
     }

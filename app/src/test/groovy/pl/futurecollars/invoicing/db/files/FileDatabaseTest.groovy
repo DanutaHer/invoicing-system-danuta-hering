@@ -13,7 +13,7 @@ import java.nio.file.Path
 class FileDatabaseTest extends AbstractDatabaseTest {
 
     @Override
-    Database getDatabaseInstance() {
+    Database<Invoice> getDatabaseInstance() {
 
         JsonService jsonService = new JsonService()
         FilesService filesService = new FilesService()
