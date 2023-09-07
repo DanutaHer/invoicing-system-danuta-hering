@@ -135,7 +135,7 @@ class InvoiceControllerTest extends Specification {
         cleanup()
     }
 
-    def "should get response 404 - not found when update nonexistent invoice from id 100"() { //return 400?????????????????
+    def "should get response 404 - not found when update nonexistent invoice from id 100"() {
         given:
         def invoice3 = TestHelper.invoice(3)
         def invoice3Json = jsonService.objectToJson(invoice3)
