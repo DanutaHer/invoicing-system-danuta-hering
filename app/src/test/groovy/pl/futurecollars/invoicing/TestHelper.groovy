@@ -10,7 +10,7 @@ class TestHelper {
 
     static company(int id) {
         Company.builder()
-                .name("Name $id")
+                .name("Name xyz")
                 .address("ul. Zielona 17, 01-240 Warszawa")
                 .taxIdentificationNumber("123-45-67-89")
                 .pensionInsurance(new BigDecimal("514.57"))
@@ -20,12 +20,16 @@ class TestHelper {
 
     static product(int id) {
         InvoiceEntry.builder()
-                .description("Descr $id")
+                .description("Descr xyz")
                 .netPrice(new BigDecimal("1500.00"))
                 .vatValue(new BigDecimal("315.00"))
                 .vatRate(VAT_21)
-                .expenseRelatedToCar(car())
-                .build();
+                .expenseRelatedToCar(
+                        Car.builder()
+                                .registrationNumber("MBD 1245")
+                                .personalUse(true)
+                                .build())
+                .build()
     }
 
     static invoice(int id) {
@@ -36,7 +40,7 @@ class TestHelper {
                 .buyer(company(id))
                 .seller(company(id))
                 .entries(List.of(product(id)))
-                .build();
+                .build()
     }
 
     static taxCalculator() {
@@ -55,13 +59,6 @@ class TestHelper {
                 .incomingVat(BigDecimal.valueOf(0))
                 .outgoingVat(BigDecimal.valueOf(0))
                 .vatToPay(BigDecimal.valueOf(0))
-                .build();
-    }
-
-    static car() {
-        Car.builder()
-                .registrationNumber("MBD 1245")
-                .personalUse(true)
                 .build()
     }
 }

@@ -40,8 +40,12 @@ public class InMemoryDatabase implements Database {
     @Override
     public Optional<Invoice> update(int id, Invoice updatedInvoice) {
         printIllegalArgumentException(id);
-        memoryDatabase.replace(id, memoryDatabase.get(id), updatedInvoice);
-        updatedInvoice.setId(id);
+        if (memoryDatabase.containsKey(id)) {
+            memoryDatabase.put(id, updatedInvoice);
+            updatedInvoice.setId(id);
+        } else {
+            return Optional.empty();
+        }
         return Optional.of(updatedInvoice);
     }
 

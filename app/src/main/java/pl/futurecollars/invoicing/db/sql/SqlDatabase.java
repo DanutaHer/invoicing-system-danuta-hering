@@ -76,6 +76,11 @@ public class SqlDatabase implements Database {
 
     @Override
     public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+        Optional<Invoice> foundInvoice = getByID(id);
+        if (foundInvoice.isEmpty()) {
+            return Optional.empty();
+        }
+
         Integer buyerId = jdbcTemplate.queryForObject("select buyer from invoice i where i.id = " + id, Integer.class);
         Integer sellerId = jdbcTemplate.queryForObject("select seller from invoice i where i.id = " + id, Integer.class);
 
@@ -154,7 +159,7 @@ public class SqlDatabase implements Database {
                     "insert into invoice_entry (description, price, vat_value, vat_rate, expense_related_to_car) values (?, ?, ?, ?, ?);",
                     new String[] {"id"});
                 ps.setString(1, entry.getDescription());
-                ps.setBigDecimal(2, entry.getPrice());
+                ps.setBigDecimal(2, entry.getNetPrice());
                 ps.setBigDecimal(3, entry.getVatValue());
                 ps.setInt(4, vatToId.get(entry.getVatRate()));
                 ps.setInt(5, insertCar(entry.getExpenseRelatedToCar()));
@@ -209,7 +214,7 @@ public class SqlDatabase implements Database {
                 + "where invoice_id = " + invoiceId,
             (response, ignored) -> InvoiceEntry.builder()
                 .description(response.getString("description"))
-                .price(response.getBigDecimal("price"))
+                .netPrice(response.getBigDecimal("price"))
                 .vatValue(response.getBigDecimal("vat_value"))
                 .vatRate(idToVat.get(response.getInt("vat_rate")))
                 .expenseRelatedToCar(response.getObject("registration_number") != null ? Car.builder()

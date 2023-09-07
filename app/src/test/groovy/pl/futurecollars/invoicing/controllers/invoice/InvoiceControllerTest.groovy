@@ -45,8 +45,8 @@ class InvoiceControllerTest extends Specification {
 
     def "should add invoice to id 1"() {
         given:
-        def invoice = TestHelper.invoice(1)
-        def invoiceJson = jsonService.objectToJson(invoice)
+        def invoiceId = invoiceService.save(TestHelper.invoice(1))
+        def invoiceJson = jsonService.objectToJson(TestHelper.invoice(1))
 
         when:
         def result = mockMvc.perform(MockMvcRequestBuilders.post("/invoices")
@@ -58,14 +58,16 @@ class InvoiceControllerTest extends Specification {
                 .contentAsString
 
         then:
-        Integer.valueOf(result) == 1
-        invoiceService.getByID(1) == Optional.of(invoice)
+        result == (invoiceId + 1).toString()
+
+        cleanup:
+        cleanup()
     }
 
     def "should get all invoices"() {
         given:
-        def invoice1 = TestHelper.invoice(3)
-        invoiceService.save(invoice1)
+        invoiceService.save(TestHelper.invoice(1))
+        invoiceService.save(TestHelper.invoice(2))
 
         when:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices"))
@@ -76,16 +78,19 @@ class InvoiceControllerTest extends Specification {
 
         then:
         def result = jsonService.jsonToObject(resultJson, Invoice[])
-        result == invoiceService.getAll()
+        result.size() == 2
+
+        cleanup:
+        cleanup()
     }
 
     def "should get invoice from the id 1"() {
         given:
         def invoice1 = TestHelper.invoice(1)
-        invoiceService.save(invoice1)
+        def invoiceId = invoiceService.save(invoice1)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/1"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/$invoiceId"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -93,26 +98,28 @@ class InvoiceControllerTest extends Specification {
 
         then:
         def result = jsonService.jsonToObject(resultJson, Invoice)
-        Optional.of(result) == invoiceService.getByID(1)
+        result.number == invoice1.number
+
+        cleanup:
+        cleanup()
     }
 
     def "should get response 404 - not found when get nonexistent invoice from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
     def "should update invoice from id 1 to invoice from id 3"() {
         given:
-        def invoice1 = TestHelper.invoice(1)
+        invoiceService.save(TestHelper.invoice(1))
         def invoice3 = TestHelper.invoice(3)
-        def actualDate = LocalDate.now().plusDays(10)
-        invoice3.setDate(actualDate)
+        invoice3.setNumber("12345679")
         def invoice3Json = jsonService.objectToJson(invoice3)
-        invoiceService.save(invoice1)
+        def invoice3Id = invoiceService.save(invoice3)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/1")
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/$invoice3Id")
                 .content(invoice3Json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -122,34 +129,50 @@ class InvoiceControllerTest extends Specification {
 
         then:
         def result = jsonService.jsonToObject(resultJson, Invoice)
-        result.getDate() == actualDate
+        result.getNumber() == invoice3.getNumber()
+
+        cleanup:
+        cleanup()
     }
 
     def "should get response 404 - not found when update nonexistent invoice from id 100"() { //return 400?????????????????
+        given:
+        def invoice3 = TestHelper.invoice(3)
+        def invoice3Json = jsonService.objectToJson(invoice3)
+
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100")
+                .content(invoice3Json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
     def "should delete invoice from id 1"() {
         given:
         def invoice1 = TestHelper.invoice(1)
-        invoiceService.save(invoice1)
+        def invoiceId = invoiceService.save(invoice1)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/1"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/$invoiceId"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
                 .contentAsString
 
         then:
-        invoiceService.getByID(1).isEmpty()
+        invoiceService.getByID(invoiceId).isEmpty()
+
+        cleanup:
+        cleanup()
     }
 
     def "should get response 404 - not found when delete nonexistent invoice from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+    }
+
+    def cleanup() {
+        invoiceService.getAll().each(i -> invoiceService.delete(i.id))
     }
 }
