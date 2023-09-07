@@ -18,12 +18,12 @@ abstract class AbstractDatabaseTest extends Specification {
 
     def "shouldSaveInvoice"() {
         expect:
-        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
+        database.getByID(2).get() == TestHelper.invoice(2)
     }
 
     def "shouldGetInvoiceByID"() {
         expect:
-        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
+        database.getByID(2).get() == TestHelper.invoice(2)
     }
 
     def "shouldGetAll"() {
@@ -44,6 +44,6 @@ abstract class AbstractDatabaseTest extends Specification {
         database.delete(1)
 
         then:
-        !database.getByID(1).isPresent()
+        database.getByID(1).isEmpty()
     }
 }

@@ -1,9 +1,3 @@
 invoicing-system:
   database:
     type: memory
-
-spring:
-  profiles:
-    active: memory
-  flyway:
-    enabled: false

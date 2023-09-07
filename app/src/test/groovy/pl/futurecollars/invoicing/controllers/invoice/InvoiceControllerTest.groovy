@@ -169,7 +169,7 @@ class InvoiceControllerTest extends Specification {
     def "should get response 404 - not found when delete nonexistent invoice from id 100"() {
         expect:
         mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
     def cleanup() {

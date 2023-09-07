@@ -23,10 +23,9 @@ import pl.futurecollars.invoicing.model.Vat;
 @AllArgsConstructor
 public class SqlDatabase implements Database {
 
-    private JdbcTemplate jdbcTemplate;
-
     private final Map<Vat, Integer> vatToId = new HashMap<>();
     private final Map<Integer, Vat> idToVat = new HashMap<>();
+    private JdbcTemplate jdbcTemplate;
 
     @PostConstruct
     void initVatRatesMap() {
