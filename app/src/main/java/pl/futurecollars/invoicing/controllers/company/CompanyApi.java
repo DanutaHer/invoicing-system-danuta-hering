@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.futurecollars.invoicing.model.Company;
 
 @Api(tags = "Company controller")
-@RequestMapping("company")
+@RequestMapping("companies")
 public interface CompanyApi {
 
     @ApiOperation(value = "Method used to list all companies")
