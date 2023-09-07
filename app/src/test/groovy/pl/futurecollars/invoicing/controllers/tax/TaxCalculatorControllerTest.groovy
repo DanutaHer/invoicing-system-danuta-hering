@@ -7,12 +7,13 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import pl.futurecollars.invoicing.TestHelper
+import pl.futurecollars.invoicing.model.Invoice
+import pl.futurecollars.invoicing.model.TaxCalculator
 import pl.futurecollars.invoicing.service.InvoiceService
 import pl.futurecollars.invoicing.service.JsonService
 import pl.futurecollars.invoicing.service.TaxCalculatorService
 import spock.lang.Specification
-import static pl.futurecollars.invoicing.TestHelper.company
-import static pl.futurecollars.invoicing.TestHelper.invoice
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,7 +43,7 @@ class TaxCalculatorControllerTest extends Specification {
 
     def "should get zeros result when there are no this company in the system"() {
         when:
-        def taxCalculatorResponse = taxCalculatorService.calculateTaxes(company(0))
+        def taxCalculatorResponse = taxCalculatorService.calculateTaxes(TestHelper.company(0))
 
         then:
         taxCalculatorResponse.income == 0
@@ -56,7 +57,7 @@ class TaxCalculatorControllerTest extends Specification {
 
     def "should get result when there are company in the system"() {
         given:
-        def invoice = invoice(1)
+        def invoice = TestHelper.invoice(1)
         def invoiceJson = jsonService.objectToJson(invoice)
         def result = mockMvc.perform(MockMvcRequestBuilders.post("/invoices")
                 .content(invoiceJson)
@@ -67,7 +68,7 @@ class TaxCalculatorControllerTest extends Specification {
                 .contentAsString
 
         when:
-        def taxCalculatorResponse = taxCalculatorService.calculateTaxes(company(1))
+        def taxCalculatorResponse = taxCalculatorService.calculateTaxes(TestHelper.company(1))
 
         then:
         taxCalculatorResponse.income == 1500

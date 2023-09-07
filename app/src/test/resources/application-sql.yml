@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: sql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/invoicing
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
