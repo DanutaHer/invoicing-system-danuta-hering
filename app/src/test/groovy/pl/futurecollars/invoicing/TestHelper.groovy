@@ -4,7 +4,7 @@ import pl.futurecollars.invoicing.model.*
 
 import java.time.LocalDate
 
-import static pl.futurecollars.invoicing.model.Vat.VAT_21
+import static pl.futurecollars.invoicing.model.Vat.VAT_5
 
 class TestHelper {
 
@@ -23,7 +23,7 @@ class TestHelper {
                 .description("Descr xyz")
                 .netPrice(new BigDecimal("1500.00"))
                 .vatValue(new BigDecimal("315.00"))
-                .vatRate(VAT_21)
+                .vatRate(VAT_5)
                 .expenseRelatedToCar(Car.builder()
                         .registrationNumber("MND 1235")
                         .personalUse(true)
@@ -45,30 +45,17 @@ class TestHelper {
         TaxCalculator.builder()
                 .income(BigDecimal.valueOf(0))
                 .costs(BigDecimal.valueOf(0))
-                .costs(BigDecimal.valueOf(0))
-                .incomeMinusCosts(BigDecimal.valueOf(0))
                 .incomeMinusCosts(BigDecimal.valueOf(0))
                 .pensionInsurance(0.00)
-                .pensionInsurance(0.00)
-                .incomeMinusCostsMinusPensionInsurance(0.00)
                 .incomeMinusCostsMinusPensionInsurance(0.00)
                 .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(0))
-                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(0))
-                .incomeTax(0.00)
                 .incomeTax(0.00)
                 .healthInsurancePaid(0.00)
-                .healthInsurancePaid(0.00)
-                .healthInsuranceToSubtract(0.00)
                 .healthInsuranceToSubtract(0.00)
                 .incomeTaxMinusHealthInsurance(0.00)
-                .incomeTaxMinusHealthInsurance(0.00)
-                .finalIncomeTax(BigDecimal.valueOf(0))
                 .finalIncomeTax(BigDecimal.valueOf(0))
                 .incomingVat(BigDecimal.valueOf(0))
-                .incomingVat(BigDecimal.valueOf(0))
                 .outgoingVat(BigDecimal.valueOf(0))
-                .outgoingVat(BigDecimal.valueOf(0))
-                .vatToPay(BigDecimal.valueOf(0))
                 .vatToPay(BigDecimal.valueOf(0))
                 .build()
     }

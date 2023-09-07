@@ -25,9 +25,11 @@ class TaxCalculatorControllerTest extends Specification {
     private TaxCalculatorService taxCalculatorService
     @Autowired
     private InvoiceService invoiceService
+
     def setup() {
         invoiceService.getAll().each { invoice -> invoiceService.delete(invoice.id) }
     }
+
     def "should get response 404 - not found when no value is given"() {
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
