@@ -8,3 +8,9 @@ invoicing-system:
     file:
       id: id.txt
       invoices: invoices.txt
+
+spring:
+  profiles:
+    active: file
+  flyway:
+    enabled: false

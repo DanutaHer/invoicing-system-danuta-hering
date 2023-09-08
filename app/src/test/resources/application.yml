@@ -3,7 +3,11 @@ server:
 
 invoicing-system:
   database:
-    type: sql
+    directory: db
+    type: file
+    file:
+      id: id.txt
+      invoices: invoices.txt
 
 logging:
   level:

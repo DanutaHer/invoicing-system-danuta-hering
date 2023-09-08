@@ -1,14 +1,8 @@
-profiles:
-  active: sql
 spring:
   datasource:
-    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/invoicing
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   flyway:
     enabled: true
-
-invoicing-system:
-  database:
-    type: sql

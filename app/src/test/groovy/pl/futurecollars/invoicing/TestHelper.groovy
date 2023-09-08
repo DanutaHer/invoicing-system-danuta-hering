@@ -4,7 +4,7 @@ import pl.futurecollars.invoicing.model.*
 
 import java.time.LocalDate
 
-import static pl.futurecollars.invoicing.model.Vat.VAT_5
+import static pl.futurecollars.invoicing.model.Vat.VAT_21
 
 class TestHelper {
 
@@ -13,22 +13,22 @@ class TestHelper {
                 .name("Name xyz")
                 .address("ul. Zielona 17, 01-240 Warszawa")
                 .taxIdentificationNumber("123-45-67-89")
-                .pensionInsurance(new BigDecimal("1.00"))
-                .healthInsurance(new BigDecimal("1.00"))
+                .pensionInsurance(new BigDecimal("514.57"))
+                .healthInsurance(new BigDecimal("319.94"))
                 .build()
     }
 
     static product(long id) {
         InvoiceEntry.builder()
                 .description("Descr xyz")
-                .price(new BigDecimal("1.00"))
-                .vatValue(new BigDecimal("1.00"))
+                .netPrice(new BigDecimal("1500.00"))
+                .vatValue(new BigDecimal("315.00"))
                 .vatRate(VAT_5)
                 .expenseRelatedToCar(Car.builder()
                         .registrationNumber("MND 1235")
-                        .personalUse(false)
+                        .personalUse(true)
                         .build())
-                .build();
+                .build()
     }
 
     static invoice(long id) {
@@ -39,25 +39,25 @@ class TestHelper {
                 .buyer(company(id))
                 .seller(company(id))
                 .entries(List.of(product(id)))
-                .build();
+                .build()
     }
 
     static taxCalculator() {
         TaxCalculator.builder()
-                .incomingVat(new BigDecimal("0"))
-                .outgoingVat(new BigDecimal("0"))
-                .income(new BigDecimal("0"))
-                .costs(new BigDecimal("0"))
-                .incomeMinusCosts(new BigDecimal("0"))
-                .pensionInsurance(new BigDecimal("1.00"))
-                .incomeMinusCostsMinusPensionInsurance(new BigDecimal("-1.00"))
-                .incomeMinusCostsMinusPensionInsuranceRounded(new BigDecimal("-1"))
-                .incomeTax(new BigDecimal("-0.19"))
-                .healthInsurancePaid(new BigDecimal("1.00"))
-                .healthInsuranceToSubtract(new BigDecimal("0.86"))
-                .incomeTaxMinusHealthInsurance(new BigDecimal("-1.05"))
-                .finalIncomeTax(new BigDecimal("-1"))
-                .vatToPay(new BigDecimal("0"))
-                .build();
+                .income(BigDecimal.valueOf(0))
+                .costs(BigDecimal.valueOf(0))
+                .incomeMinusCosts(BigDecimal.valueOf(0))
+                .pensionInsurance(0.00)
+                .incomeMinusCostsMinusPensionInsurance(0.00)
+                .incomeMinusCostsMinusPensionInsuranceRounded(BigDecimal.valueOf(0))
+                .incomeTax(0.00)
+                .healthInsurancePaid(0.00)
+                .healthInsuranceToSubtract(0.00)
+                .incomeTaxMinusHealthInsurance(0.00)
+                .finalIncomeTax(BigDecimal.valueOf(0))
+                .incomingVat(BigDecimal.valueOf(0))
+                .outgoingVat(BigDecimal.valueOf(0))
+                .vatToPay(BigDecimal.valueOf(0))
+                .build()
     }
 }

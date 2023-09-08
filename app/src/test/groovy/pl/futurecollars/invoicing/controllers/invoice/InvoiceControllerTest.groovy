@@ -124,7 +124,6 @@ class InvoiceControllerTest extends Specification {
     }
 
     def "should get response 404 - not found when update nonexistent invoice from id 100"() {
-        //return 400?????????????????
         expect:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())

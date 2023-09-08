@@ -33,7 +33,7 @@ public class InvoiceEntry {
     @ApiModelProperty(value = "Service description", required = true, example = "Execution for the service")
     private String description;
     @ApiModelProperty(value = "Service price", required = true, example = "1500.00")
-    private BigDecimal price;
+    private BigDecimal netPrice;
     @ApiModelProperty(value = "Service value", required = true, example = "315.00")
     private BigDecimal vatValue;
     @Enumerated(EnumType.STRING)
@@ -41,6 +41,6 @@ public class InvoiceEntry {
     private Vat vatRate;
     @OneToOne(cascade = ALL, orphanRemoval = true)
     @JoinColumn(name = "expense_related_to_car")
-    @ApiModelProperty(value = "Expense related to car", required = true, example = "100.00")
+    @ApiModelProperty(value = "Car this expense is related to, empty if expense is not related to car", required = true, example = "100.00")
     private Car expenseRelatedToCar;
 }
