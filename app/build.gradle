@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        flywaydbVersion = "7.6.0"
+        flywaydbVersion = "8.2.2"
         h2databaseVersnion = "2.2.220"
         jacksonCoreVersion = "2.12.7.1"
         jacksonDatatypeVersion = "2.12.1"
@@ -28,6 +28,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -43,7 +45,7 @@ dependencies {
     implementation "io.springfox:springfox-swagger-ui:${springFoxUiVersion}"
 
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
-    
+
     testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
     testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
@@ -75,7 +77,7 @@ checkstyle {
     maxErrors = 0
 }
 
-test {
+check {
     finalizedBy jacocoTestReport
     finalizedBy jacocoTestCoverageVerification
 }
@@ -85,21 +87,22 @@ jacoco {
 }
 
 jacocoTestReport {
-    dependsOn test
+    dependsOn check
 }
 
 jacocoTestCoverageVerification {
+    executionData tasks.withType(Test)
     violationRules {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
     }
@@ -107,16 +110,19 @@ jacocoTestCoverageVerification {
 
 task testWithFileDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'file'
+    useJUnitPlatform()
 }
 
 task testWithMemoryDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'memory'
+    useJUnitPlatform()
 }
 
 task testWithSQLDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'sql'
+    useJUnitPlatform()
 }
 
 check.dependsOn testWithFileDatabase
 check.dependsOn testWithMemoryDatabase
-//checkdependsOn testWithSqlDatabase
+check.dependsOn testWithSQLDatabase

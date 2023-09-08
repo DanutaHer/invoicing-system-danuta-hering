@@ -17,14 +17,13 @@ abstract class AbstractDatabaseTest extends Specification {
     }
 
     def "shouldSaveInvoice"() {
-
         expect:
-        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
+        database.getByID(2).get() == TestHelper.invoice(2)
     }
 
     def "shouldGetInvoiceByID"() {
         expect:
-        database.getByID(2) == Optional.ofNullable(TestHelper.invoice(2))
+        database.getByID(2).get() == TestHelper.invoice(2)
     }
 
     def "shouldGetAll"() {
@@ -45,30 +44,6 @@ abstract class AbstractDatabaseTest extends Specification {
         database.delete(1)
 
         then:
-        !database.getByID(1).isPresent()
-    }
-
-    def "shouldThrowIllegalArgumentExceptionFor_GetByIDMethod"() {
-        when:
-        database.getByID(-2)
-
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def "shouldThrowIllegalArgumentExceptionFor_UpdateMethod"() {
-        when:
-        database.update(-2, TestHelper.invoice(4))
-
-        then:
-        thrown(IllegalArgumentException)
-    }
-
-    def "shouldThrowIllegalArgumentExceptionFor_DeleteMethod"() {
-        when:
-        database.delete(-3)
-
-        then:
-        thrown(IllegalArgumentException)
+        database.getByID(1).isEmpty()
     }
 }

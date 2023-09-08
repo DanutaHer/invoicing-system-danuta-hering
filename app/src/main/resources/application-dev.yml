@@ -1,7 +1,0 @@
-invoicing-system:
-  database:
-    type: memory
-
-spring:
-  flyway:
-    enabled: false
