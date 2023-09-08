@@ -77,7 +77,7 @@ checkstyle {
     maxErrors = 0
 }
 
-test {
+check {
     finalizedBy jacocoTestReport
     finalizedBy jacocoTestCoverageVerification
 }
@@ -87,21 +87,22 @@ jacoco {
 }
 
 jacocoTestReport {
-    dependsOn test
+    dependsOn check
 }
 
 jacocoTestCoverageVerification {
+    executionData tasks.withType(Test)
     violationRules {
         rule {
             limit {
                 counter = 'BRANCH'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
         rule {
             limit {
                 counter = 'LINE'
-                minimum = 0.7
+                minimum = 0.8
             }
         }
     }
@@ -109,16 +110,19 @@ jacocoTestCoverageVerification {
 
 task testWithFileDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'file'
+    useJUnitPlatform()
 }
 
 task testWithMemoryDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'memory'
+    useJUnitPlatform()
 }
 
 task testWithSQLDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'sql'
+    useJUnitPlatform()
 }
 
 check.dependsOn testWithFileDatabase
 check.dependsOn testWithMemoryDatabase
-//checkdependsOn testWithSqlDatabase
+check.dependsOn testWithSQLDatabase

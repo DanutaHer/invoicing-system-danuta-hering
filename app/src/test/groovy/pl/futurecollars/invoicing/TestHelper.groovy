@@ -23,7 +23,7 @@ class TestHelper {
                 .description("Descr xyz")
                 .netPrice(new BigDecimal("1500.00"))
                 .vatValue(new BigDecimal("315.00"))
-                .vatRate(VAT_5)
+                .vatRate(VAT_21)
                 .expenseRelatedToCar(Car.builder()
                         .registrationNumber("MND 1235")
                         .personalUse(true)

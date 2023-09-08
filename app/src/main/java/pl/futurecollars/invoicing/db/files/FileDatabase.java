@@ -66,7 +66,7 @@ public class FileDatabase implements Database {
                 .toList());
 
             if (allInvoices.size() == invoicesToUpdate.size()) {
-                throw new IllegalArgumentException("Id " + id + " does not exist");
+                return Optional.empty();
             }
 
             updatedInvoice.setId(id);
