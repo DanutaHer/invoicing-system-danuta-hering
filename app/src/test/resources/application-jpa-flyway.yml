@@ -1,6 +1,4 @@
 spring:
-  profiles:
-    active: jpa-flyway
   jpa:
     hibernate:
       ddl-auto: validate

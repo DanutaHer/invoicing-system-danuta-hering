@@ -1,6 +1,3 @@
-server:
-  port: 9999
-
 invoicing-system:
   database:
     directory: db

@@ -1,7 +1,6 @@
 package pl.futurecollars.invoicing.controllers.invoice
 
-import org.flywaydb.core.Flyway
-import org.junit.jupiter.api.BeforeEach
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,8 +13,6 @@ import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.InvoiceService
 import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Specification
-
-import java.time.LocalDate
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,7 +39,7 @@ class InvoiceControllerTest extends Specification {
         result == "[]"
     }
 
-    def "should add invoice to id 1"() {
+    def "should add invoice to database"() {
         given:
         def invoiceId = invoiceService.save(TestHelper.invoice(1))
         def invoiceJson = jsonService.objectToJson(TestHelper.invoice(1))
@@ -83,7 +80,7 @@ class InvoiceControllerTest extends Specification {
         cleanup()
     }
 
-    def "should get invoice from the id 1"() {
+    def "should get exact invoice from database"() {
         given:
         def invoice1 = TestHelper.invoice(1)
         def invoiceId = invoiceService.save(invoice1)
@@ -146,7 +143,7 @@ class InvoiceControllerTest extends Specification {
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
-    def "should delete invoice from id 1"() {
+    def "should delete exact invoice"() {
         given:
         def invoice1 = TestHelper.invoice(1)
         def invoiceId = invoiceService.save(invoice1)

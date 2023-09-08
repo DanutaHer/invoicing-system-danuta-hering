@@ -11,7 +11,6 @@ import pl.futurecollars.invoicing.db.Database
 
 import javax.sql.DataSource
 
-@DataJpaTest
 @IfProfileValue(name = "spring.profiles.active", value = "sql")
 class SqlDatabaseTest extends AbstractDatabaseTest {
 

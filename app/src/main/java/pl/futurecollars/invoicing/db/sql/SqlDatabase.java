@@ -60,6 +60,10 @@ public class SqlDatabase implements Database {
     @Override
     @Transactional
     public Optional<Invoice> update(long id, Invoice updatedInvoice) {
+        Optional<Invoice> foundInvoice = getByID(id);
+        if (foundInvoice.isEmpty()) {
+            return Optional.empty();
+        }
         Long buyerId = jdbcTemplate.queryForObject("select buyer from invoice i where i.id = " + id, Long.class);
         Long sellerId = jdbcTemplate.queryForObject("select seller from invoice i where i.id = " + id, Long.class);
 
