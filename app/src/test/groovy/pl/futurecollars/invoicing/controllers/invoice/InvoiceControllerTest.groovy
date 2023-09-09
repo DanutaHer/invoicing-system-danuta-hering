@@ -14,7 +14,6 @@ import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.InvoiceService
 import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Requires
-import spock.lang.Shared
 import spock.lang.Specification
 
 @SpringBootTest
