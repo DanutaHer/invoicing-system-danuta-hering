@@ -35,7 +35,7 @@ abstract class AbstractDatabaseTest extends Specification {
 
     def "shouldGetAll"() {
         given:
-        def savedInvoice1Id = database.save(TestHelper.invoice(1))
+        database.save(TestHelper.invoice(1))
         def savedInvoice2Id = database.save(TestHelper.invoice(2))
 
         when:

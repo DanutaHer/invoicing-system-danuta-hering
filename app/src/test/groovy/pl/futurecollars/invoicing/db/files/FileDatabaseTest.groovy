@@ -9,6 +9,7 @@ import pl.futurecollars.invoicing.service.FilesService
 import pl.futurecollars.invoicing.service.JsonService
 
 import java.nio.file.Path
+
 @IfProfileValue(name = "spring.profiles.active", value = "file")
 class FileDatabaseTest extends AbstractDatabaseTest {
 

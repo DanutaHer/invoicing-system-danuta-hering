@@ -19,10 +19,13 @@ class TaxCalculatorControllerTest extends Specification {
 
     @Autowired
     private MockMvc mockMvc
+
     @Autowired
     private JsonService jsonService
+
     @Autowired
     private TaxCalculatorService taxCalculatorService
+
     @Autowired
     private InvoiceService invoiceService
 
@@ -32,7 +35,7 @@ class TaxCalculatorControllerTest extends Specification {
 
     def "should get response 404 - not found when no value is given"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
     }
 

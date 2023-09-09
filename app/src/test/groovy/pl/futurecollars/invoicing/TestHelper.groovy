@@ -4,7 +4,7 @@ import pl.futurecollars.invoicing.model.*
 
 import java.time.LocalDate
 
-import static pl.futurecollars.invoicing.model.Vat.VAT_5
+import static pl.futurecollars.invoicing.model.Vat.VAT_21
 
 class TestHelper {
 
@@ -23,12 +23,12 @@ class TestHelper {
                 .description("Descr xyz")
                 .netPrice(new BigDecimal("1500.00"))
                 .vatValue(new BigDecimal("315.00"))
-                .vatRate(VAT_5)
+                .vatRate(VAT_21)
                 .expenseRelatedToCar(Car.builder()
                         .registrationNumber("MND 1235")
                         .personalUse(true)
                         .build())
-                .build();
+                .build()
     }
 
     static invoice(long id) {
@@ -38,7 +38,7 @@ class TestHelper {
                 .buyer(company(id))
                 .seller(company(id))
                 .entries(List.of(product(id)))
-                .build();
+                .build()
     }
 
     static taxCalculator() {
