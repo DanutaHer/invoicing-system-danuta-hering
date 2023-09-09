@@ -1,5 +1,6 @@
 server:
   port: 7777
+
 invoicing-system:
   database:
     type: memory
@@ -14,8 +15,12 @@ logging:
         invoicing: INFO
         invoicing.db: DEBUG
 
-
 spring:
+  datasource:
+    url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

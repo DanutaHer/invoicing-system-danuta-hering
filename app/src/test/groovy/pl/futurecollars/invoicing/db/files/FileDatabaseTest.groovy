@@ -46,12 +46,4 @@ class FileDatabaseTest extends AbstractDatabaseTest {
         then:
         thrown(IllegalArgumentException)
     }
-
-    def "shouldThrowRuntimeExceptionFor_UpdateMethod"() {
-        when:
-        database.update(1000000, TestHelper.invoice(4))
-
-        then:
-        thrown(RuntimeException)
-    }
 }

@@ -1,6 +1,7 @@
 package pl.futurecollars.invoicing.db.sql
 
 import org.flywaydb.core.Flyway
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType

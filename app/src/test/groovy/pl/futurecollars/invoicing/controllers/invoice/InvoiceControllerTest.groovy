@@ -17,8 +17,6 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Specification
 
-import java.time.LocalDate
-
 @SpringBootTest
 @AutoConfigureMockMvc
 class InvoiceControllerTest extends Specification {
@@ -117,8 +115,8 @@ class InvoiceControllerTest extends Specification {
 
     def "should get response 404 - not found when get nonexistent invoice from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
     def "should update invoice number"() {
@@ -147,19 +145,24 @@ class InvoiceControllerTest extends Specification {
     }
 
     def "should get response 404 - not found when update nonexistent invoice from id 100"() {
-        //return 400?????????????????
+        given:
+        def invoice3 = TestHelper.invoice(3)
+        def invoice3Json = jsonService.objectToJson(invoice3)
+
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100")
+                .content(invoice3Json)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
-    def "should delete exact invoice "() {
+    def "should delete exact invoice"() {
         given:
         def invoice1 = TestHelper.invoice(1)
         def invoiceId = invoiceService.save(invoice1)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/$invoiceId"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/$invoiceId"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -174,11 +177,11 @@ class InvoiceControllerTest extends Specification {
 
     def "should get response 404 - not found when delete nonexistent invoice from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100"))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
-    def cleanup(){
-        invoiceService.getAll().each (i -> invoiceService.delete(i.id))
+    def cleanup() {
+        invoiceService.getAll().each(i -> invoiceService.delete(i.id))
     }
 }

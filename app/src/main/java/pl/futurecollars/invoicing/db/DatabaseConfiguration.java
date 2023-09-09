@@ -31,8 +31,8 @@ public class DatabaseConfiguration {
         return new IdService(idPath, filesService);
     }
 
-    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "file")
     @Bean
+    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "file")
     public Database fileDatabase(FilesService filesService, JsonService jsonService, IdService idService,
                                  @Value("${invoicing-system.database.directory}") String databaseLocation,
                                  @Value("${invoicing-system.database.file.invoices}") String invoicesFile) throws IOException {
@@ -42,8 +42,8 @@ public class DatabaseConfiguration {
         return new FileDatabase(filesService, jsonService, idService, databasePath);
     }
 
-    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "memory")
     @Bean
+    @ConditionalOnProperty(name = "invoicing-system.database.type", havingValue = "memory")
     public Database inMemoryDatabase() {
         log.info("Creating inMemory database");
         return new InMemoryDatabase();

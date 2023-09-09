@@ -60,6 +60,10 @@ public class SqlDatabase implements Database {
     @Override
     @Transactional
     public Optional<Invoice> update(long id, Invoice updatedInvoice) {
+        Optional<Invoice> foundInvoice = getByID(id);
+        if (foundInvoice.isEmpty()) {
+            return Optional.empty();
+        }
         Long buyerId = jdbcTemplate.queryForObject("select buyer from invoice i where i.id = " + id, Long.class);
         Long sellerId = jdbcTemplate.queryForObject("select seller from invoice i where i.id = " + id, Long.class);
 
@@ -136,10 +140,10 @@ public class SqlDatabase implements Database {
         invoice.getEntries().forEach(entry ->
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(
-                    "insert into invoice_entry (description, price, vat_value, vat_rate, expense_related_to_car) values (?, ?, ?, ?, ?);",
+                    "insert into invoice_entry (description, net_price, vat_value, vat_rate, expense_related_to_car) values (?, ?, ?, ?, ?);",
                     new String[] {"id"});
                 ps.setString(1, entry.getDescription());
-                ps.setBigDecimal(2, entry.getPrice());
+                ps.setBigDecimal(2, entry.getNetPrice());
                 ps.setBigDecimal(3, entry.getVatValue());
                 ps.setString(4, entry.getVatRate().name());
                 ps.setObject(5, insertCar(entry.getExpenseRelatedToCar()));
@@ -194,7 +198,7 @@ public class SqlDatabase implements Database {
                 + "where invoice_id = " + invoiceId,
             (response, ignored) -> InvoiceEntry.builder()
                 .description(response.getString("description"))
-                .price(response.getBigDecimal("price"))
+                .netPrice(response.getBigDecimal("net_price"))
                 .vatValue(response.getBigDecimal("vat_value"))
                 .vatRate(Vat.valueOf(response.getString("vat_rate")))
                 .expenseRelatedToCar(response.getObject("registration_number") != null ? Car.builder()
