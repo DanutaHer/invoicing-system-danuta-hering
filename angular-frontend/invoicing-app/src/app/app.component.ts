@@ -9,7 +9,7 @@ import { CompanyService } from './company.service';
 })
 
 export class AppComponent implements OnInit {
- companies: Company[] = [];
+    companies: Company[] = [];
 
     newCompany: Company = new Company(0, "", "", "", 0, 0);
 
@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
     }
 
     addCompany() {
+    console.log("addCompany")
         this.companiesService.addCompany(this.newCompany)
             .subscribe(id => {
                 this.newCompany.id = id;
