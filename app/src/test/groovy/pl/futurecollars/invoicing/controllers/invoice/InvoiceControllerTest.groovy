@@ -16,6 +16,9 @@ import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Requires
 import spock.lang.Specification
 
+import java.time.LocalDate
+
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class InvoiceControllerTest extends Specification {

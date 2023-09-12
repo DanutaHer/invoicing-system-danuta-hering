@@ -1,8 +1,6 @@
 package pl.futurecollars.invoicing.db
 
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.ApplicationContext
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.model.Invoice
 import spock.lang.Specification
@@ -12,9 +10,6 @@ abstract class AbstractDatabaseTest extends Specification {
     abstract Database getDatabaseInstance()
 
     Database database
-
-    @Autowired
-    private ApplicationContext context
 
     def setup() {
         database = getDatabaseInstance()
