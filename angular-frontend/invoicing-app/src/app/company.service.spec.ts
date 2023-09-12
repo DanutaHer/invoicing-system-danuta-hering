@@ -41,9 +41,9 @@ describe('Company Service Test', () => {
         expect(request.request.method).toBe("POST");
         expect(request.request.body).toEqual(
             {
-                taxIdentificationNumber: '111-111-11-11',
                 name: 'First Ltd.',
                 address: 'ul. First 1',
+                taxIdentificationNumber: '111-111-11-11',
                 pensionInsurance: 111.11,
                 healthInsurance: 1111.11
             }
@@ -57,19 +57,21 @@ describe('Company Service Test', () => {
     const expectedCompanies: Company[] = [
         new Company(
             1,
-            "111-111-11-11",
-            "ul. First 1",
             "First Ltd.",
-            1111.11,
-            111.11
+            "ul. First 1",
+            "111-111-11-11",
+            111.11,
+            1111.11
+
         ),
         new Company(
             2,
-            "222-222-22-22",
-            "ul. Second 2",
             "Second Ltd.",
-            2222.22,
-            222.22
+            "ul. Second 2",
+            "222-222-22-22",
+            222.22,
+            2222.22
+
         )
     ];
 

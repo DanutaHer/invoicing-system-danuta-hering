@@ -30,8 +30,8 @@ describe('AppComponent', () => {
   });
 
   it(`should display a list of companies`, () => {
-    expect(fixture.nativeElement.innerText).toContain("Global ul. Zielona 1 123-123-123 11.11 111.11")
-    expect(fixture.nativeElement.innerText).toContain("Global ul. Zielona 2 123-123-123 22.22 222.222")
+    expect(fixture.nativeElement.innerText.replace(/\s+/g, '')).toContain("Global ul. Zielona 1 123-123-123 11.11 111.11".replace(/\s+/g, ''))
+    expect(fixture.nativeElement.innerText.replace(/\s+/g, '')).toContain("Global ul. Zielona 2 123-123-123 22.22 222.22".replace(/\s+/g, ''))
 
     expect(component.companies.length).toBe(2)
     expect(component.companies).toBe(MockCompanyService.companies)
@@ -55,7 +55,7 @@ describe('AppComponent', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.innerText).toContain("Global ul.Zielona 1 123-123-123")
+    expect(fixture.nativeElement.innerText.replace(/\s+/g, '')).toContain("Global ul.Zielona 1 123-123-123".replace(/\s+/g, ''))
   });
 
   class MockCompanyService {
