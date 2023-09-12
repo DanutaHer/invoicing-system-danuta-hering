@@ -138,7 +138,6 @@ task testWithJpaDatabase (type: Test) {
 task testWithJpaFlywayDatabase(type: Test) {
     systemProperty 'spring.profiles.active', 'jpa-flyway'
     useJUnitPlatform()
-    useJUnitPlatform()
 }
 
 task testWithMongoDatabase(type: Test) {
