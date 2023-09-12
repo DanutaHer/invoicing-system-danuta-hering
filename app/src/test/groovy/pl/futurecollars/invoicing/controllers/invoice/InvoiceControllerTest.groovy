@@ -1,9 +1,10 @@
 package pl.futurecollars.invoicing.controllers.invoice
 
-
+import com.mongodb.client.MongoDatabase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -12,7 +13,11 @@ import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.model.Invoice
 import pl.futurecollars.invoicing.service.InvoiceService
 import pl.futurecollars.invoicing.service.JsonService
+import spock.lang.Requires
 import spock.lang.Specification
+
+import java.time.LocalDate
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,6 +31,16 @@ class InvoiceControllerTest extends Specification {
 
     @Autowired
     private InvoiceService invoiceService
+
+    @Autowired
+    private ApplicationContext context
+
+    @Requires({ System.getProperty('spring.profiles.active', 'memory').contains("mongo") })
+    def "database is dropped to ensure clean state"() {
+        expect:
+        MongoDatabase mongoDatabase = context.getBean(MongoDatabase)
+        mongoDatabase.drop()
+    }
 
     def "should return empty array when no invoices were created"() {
         when:
@@ -106,7 +121,7 @@ class InvoiceControllerTest extends Specification {
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
-    def "should update invoice from id 1 to invoice from id 3"() {
+    def "should update invoice number"() {
         given:
         invoiceService.save(TestHelper.invoice(1))
         def invoice3 = TestHelper.invoice(3)
