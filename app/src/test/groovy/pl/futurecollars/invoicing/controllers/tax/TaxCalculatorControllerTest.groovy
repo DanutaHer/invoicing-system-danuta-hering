@@ -35,7 +35,7 @@ class TaxCalculatorControllerTest extends Specification {
 
     def "should get response 404 - not found when no value is given"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
     }
 

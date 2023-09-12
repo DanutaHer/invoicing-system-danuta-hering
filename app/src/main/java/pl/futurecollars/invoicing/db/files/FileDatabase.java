@@ -22,9 +22,9 @@ public class FileDatabase implements Database {
     private final Path path;
 
     @Override
-    public int save(Invoice invoice) {
+    public long save(Invoice invoice) {
         try {
-            invoice.setId(idService.getNextIdAndIncreament());
+            invoice.setId(idService.getNextIdAndIncrement());
             filesService.appendLineToFile(path, jsonService.objectToJson(invoice));
             return invoice.getId();
         } catch (IOException exception) {
@@ -33,7 +33,7 @@ public class FileDatabase implements Database {
     }
 
     @Override
-    public Optional<Invoice> getByID(int id) {
+    public Optional<Invoice> getByID(long id) {
         try {
             printIllegalArgumentException(id);
             return filesService.readAllLines(path).stream()
@@ -57,7 +57,7 @@ public class FileDatabase implements Database {
     }
 
     @Override
-    public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+    public Optional<Invoice> update(long id, Invoice updatedInvoice) {
         try {
             printIllegalArgumentException(id);
             List<String> allInvoices = filesService.readAllLines(path);
@@ -79,7 +79,7 @@ public class FileDatabase implements Database {
     }
 
     @Override
-    public Optional<Invoice> delete(int id) {
+    public Optional<Invoice> delete(long id) {
         try {
             printIllegalArgumentException(id);
             List<String> invoicesToUpdate = new ArrayList<>(filesService.readAllLines(path).stream()
@@ -99,7 +99,7 @@ public class FileDatabase implements Database {
 
     }
 
-    private void printIllegalArgumentException(int id) {
+    private void printIllegalArgumentException(long id) {
         if (id < 0) {
             throw new IllegalArgumentException("Error: id cannot be negative");
         }

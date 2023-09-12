@@ -8,7 +8,7 @@ import static pl.futurecollars.invoicing.model.Vat.VAT_21
 
 class TestHelper {
 
-    static company(int id) {
+    static company(long id) {
         Company.builder()
                 .name("Name xyz")
                 .address("ul. Zielona 17, 01-240 Warszawa")
@@ -18,23 +18,21 @@ class TestHelper {
                 .build()
     }
 
-    static product(int id) {
+    static product(long id) {
         InvoiceEntry.builder()
                 .description("Descr xyz")
                 .netPrice(new BigDecimal("1500.00"))
                 .vatValue(new BigDecimal("315.00"))
                 .vatRate(VAT_21)
-                .expenseRelatedToCar(
-                        Car.builder()
-                                .registrationNumber("MBD 1245")
-                                .personalUse(true)
-                                .build())
+                .expenseRelatedToCar(Car.builder()
+                        .registrationNumber("MND 1235")
+                        .personalUse(true)
+                        .build())
                 .build()
     }
 
-    static invoice(int id) {
+    static invoice(long id) {
         Invoice.builder()
-                .id(id)
                 .number("2023/06/15/0001")
                 .date(LocalDate.now())
                 .buyer(company(id))

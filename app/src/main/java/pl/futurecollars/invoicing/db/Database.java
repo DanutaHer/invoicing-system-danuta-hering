@@ -10,15 +10,15 @@ import pl.futurecollars.invoicing.model.InvoiceEntry;
 
 public interface Database {
 
-    int save(Invoice invoice);
+    long save(Invoice invoice);
 
-    Optional<Invoice> getByID(int id);
+    Optional<Invoice> getByID(long id);
 
     List<Invoice> getAll();
 
-    Optional<Invoice> update(int id, Invoice updatedInvoice);
+    Optional<Invoice> update(long id, Invoice updatedInvoice);
 
-    Optional<Invoice> delete(int id);
+    Optional<Invoice> delete(long id);
 
     default BigDecimal visit(Predicate<Invoice> predicateInvoice, Function<InvoiceEntry, BigDecimal> invoiceEntryToAmount) {
         return getAll()

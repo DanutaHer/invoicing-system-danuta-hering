@@ -9,7 +9,7 @@ public class IdService {
 
     private final FilesService filesService;
     private final Path idFilePath;
-    private int nextId = 1;
+    private long nextId = 1;
 
     public IdService(Path idFilePath, FilesService filesService) {
         this.idFilePath = idFilePath;
@@ -20,14 +20,14 @@ public class IdService {
             if (lines.isEmpty()) {
                 filesService.writeTextTo(idFilePath, "1");
             } else {
-                nextId = Integer.parseInt(lines.get(0));
+                nextId = Long.parseLong(lines.get(0));
             }
         } catch (IOException exception) {
             throw new RuntimeException("Failed to initialize id database", exception);
         }
     }
 
-    public int getNextIdAndIncreament() {
+    public long getNextIdAndIncrement() {
         try {
             filesService.writeTextTo(idFilePath, String.valueOf(nextId + 1));
             return nextId++;

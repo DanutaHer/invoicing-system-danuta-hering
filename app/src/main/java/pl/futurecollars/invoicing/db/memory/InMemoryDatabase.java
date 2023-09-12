@@ -11,18 +11,18 @@ import pl.futurecollars.invoicing.model.Invoice;
 @Data
 public class InMemoryDatabase implements Database {
 
-    private Map<Integer, Invoice> memoryDatabase = new HashMap<>();
-    private int count = 1;
+    private Map<Long, Invoice> memoryDatabase = new HashMap<>();
+    private long count = 1;
 
     @Override
-    public int save(Invoice invoice) {
+    public long save(Invoice invoice) {
         this.memoryDatabase.put(count, invoice);
         invoice.setId(count);
         return count++;
     }
 
     @Override
-    public Optional<Invoice> getByID(int id) {
+    public Optional<Invoice> getByID(long id) {
         printIllegalArgumentException(id);
         return memoryDatabase.values()
             .stream()
@@ -38,7 +38,7 @@ public class InMemoryDatabase implements Database {
     }
 
     @Override
-    public Optional<Invoice> update(int id, Invoice updatedInvoice) {
+    public Optional<Invoice> update(long id, Invoice updatedInvoice) {
         printIllegalArgumentException(id);
         if (memoryDatabase.containsKey(id)) {
             memoryDatabase.put(id, updatedInvoice);
@@ -50,12 +50,12 @@ public class InMemoryDatabase implements Database {
     }
 
     @Override
-    public Optional<Invoice> delete(int id) {
+    public Optional<Invoice> delete(long id) {
         printIllegalArgumentException(id);
         return Optional.ofNullable(memoryDatabase.remove(id));
     }
 
-    private void printIllegalArgumentException(int id) {
+    private void printIllegalArgumentException(long id) {
         if (id <= 0) {
             throw new IllegalArgumentException("Error: id cannot be negative");
         }

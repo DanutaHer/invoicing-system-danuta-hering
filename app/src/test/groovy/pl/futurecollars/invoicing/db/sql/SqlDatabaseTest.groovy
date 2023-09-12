@@ -11,7 +11,6 @@ import pl.futurecollars.invoicing.db.Database
 
 import javax.sql.DataSource
 
-@DataJpaTest
 @IfProfileValue(name = "spring.profiles.active", value = "sql")
 class SqlDatabaseTest extends AbstractDatabaseTest {
 
@@ -22,14 +21,13 @@ class SqlDatabaseTest extends AbstractDatabaseTest {
 
         Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations( "db/migration")
+                .locations("db/migration")
                 .load()
 
         flyway.clean()
         flyway.migrate()
 
         def database = new SqlDatabase(jdbcTemplate)
-        database.initVatRatesMap()
 
         return database
     }
