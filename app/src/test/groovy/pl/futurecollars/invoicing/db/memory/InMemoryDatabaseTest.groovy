@@ -4,12 +4,13 @@ import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.TestHelper
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.model.Invoice
 
 @IfProfileValue(name = "spring.profiles.active", value = "memory")
 class InMemoryDatabaseTest extends AbstractDatabaseTest {
 
     @Override
-    Database getDatabaseInstance() {
+    Database<Invoice> getDatabaseInstance() {
         return new InMemoryDatabase()
     }
 

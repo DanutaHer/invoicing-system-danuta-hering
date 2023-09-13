@@ -3,6 +3,7 @@ package pl.futurecollars.invoicing.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,22 +18,22 @@ import pl.futurecollars.invoicing.model.TaxCalculator;
 @Service
 public class TaxCalculatorService {
 
-    private final Database database;
+    private final Database<Invoice> database;
 
     BigDecimal income(String taxIdentificationNumber) {
-        return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getNetPrice);
+        return visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getNetPrice);
     }
 
     BigDecimal costs(String taxIdentificationNumber) {
-        return database.visit(buyerPredicate(taxIdentificationNumber), this::getIncomeValueTakingIntoConsiderationPersonalCarUsage);
+        return visit(buyerPredicate(taxIdentificationNumber), this::getIncomeValueTakingIntoConsiderationPersonalCarUsage);
     }
 
     BigDecimal incomingVat(String taxIdentificationNumber) {
-        return database.visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getVatValue);
+        return visit(sellerPredicate(taxIdentificationNumber), InvoiceEntry::getVatValue);
     }
 
     BigDecimal outgoingVat(String taxIdentificationNumber) {
-        return database.visit(buyerPredicate(taxIdentificationNumber), this::getVatValueTakingIntoConsiderationPersonalCarUsage);
+        return visit(buyerPredicate(taxIdentificationNumber), this::getVatValueTakingIntoConsiderationPersonalCarUsage);
     }
 
     BigDecimal getEarnings(String taxIdentificationNumber) {
@@ -94,5 +95,13 @@ public class TaxCalculatorService {
 
     private Predicate<Invoice> sellerPredicate(String taxIdentificationNumber) {
         return invoice -> invoice.getSeller().getTaxIdentificationNumber().equals(taxIdentificationNumber);
+    }
+
+    BigDecimal visit(Predicate<Invoice> predicateInvoice, Function<InvoiceEntry, BigDecimal> invoiceEntryToAmount) {
+        return database.getAll().stream()
+            .filter(predicateInvoice)
+            .flatMap(invoice -> invoice.getEntries().stream())
+            .map(invoiceEntryToAmount)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType
 import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.model.Invoice
 
 import javax.sql.DataSource
 
@@ -14,7 +15,7 @@ import javax.sql.DataSource
 class SqlDatabaseTest extends AbstractDatabaseTest {
 
     @Override
-    Database getDatabaseInstance() {
+    Database<Invoice> getDatabaseInstance() {
         DataSource dataSource = new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).build()
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource)
 
@@ -26,7 +27,7 @@ class SqlDatabaseTest extends AbstractDatabaseTest {
         flyway.clean()
         flyway.migrate()
 
-        def database = new SqlDatabase(jdbcTemplate)
+        def database = new InvoiceSqlDatabase(jdbcTemplate)
 
         return database
     }

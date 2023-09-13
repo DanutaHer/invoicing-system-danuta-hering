@@ -57,7 +57,7 @@ class TaxCalculatorControllerTest extends Specification {
         given:
         def invoice = TestHelper.invoice(1)
         def invoiceJson = jsonService.objectToJson(invoice)
-        def result = mockMvc.perform(MockMvcRequestBuilders.post("/invoices")
+        mockMvc.perform(MockMvcRequestBuilders.post("/invoices")
                 .content(invoiceJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())

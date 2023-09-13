@@ -5,6 +5,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.test.annotation.IfProfileValue
 import pl.futurecollars.invoicing.db.AbstractDatabaseTest
 import pl.futurecollars.invoicing.db.Database
+import pl.futurecollars.invoicing.model.Invoice
 
 @DataJpaTest
 @IfProfileValue(name = "spring.profiles.active", value = "jpa")
@@ -14,8 +15,8 @@ class JpaDatabaseTest extends AbstractDatabaseTest {
     private InvoiceRepository invoiceRepository
 
     @Override
-    Database getDatabaseInstance() {
+    Database<Invoice> getDatabaseInstance() {
         assert invoiceRepository != null
-        new JpaDatabase(invoiceRepository)
+        new JpaDatabase<>(invoiceRepository)
     }
 }
