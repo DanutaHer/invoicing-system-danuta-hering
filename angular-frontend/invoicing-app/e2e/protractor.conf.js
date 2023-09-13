@@ -14,6 +14,9 @@ exports.config = {
   ],
   capabilities: {
     browserName: 'chrome'
+    chromeOptions:{
+      binary:'C:/Users/Dana/Desktop/chrome-win64'
+    }
   },
   directConnect: true,
   SELENIUM_PROMISE_MANAGER: false,
