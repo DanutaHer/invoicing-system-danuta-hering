@@ -21,15 +21,15 @@ export class CompanyRow {
     return this.companyRow.element(by.id('taxId')).getText()
   }
 
-  async pensionInsuranceValue(): Promise<number> {
+  async pensionInsuranceValue(): Promise<string> {
     return this.companyRow.element(by.id('pensionIns')).getText()
   }
 
-  async healthInsuranceValue(): Promise<number> {
+  async healthInsuranceValue(): Promise<string> {
     return this.companyRow.element(by.id('healthIns')).getText()
   }
 
-  async assertRowValues(taxId: string, name: string, address: string, pensionInsurance: number, healthInsurance: number) {
+  async assertRowValues(name: string, address: string, taxId: string, pensionInsurance: string, healthInsurance: string) {
     expect(await this.nameValue()).toEqual(name)
     expect(await this.addressValue()).toEqual(address)
     expect(await this.taxIdValue()).toEqual(taxId)
@@ -37,7 +37,7 @@ export class CompanyRow {
     expect(await this.healthInsuranceValue()).toEqual(healthInsurance)
   }
 
-  async updateCompany(taxId: string, name: string, address: string, pensionInsurance: number, healthInsurance: number) {
+  async updateCompany(name: string, address: string, taxId: string,pensionInsurance: string, healthInsurance: string) {
     await this.editBtn().click()
 
     await this.updateNameInput().clear()

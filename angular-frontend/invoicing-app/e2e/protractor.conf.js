@@ -13,10 +13,10 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    browserName: 'chrome'
-    chromeOptions:{
-      binary:'C:/Users/Dana/Desktop/chrome-win64'
-    }
+    browserName: 'chrome',
+    chromeOptions: {
+      binary: 'C:/Users/Dana/Desktop/chrome-win64/chrome.exe'
+       }
   },
   directConnect: true,
   SELENIUM_PROMISE_MANAGER: false,

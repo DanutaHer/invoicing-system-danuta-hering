@@ -1,10 +1,11 @@
-import { browser, logging } from 'protractor';
-import { AppPage } from './app.po';
+import { browser, logging, ExpectedConditions } from 'protractor';
+import { CompanyPage } from './company.po';
+import { CompanyRow } from './companyRow.po';
 
 describe('CompanyPage E2E test', () => {
   let page: CompanyPage;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     page = new CompanyPage();
 
     await page.navigateTo();
@@ -30,7 +31,7 @@ describe('CompanyPage E2E test', () => {
   });
 
   it('can add company', async () => {
-      await page.addNewCompany("Global", "ul. Zielona 3", "123-123-123", 111.11, 333.33)
+      await page.addNewCompany("Global", "ul. Zielona 3", "123-123-123", "111.11", "333.33")
 
       await page.companyRows().then( async rows => {
         expect(rows.length).toEqual(1);
@@ -39,8 +40,8 @@ describe('CompanyPage E2E test', () => {
   })
 
   it('can delete company', async () => {
-      await page.addNewCompany("Global1", "ul. Zielona 1", "123-123-123", 111.11, 333.33)
-      await page.addNewCompany("Global2", "ul. Zielona 2", "123-123-123", 111.11, 333.33)
+      await page.addNewCompany("Global1", "ul. Zielona 1", "123-123-123", "111.11", "333.33")
+      await page.addNewCompany("Global2", "ul. Zielona 2", "123-123-123", "111.11", "333.33")
 
       await page.companyRows().then(async rowsBeforeDelete => {
           expect(rowsBeforeDelete.length).toEqual(2);
@@ -54,11 +55,11 @@ describe('CompanyPage E2E test', () => {
   });
 
   it('can update company', async () => {
-      await page.addNewCompany("Global1", "ul. Zielona 1", "123-123-123", 111.11, 333.33)
+      await page.addNewCompany("Global1", "ul. Zielona 1", "123-123-123", "111.11", "333.33")
 
       await page.companyRows().then(async rows => {
           const companyRow = new CompanyRow(rows[0]);
-          await companyRow.updateCompany("Global111", "ul. Zielona 123", "123-123-123", 111.11, 333.33)
+          await companyRow.updateCompany("Global111", "ul. Zielona 123", "123-123-123", "111.11", "333.33")
           await companyRow.assertRowValues("Global111", "ul. Zielona 123", "123-123-123", "111.11", "333.33")
       })
   });

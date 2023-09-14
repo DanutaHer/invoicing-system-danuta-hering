@@ -1,15 +1,15 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class CompanyPage {
   async navigateTo(): Promise<unknown> {
     return browser.get(browser.baseUrl);
   }
 
-  async companyRows(): ElementArrayFinder {
+  companyRows(): ElementArrayFinder {
           return element.all(by.css('.companyRow'))
       }
 
-  async anyCompanyRow(): ElementFinder {
+  anyCompanyRow(): ElementFinder {
       return element(by.css('.companyRow'))
   }
 
@@ -37,7 +37,7 @@ export class CompanyPage {
     return element(by.css('app-root .content span')).getText();
   }
 
-  async addNewCompany(name: string, address: string, taxId: string, pensionIns: number, healthIns: number) {
+  async addNewCompany(name: string, address: string, taxId: string, pensionIns: string, healthIns: string) {
     await this.nameInput().sendKeys(name)
     await this.addressInput().sendKeys(address)
     await this.taxIdInput().sendKeys(taxId)
@@ -63,11 +63,11 @@ export class CompanyPage {
        return element(by.css('input[name=taxIdentificationNumber]'));
      }
 
-    private pensionInsuranceInput() {
+    private pensionInsInput() {
        return element(by.css('input[name=pensionInsurance]'));
      }
 
-    private healthInsuranceInput() {
+    private healthInsInput() {
       return element(by.css('input[name=healthInsurance]'));
      }
 }
