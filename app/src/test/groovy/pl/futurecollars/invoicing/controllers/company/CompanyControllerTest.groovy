@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -16,6 +17,7 @@ import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Requires
 import spock.lang.Specification
 
+@WithMockUser
 @SpringBootTest
 @AutoConfigureMockMvc
 class CompanyControllerTest extends Specification {
@@ -60,6 +62,7 @@ class CompanyControllerTest extends Specification {
         def result = mockMvc.perform(MockMvcRequestBuilders.post("/companies")
                 .content(companyJson)
                 .contentType(MediaType.APPLICATION_JSON))
+                .with(csrf())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
