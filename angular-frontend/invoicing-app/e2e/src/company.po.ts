@@ -52,22 +52,22 @@ export class CompanyPage {
   }
 
     private nameInput() {
-       return element(by.css('input[name=name]'));
+       return element(by.css('input[name=addName]'));
      }
 
     private addressInput() {
-       return element(by.css('input[name=address]'));
+       return element(by.css('input[name=addAddress]'));
      }
 
     private taxIdInput() {
-       return element(by.css('input[name=taxIdentificationNumber]'));
+       return element(by.css('input[name=addTaxIdentificationNumber]'));
      }
 
     private pensionInsInput() {
-       return element(by.css('input[name=pensionInsurance]'));
+       return element(by.css('input[name=addPensionInsurance]'));
      }
 
     private healthInsInput() {
-      return element(by.css('input[name=healthInsurance]'));
+      return element(by.css('input[name=addHealthInsurance]'));
      }
 }

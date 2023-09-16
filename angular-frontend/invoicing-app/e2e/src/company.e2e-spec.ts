@@ -56,10 +56,10 @@ describe('CompanyPage E2E test', () => {
 
   it('can update company', async () => {
       await page.addNewCompany("Global1", "ul. Zielona 1", "123-123-123", "111.11", "333.33")
-
-      await page.companyRows().then(async rows => {
+      await page.companyRows().then( async rows => {
           const companyRow = new CompanyRow(rows[0]);
-          await companyRow.updateCompany("Global111", "ul. Zielona 123", "123-123-123", "111.11", "333.33")
+          await companyRow.updateCompany("Global111", "ul. Zielona 123", "123-123-123", 111.11, 333.33)
+          browser.waitForAngular();
           await companyRow.assertRowValues("Global111", "ul. Zielona 123", "123-123-123", "111.11", "333.33")
       })
   });
