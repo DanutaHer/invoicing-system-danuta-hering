@@ -17,6 +17,8 @@ import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Requires
 import spock.lang.Specification
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+
 @WithMockUser
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -43,7 +45,7 @@ class InvoiceControllerTest extends Specification {
 
     def "should return empty array when no invoices were created"() {
         when:
-        def result = mockMvc.perform(MockMvcRequestBuilders.get("/invoices"))
+        def result = mockMvc.perform(MockMvcRequestBuilders.get("/invoices").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -60,6 +62,7 @@ class InvoiceControllerTest extends Specification {
 
         when:
         def result = mockMvc.perform(MockMvcRequestBuilders.post("/invoices")
+                .with(csrf())
                 .content(invoiceJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -80,7 +83,7 @@ class InvoiceControllerTest extends Specification {
         invoiceService.save(TestHelper.invoice(2))
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -100,7 +103,7 @@ class InvoiceControllerTest extends Specification {
         def invoiceId = invoiceService.save(invoice1)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/$invoiceId"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/invoices/$invoiceId").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -116,7 +119,7 @@ class InvoiceControllerTest extends Specification {
 
     def "should get response 404 - not found when get nonexistent invoice from id 100"() {
         expect:
-        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/100").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
@@ -130,6 +133,7 @@ class InvoiceControllerTest extends Specification {
 
         when:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/invoices/$invoice3Id")
+                .with(csrf())
                 .content(invoice3Json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -152,6 +156,7 @@ class InvoiceControllerTest extends Specification {
 
         expect:
         mockMvc.perform(MockMvcRequestBuilders.put("/invoices/100")
+                .with(csrf())
                 .content(invoice3Json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -163,7 +168,7 @@ class InvoiceControllerTest extends Specification {
         def invoiceId = invoiceService.save(invoice1)
 
         when:
-        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/$invoiceId"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/$invoiceId").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -178,7 +183,7 @@ class InvoiceControllerTest extends Specification {
 
     def "should get response 404 - not found when delete nonexistent invoice from id 100"() {
         expect:
-        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100"))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/invoices/100").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 

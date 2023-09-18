@@ -14,6 +14,8 @@ import pl.futurecollars.invoicing.service.JsonService
 import pl.futurecollars.invoicing.service.TaxCalculatorService
 import spock.lang.Specification
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+
 @WithMockUser
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -37,7 +39,7 @@ class TaxCalculatorControllerTest extends Specification {
 
     def "should get response 404 - not found when no value is given"() {
         expect:
-        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/invoices/taxCalculator/").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
     }
 
@@ -60,6 +62,7 @@ class TaxCalculatorControllerTest extends Specification {
         def invoice = TestHelper.invoice(1)
         def invoiceJson = jsonService.objectToJson(invoice)
         mockMvc.perform(MockMvcRequestBuilders.post("/invoices")
+                .with(csrf())
                 .content(invoiceJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
