@@ -19,6 +19,10 @@ logging:
         invoicing.db: DEBUG
 
 spring:
+  security:
+    user:
+      name: dana
+      password: 1234
   datasource:
     url: jdbc:h2:mem:db;DB_CLOSE_DELAY=-1
     username: sa

@@ -5,7 +5,9 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,7 +18,7 @@ public class CorsFilter extends OncePerRequestFilter {
     private String allowedOrigins;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
         throws ServletException, IOException {
         addHeaderIfAbsent("Access-Control-Allow-Origin", allowedOrigins, response);
         addHeaderIfAbsent("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS", response);
