@@ -1,6 +1,9 @@
 {
   "name": "invoicing-app",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=14 <15"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
