@@ -4,7 +4,7 @@ server:
 invoicing-system:
   allowedOrigins: http://localhost:4200
   csrf:
-    disable: true
+    disable: false
   database:
     type: memory
 
