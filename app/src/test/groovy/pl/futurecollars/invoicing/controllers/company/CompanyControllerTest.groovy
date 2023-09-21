@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -16,6 +18,9 @@ import pl.futurecollars.invoicing.service.JsonService
 import spock.lang.Requires
 import spock.lang.Specification
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf
+
+@WithMockUser
 @SpringBootTest
 @AutoConfigureMockMvc
 class CompanyControllerTest extends Specification {
@@ -41,7 +46,7 @@ class CompanyControllerTest extends Specification {
 
     def "should return empty array when no companies were created"() {
         when:
-        def result = mockMvc.perform(MockMvcRequestBuilders.get("/companies"))
+        def result = mockMvc.perform(MockMvcRequestBuilders.get("/companies").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -58,6 +63,7 @@ class CompanyControllerTest extends Specification {
 
         when:
         def result = mockMvc.perform(MockMvcRequestBuilders.post("/companies")
+                .with(csrf())
                 .content(companyJson)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -78,7 +84,7 @@ class CompanyControllerTest extends Specification {
         companyService.save(TestHelper.company(2))
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/companies"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/companies").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -98,7 +104,7 @@ class CompanyControllerTest extends Specification {
         def companyId = companyService.save(company1)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/companies/$companyId"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/companies/$companyId").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -114,7 +120,7 @@ class CompanyControllerTest extends Specification {
 
     def "should get response 404 - not found when get nonexistent company from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/companies/100"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.get("/companies/100").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
     }
 
@@ -128,6 +134,7 @@ class CompanyControllerTest extends Specification {
 
         when:
         def resultJson = mockMvc.perform(MockMvcRequestBuilders.put("/companies/$company3Id")
+                .with(csrf())
                 .content(company3Json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -150,6 +157,7 @@ class CompanyControllerTest extends Specification {
 
         expect:
         mockMvc.perform(MockMvcRequestBuilders.put("/companies/100")
+                .with(csrf())
                 .content(company3Json)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -161,7 +169,7 @@ class CompanyControllerTest extends Specification {
         def companyId = companyService.save(company)
 
         when:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/companies/$companyId"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/companies/$companyId").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .response
@@ -176,7 +184,7 @@ class CompanyControllerTest extends Specification {
 
     def "should get response 404 - not found when delete nonexistent company from id 100"() {
         expect:
-        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/companies/100"))
+        def resultJson = mockMvc.perform(MockMvcRequestBuilders.delete("/companies/100").with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError())
     }
 

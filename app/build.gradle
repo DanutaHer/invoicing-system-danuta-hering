@@ -36,6 +36,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
     implementation "org.projectlombok:lombok:${lombokVersion}"
     implementation "org.flywaydb:flyway-core:${flywaydbVersion}"
     implementation "org.mongodb:mongo-java-driver:${mongoVersion}"
@@ -110,7 +112,7 @@ jacocoTestCoverageVerification {
 
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['pl/futurecollars/invoicing/App.class', 'pl/futurecollars/invoicing/db/DatabaseConfiguration.class'])
+            fileTree(dir: it, exclude: ['pl/futurecollars/invoicing/App.class', 'pl/futurecollars/invoicing/config/*'])
         }))
     }
 }
