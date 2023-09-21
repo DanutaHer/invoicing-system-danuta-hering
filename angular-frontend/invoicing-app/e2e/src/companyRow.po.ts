@@ -10,23 +10,23 @@ export class CompanyRow {
   }
 
   async nameValue(): Promise<string> {
-    return this.companyRow.element(by.id('name')).getText()
+    return this.companyRow.element(by.id('companyName')).getText();
   }
 
   async addressValue(): Promise<string> {
-    return this.companyRow.element(by.id('address')).getText()
+    return this.companyRow.element(by.id('address')).getText();
   }
 
   async taxIdValue(): Promise<string> {
-    return this.companyRow.element(by.id('taxId')).getText()
+    return this.companyRow.element(by.id('taxId')).getText();
   }
 
   async pensionInsuranceValue(): Promise<string> {
-    return this.companyRow.element(by.id('pensionIns')).getText()
+    return this.companyRow.element(by.id('pensionIns')).getText();
   }
 
   async healthInsuranceValue(): Promise<string> {
-    return this.companyRow.element(by.id('healthIns')).getText()
+    return this.companyRow.element(by.id('healthIns')).getText();
   }
 
   async assertRowValues(name: string, address: string, taxId: string, pensionInsurance: string, healthInsurance: string) {
@@ -37,7 +37,7 @@ export class CompanyRow {
     expect(await this.healthInsuranceValue()).toEqual(healthInsurance)
   }
 
-  async updateCompany(name: string, address: string, taxId: string,pensionInsurance: string, healthInsurance: string) {
+  async updateCompany(name: string, address: string, taxId: string,pensionInsurance: number, healthInsurance: number) {
     await this.editBtn().click()
 
     await this.updateNameInput().clear()
@@ -63,7 +63,7 @@ export class CompanyRow {
   }
 
   private updateNameInput() {
-    return this.companyRow.element(by.css('input[name=name]'));
+    return this.companyRow.element(by.css('input[name=companyName]'));
   }
 
   private updateAddressInput() {
