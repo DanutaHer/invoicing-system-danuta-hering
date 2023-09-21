@@ -28,7 +28,7 @@ export class CompanyService {
     }
 
     deleteCompany(id: number): Observable<any> {
-        return this.http.delete<any>(this.apiUrl(PATH, id));
+        return this.http.delete<any>(this.apiUrl(PATH, id), this.options);
     }
 
     editCompany(company: Company): Observable<any> {
