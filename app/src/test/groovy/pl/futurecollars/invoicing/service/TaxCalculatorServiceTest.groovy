@@ -17,10 +17,10 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualIncome = taxService.income(invoiceIdentificationNumber)
+        def expectedIncome = taxService.income(invoiceIdentificationNumber)
 
         then:
-        actualIncome == 1500
+        expectedIncome == 1500
     }
 
     def "shouldGetCosts"() {
@@ -30,10 +30,10 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualCosts = taxService.costs(invoiceIdentificationNumber)
+        def expectedCosts = taxService.costs(invoiceIdentificationNumber)
 
         then:
-        actualCosts == 1657.5
+        expectedCosts == 1657.5
     }
 
     def "shouldGetIncomingVat"() {
@@ -43,10 +43,10 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualIncomingVat = taxService.incomingVat(invoiceIdentificationNumber)
+        def expectedIncomingVat = taxService.incomingVat(invoiceIdentificationNumber)
 
         then:
-        actualIncomingVat == 315
+        expectedIncomingVat == 315
     }
 
     def "shouldGetOutgoingVat"() {
@@ -56,10 +56,10 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualOutgoingVat = taxService.outgoingVat(invoiceIdentificationNumber)
+        def expectedOutgoingVat = taxService.outgoingVat(invoiceIdentificationNumber)
 
         then:
-        actualOutgoingVat == 157.5
+        expectedOutgoingVat == 157.5
     }
 
     def "shouldGetEarnings"() {
@@ -69,10 +69,10 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualEarnings = taxService.getEarnings(invoiceIdentificationNumber)
+        def expectedEarnings = taxService.getEarnings(invoiceIdentificationNumber)
 
         then:
-        actualEarnings == -157.5
+        expectedEarnings == -157.5
     }
 
     def "shouldGetVatToPay"() {
@@ -82,10 +82,10 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualVatToPay = taxService.getVatToPay(invoiceIdentificationNumber)
+        def expectedVatToPay = taxService.getVatToPay(invoiceIdentificationNumber)
 
         then:
-        actualVatToPay == 157.5
+        expectedVatToPay == 157.5
     }
 
     def "shouldCalculateTaxes"() {
@@ -95,22 +95,22 @@ class TaxCalculatorServiceTest extends Specification {
         database.getAll() >> List.of(invoice)
 
         when:
-        def actualCalculateTaxes = taxService.calculateTaxes(company)
+        def expectedCalculateTaxes = taxService.calculateTaxes(company)
 
         then:
-        actualCalculateTaxes.income == 1500
-        actualCalculateTaxes.costs == 1657.5
-        actualCalculateTaxes.incomeMinusCosts == -157.5
-        actualCalculateTaxes.pensionInsurance == 514.57
-        actualCalculateTaxes.incomeMinusCostsMinusPensionInsurance == -672.07
-        actualCalculateTaxes.incomeMinusCostsMinusPensionInsuranceRounded == -672
-        actualCalculateTaxes.incomeTax == -127.68
-        actualCalculateTaxes.healthInsurancePaid == 319.94
-        actualCalculateTaxes.healthInsuranceToSubtract == 275.5
-        actualCalculateTaxes.incomeTaxMinusHealthInsurance == -403.18
-        actualCalculateTaxes.finalIncomeTax == -403
-        actualCalculateTaxes.incomingVat == 315
-        actualCalculateTaxes.outgoingVat == 157.5
-        actualCalculateTaxes.vatToPay == 157.5
+        expectedCalculateTaxes.income == 1500
+        expectedCalculateTaxes.costs == 1657.5
+        expectedCalculateTaxes.incomeMinusCosts == -157.5
+        expectedCalculateTaxes.pensionInsurance == 514.57
+        expectedCalculateTaxes.incomeMinusCostsMinusPensionInsurance == -672.07
+        expectedCalculateTaxes.incomeMinusCostsMinusPensionInsuranceRounded == -672
+        expectedCalculateTaxes.incomeTax == -127.68
+        expectedCalculateTaxes.healthInsurancePaid == 319.94
+        expectedCalculateTaxes.healthInsuranceToSubtract == 275.5
+        expectedCalculateTaxes.incomeTaxMinusHealthInsurance == -403.18
+        expectedCalculateTaxes.finalIncomeTax == -403
+        expectedCalculateTaxes.incomingVat == 315
+        expectedCalculateTaxes.outgoingVat == 157.5
+        expectedCalculateTaxes.vatToPay == 157.5
     }
 }
